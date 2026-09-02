@@ -35,4 +35,6 @@ These come from `PRODUCT.md` and are not negotiable:
 - `src/content/restaurant.json` is the canonical runtime source for hours, contact details and ordering channels. Do not hardcode a phone number or URL in a component.
 - `src/content/menu.json` is the transcribed printed menu. 14 items are flagged for verification — leave the flags until prices are confirmed with the restaurant.
 - Prettier ignores `*.md` and `src/content/*.json` deliberately; it was reflowing prose contracts and exploding the menu data.
+- All colours and font sizes come from `src/styles/tokens.css`. `npm run check:tokens` fails the build on a literal hex, `rgb()` or absolute `font-size` in a component. If a value belongs in the system, add it as a token — do not exempt the file.
+- The visual language (display face, serape stripe, mural band, number chips) is recorded in `.impeccable/surfaces/homepage.md` and `DECISIONS.md`. Reuse the existing components rather than restyling per page.
 - Astro's current major is 7. Verify framework APIs against live docs rather than memory — especially content collections.

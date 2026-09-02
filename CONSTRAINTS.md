@@ -10,7 +10,7 @@ Established 2026-09-02, after Task 4. Numbers are **measured**, not aspirational
 
 ## Floor — always, no exceptions
 
-Every task clears all five before it counts as done.
+Every task clears all six before it counts as done.
 
 | Rule                     | Command                | Why                                                                       |
 | ------------------------ | ---------------------- | ------------------------------------------------------------------------- |
@@ -19,8 +19,9 @@ Every task clears all five before it counts as done.
 | Tests pass               | `npm run test`         | Vitest. Currently 54 tests across 3 files.                                |
 | Build succeeds           | `npm run build`        | Astro static output.                                                      |
 | Content integrity passes | `npm run check:content`| The project's own rules about truthful content — see below.               |
+| Design tokens respected  | `npm run check:tokens` | No literal colours or font sizes outside `tokens.css` — see below.        |
 
-Run all five: `npm run check:task` — **currently ~5 seconds**, budget 90 seconds.
+Run all six: `npm run check:task` — **currently ~5 seconds**, budget 90 seconds.
 
 ---
 
@@ -41,6 +42,25 @@ Run all five: `npm run check:task` — **currently ~5 seconds**, budget 90 secon
 | Structural a11y floor                  | `lang`, `<title>`, `<main>`, exactly one `<h1>`, every `<img>` has `alt` | Cheap, zero false positives, catches the regressions that actually happen. |
 | External links safe                    | Every `target="_blank"` has `rel="noopener"` | Tabnabbing, and it is free to prevent.                                                                                       |
 | Indexed pages have descriptions        | ≥20 chars, `noindex` pages exempt          | The dev-only `/tokens` page is exempt by design; a rule that page had to route around would be a rule nobody respects.        |
+
+---
+
+## Design tokens — enforced
+
+`SPEC.md` requires components to use CSS variables from `tokens.css` with "no inline magic numbers for color/spacing". Nothing checked that, so `scripts/check-design-tokens.mjs` now does. Added before Phase 3, when four pages get built in sequence — a hardcoded colour in one of them is how a design system quietly stops being a system.
+
+**Command:** `npm run check:tokens` (runs inside `check:task`)
+
+| Rule | Threshold | Why |
+| --- | --- | --- |
+| No literal colours in component styles | Zero hex / `rgb()` / `hsl()` outside `tokens.css` | The palette is sampled from the real logo, photography and mural. A one-off colour is not part of that system. Use `color-mix(in srgb, var(--token) N%, transparent)` when alpha is needed. |
+| No absolute font sizes | Zero `px`/`rem`/`pt` on `font-size` without `var()` | The type scale is fluid and deliberate. `em` and `%` are allowed — they are relative, not magic. |
+
+**Exempt, by design:** `src/styles/tokens.css` (defines them), `src/styles/fonts.css` (`@font-face` only), `src/pages/tokens.astro` (dev-only swatch page that must show literal values; removed at Task 15).
+
+**Spacing is deliberately not checked.** Padding and margin have too many legitimate literal values — hairline borders, 1px focus rings, 999px pills, structural heights. A check that cries wolf is one people learn to skip, and that lesson already cost us once when performance was gated on a number measured against the wrong server.
+
+> This check caught a real violation the moment it was written: the hero headline carried an ad-hoc `clamp()` rather than a token. It became `--font-size-hero`. The fix for a flagged value is to add it to the system, not to exempt the file.
 
 ---
 
@@ -98,7 +118,7 @@ Scoped by cost, so the fast ones stay fast.
 | Tier            | Command              | Contents                                                    | Time  |
 | --------------- | -------------------- | ----------------------------------------------------------- | ----- |
 | Edit loop       | `npm run check:fast` | typecheck, lint                                             | ~3s   |
-| Task end (gate) | `npm run check:task` | typecheck, lint, test, build, content integrity             | ~5s   |
+| Task end (gate) | `npm run check:task` | typecheck, lint, test, build, content integrity, design tokens | ~5s   |
 | Review / CI     | `npm run check:full` | everything above, plus Lighthouse a11y + performance         | ~30s  |
 
 **Enforcement:** fast checks warn while editing; `check:task` **blocks** — a task is not complete and nothing is committed until it passes.

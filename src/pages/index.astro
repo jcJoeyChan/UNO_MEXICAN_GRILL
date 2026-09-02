@@ -116,9 +116,7 @@ const { contact, hours } = restaurant;
   h1 {
     font-family: var(--font-display);
     margin-top: var(--space-3);
-    /* Deliberately below --font-size-display (max 6rem): the hero headline
-       shares its row with the mosaic, so it must fit ~34rem without breaking. */
-    font-size: clamp(2.5rem, 3.2vw + 1rem, 4.25rem);
+    font-size: var(--font-size-hero);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-tight);
   }

@@ -72,8 +72,8 @@ const { heading, body } = Astro.props;
     padding: var(--space-7) var(--space-4) var(--space-5);
     background: linear-gradient(
       to top,
-      rgb(36 22 17 / 0.92) 0%,
-      rgb(36 22 17 / 0.72) 55%,
+      color-mix(in srgb, var(--surface-inverse) 92%, transparent) 0%,
+      color-mix(in srgb, var(--surface-inverse) 72%, transparent) 55%,
       transparent 100%
     );
     color: var(--warm-50);

@@ -142,6 +142,11 @@
   --font-size-3xl: clamp(2rem, 2vw + 1.5rem, 3rem);
   --font-size-display: clamp(2.75rem, 6vw + 1rem, 6rem);
 
+  /* The hero headline shares its row with the photo mosaic, so it has to fit a
+     ~36rem column without breaking mid-word. Deliberately a step below
+     --font-size-display rather than an ad-hoc clamp in the page. */
+  --font-size-hero: clamp(2.5rem, 3.2vw + 1rem, 4.25rem);
+
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
