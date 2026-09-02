@@ -330,16 +330,16 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** The real photographs and the 7.9 MB scanned PDF are the site's entire payload. Get them down without visible loss.
 
 **Acceptance criteria:**
-- [ ] `public/menu.pdf` compressed to under 1 MB with text still legible at 100%
-- [ ] Original PDF preserved (e.g. `MENU.original.pdf`, untracked or clearly named) so nothing is lost
-- [ ] Food photos served responsively via Astro's image pipeline, with modern formats and correct `width`/`height`
-- [ ] Hero image preloaded; below-fold images lazy-loaded
-- [ ] PDF download link states the file size
+- [x] `public/menu.pdf` compressed to under 1 MB with text still legible at 100%
+- [x] Original PDF preserved (e.g. `MENU.original.pdf`, untracked or clearly named) so nothing is lost
+- [x] Food photos served responsively via Astro's image pipeline, with modern formats and correct `width`/`height`
+- [x] Hero image preloaded; below-fold images lazy-loaded
+- [x] PDF download link states the file size
 
 **Verification:**
-- [ ] Build succeeds; `dist/` total transfer for the homepage is well under 1 MB
-- [ ] Manual: compressed PDF is readable at 100% zoom
-- [ ] Manual: no visible quality loss in hero or preview images
+- [x] Build succeeds; `dist/` total transfer for the homepage is well under 1 MB
+- [x] Manual: compressed PDF is readable at 100% zoom
+- [x] Manual: no visible quality loss in hero or preview images
 
 **Dependencies:** Tasks 7, 8, 10, 11
 
