@@ -61,13 +61,6 @@ const tiles: Tile[] = [
     maxRendered: 168,
     alt: 'Tacos and sides in paper trays on a wood table',
   },
-  {
-    src: '/images/OUTSIDE.jpg',
-    width: 348,
-    height: 348,
-    maxRendered: 168,
-    alt: 'The UNO Mexican Grill storefront in Glen Oaks Shopping Center',
-  },
 ];
 
 // Guard the rule in code, not just in review: a tile laid out wider than its
@@ -122,7 +115,7 @@ for (const tile of tiles) {
      slots in a six-column grid, which wrapped and left an empty cell. */
   .mosaic {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: var(--space-3);
     max-width: var(--content-max);
     margin: 0 auto;

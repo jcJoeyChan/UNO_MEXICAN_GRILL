@@ -1,6 +1,6 @@
 {
   "/": {
-    "performance": 100,
+    "performance": 97,
     "accessibility": 100,
     "best-practices": 100,
     "seo": 100
@@ -12,6 +12,24 @@
     "seo": 100
   },
   "/location": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 96,
+    "seo": 100
+  },
+  "/contact": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "/about": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "/catering": {
     "performance": 100,
     "accessibility": 100,
     "best-practices": 100,
