@@ -101,7 +101,7 @@ Blocking specific tasks:
 
 - **About story copy (T10).** The "Fresh is our #1 Goal" claims from the printed menu are real and usable, but there is no origin story. Build with those claims plus clearly-provisional placeholder for the story.
 - **Catering details (T11).** Only "Small & Large Party Catering Available" is confirmed. No offerings, pricing, or minimums. Page routes to phone; everything else stays provisional.
-- **Contact page form (T9).** Netlify Forms is available, but `PRODUCT.md` says the site routes to existing channels rather than building its own. Default: no form, phone/channels only. Confirm before building.
+- ~~**Contact page form (T9).**~~ **Resolved 2026-09-02: yes, a Netlify form.** Name, email and message, handled by Netlify Forms so there is no backend. Ordering still routes to the external channels — the form is for questions and catering enquiries, not orders. Needs a honeypot for spam and must collect nothing beyond those three fields.
 - **Deploy target details (T15).** No domain named. Netlify subdomain assumed unless told otherwise.
 
 Deferred by earlier decision:

@@ -252,7 +252,7 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Acceptance criteria:**
 - [ ] Phone (tap-to-call), address, hours, and all four ordering channels present
 - [ ] Walk-in and call-in-for-pickup both described
-- [ ] No form unless explicitly approved; if approved, no personal data beyond name/email/message
+- [x] Form approved by the user 2026-09-02: Netlify Forms, name/email/message only, honeypot for spam, nothing beyond those three fields
 - [ ] Catering enquiry routed to phone
 
 **Verification:**
