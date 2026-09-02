@@ -30,7 +30,8 @@ const { contact, catering } = restaurant;
   <section class="intro">
     <div class="section-inner">
       <h1>Feeding a crowd</h1>
-      <p class="lede">{catering.summary}. Call and tell us what you need.</p>
+      <p class="lede">{catering.summary}.</p>
+      <p class="lead-time">{catering.leadTime}</p>
       <p class="actions">
         <a class="btn btn-primary" href={contact.phoneHref}>Call {contact.phone}</a>
         <a class="btn btn-secondary" href="/contact">Send a question</a>
@@ -39,6 +40,37 @@ const { contact, catering } = restaurant;
   </section>
 
   <Serape weight="band" />
+
+  <section class="trays" aria-labelledby="trays-heading">
+    <div class="section-inner">
+      <h2 id="trays-heading">What a tray looks like</h2>
+      <div class="tray-grid">
+        {
+          catering.trays.map((tray) => (
+            <figure>
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset={`/images/${tray.image}-450.webp 450w, /images/${tray.image}-700.webp 700w, /images/${tray.image}-1100.webp 1100w`}
+                  sizes="(min-width: 52rem) 22rem, 45vw"
+                />
+                <img
+                  src={`/images/${tray.image}-700.jpg`}
+                  srcset={`/images/${tray.image}-450.jpg 450w, /images/${tray.image}-700.jpg 700w, /images/${tray.image}-1100.jpg 1100w`}
+                  sizes="(min-width: 52rem) 22rem, 45vw"
+                  width="700"
+                  height="933"
+                  alt={tray.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
   {
     fajitas && (
@@ -90,9 +122,8 @@ const { contact, catering } = restaurant;
       <p class="provisional">Placeholder — not yet confirmed</p>
       <h2 id="unknowns-heading">What we still need to tell you</h2>
       <p class="note">
-        Party sizes, lead times, deposits, delivery and set-up: none of it is written down yet, so
-        none of it is on this page. Rather than guess, we would rather you called and got a straight
-        answer.
+        Party sizes, deposits, delivery and set-up are not written down yet, so they are not on this
+        page. Rather than guess, we would rather you called and got a straight answer.
       </p>
       <p class="note">
         <a href={contact.phoneHref}>{contact.phone}</a> — {restaurant.hours.summary.toLowerCase()}.
@@ -164,6 +195,47 @@ const { contact, catering } = restaurant;
     font-family: var(--font-display);
     font-size: var(--font-size-2xl);
     letter-spacing: var(--letter-spacing-tight);
+  }
+
+  .lead-time {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    display: inline-block;
+    background: var(--state-open-bg);
+    color: var(--state-open-text);
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .trays {
+    background: var(--surface-inverse);
+    color: var(--warm-50);
+  }
+
+  /* Two up on phones, three on desktop. Two matters: it makes the declared
+     sizes="45vw" true. Declaring a narrower size than the image actually
+     renders at ships a soft photo — the same mistake as upscaling, just
+     pointing the other way. */
+  .tray-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 52rem) {
+    .tray-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .tray-grid figure {
+    margin: 0;
+  }
+
+  .tray-grid img {
+    width: 100%;
+    border-radius: var(--radius-lg);
   }
 
   .scale {

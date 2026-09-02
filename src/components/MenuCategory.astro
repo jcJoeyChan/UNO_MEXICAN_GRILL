@@ -12,9 +12,11 @@ import { isSeasonal, seasonalLabel, formatPrice, type MenuCategory } from '../li
 
 interface Props {
   category: MenuCategory;
+  /** Alternating ground gives the 12-category page rhythm as you scroll. */
+  tone?: 'plain' | 'raised';
 }
 
-const { category } = Astro.props;
+const { category, tone = 'plain' } = Astro.props;
 const seasonal = isSeasonal(category);
 
 // Surface the shrimp preparation note only where shrimp actually appears.
@@ -24,41 +26,56 @@ const hasShrimp = category.items.some((item) =>
 const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 ---
 
-<section class="category" id={category.id} aria-labelledby={`${category.id}-heading`}>
-  <header class="head">
-    <h2 class="title" id={`${category.id}-heading`}>{category.name}</h2>
+<section
+  class:list={['category', `is-${tone}`]}
+  id={category.id}
+  aria-labelledby={`${category.id}-heading`}
+>
+  <div class="inner">
+    <header class="head">
+      <h2 class="title" id={`${category.id}-heading`}>{category.name}</h2>
 
-    {
-      seasonal && (
-        <p class="seasonal">
-          <span class="dot" aria-hidden="true" />
-          {seasonalLabel(category)}
-        </p>
-      )
-    }
+      {
+        seasonal && (
+          <p class="seasonal">
+            <span class="dot" aria-hidden="true" />
+            {seasonalLabel(category)}
+          </p>
+        )
+      }
 
-    {category.note && <p class="note">{category.note}</p>}
-    {shrimpNote && <p class="note note-quiet">{shrimpNote}</p>}
+      {category.note && <p class="note">{category.note}</p>}
+      {shrimpNote && <p class="note note-quiet">{shrimpNote}</p>}
 
-    {
-      category.modifiers?.map((modifier) => (
-        <p class="modifier">
-          <span class="modifier-name">{modifier.name}</span>
-          <span class="modifier-price">+{formatPrice(modifier.price)}</span>
-        </p>
-      ))
-    }
-  </header>
+      {
+        category.modifiers?.map((modifier) => (
+          <p class="modifier">
+            <span class="modifier-name">{modifier.name}</span>
+            <span class="modifier-price">+{formatPrice(modifier.price)}</span>
+          </p>
+        ))
+      }
+    </header>
 
-  <ul class="items" role="list">
-    {category.items.map((item) => <MenuItem item={item} />)}
-  </ul>
+    <ul class="items" role="list">
+      {category.items.map((item) => <MenuItem item={item} />)}
+    </ul>
+  </div>
 </section>
 
 <style>
   .category {
-    margin-top: var(--space-8);
-    scroll-margin-top: calc(var(--rail-height) + var(--space-5));
+    padding: var(--space-8) var(--space-4);
+    scroll-margin-top: var(--rail-height);
+  }
+
+  .is-raised {
+    background: var(--surface-raised);
+  }
+
+  .inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
   }
 
   .head {

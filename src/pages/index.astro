@@ -17,7 +17,6 @@ import HeroMosaic from '../components/HeroMosaic.astro';
 import MenuPreview from '../components/MenuPreview.astro';
 import OrderingLinks from '../components/OrderingLinks.astro';
 import Serape from '../components/Serape.astro';
-import KitchenJoke from '../components/KitchenJoke.astro';
 import restaurant from '../content/restaurant.json';
 import { sortCategories, countItems } from '../lib/menu';
 
@@ -50,45 +49,9 @@ const { contact, hours } = restaurant;
   <section class="food" aria-labelledby="food-heading">
     <div class="section-inner">
       <h2 id="food-heading">What comes out of the kitchen</h2>
-      <p class="note-dark">
-        Every photograph here is our food, in our trays, on our tables. Nothing borrowed.
-      </p>
-      <figure class="grill">
-        <picture>
-          <source
-            type="image/webp"
-            srcset="/images/grill-900.webp 900w, /images/grill-1400.webp 1400w, /images/grill-2000.webp 2000w"
-            sizes="(min-width: 72rem) 68rem, 100vw"
-          />
-          <img
-            src="/images/grill-1400.jpg"
-            srcset="/images/grill-900.jpg 900w, /images/grill-1400.jpg 1400w, /images/grill-2000.jpg 2000w"
-            sizes="(min-width: 72rem) 68rem, 100vw"
-            width="1400"
-            height="1050"
-            alt="Chicken and steak on the flat-top grill, marked from the bars, mid-service"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-        <figcaption>
-          Chicken and steak marinated, then grilled to order — not held under a lamp.
-        </figcaption>
-      </figure>
 
       <div class="strip">
         <HeroMosaic />
-      </div>
-
-      <div class="joke-slot">
-        <KitchenJoke
-          src="/images/kitchen-joke-700.jpg"
-          srcWebp="/images/kitchen-joke-700.webp 700w, /images/kitchen-joke-1100.webp 1100w"
-          width={700}
-          height={933}
-          alt="A member of the kitchen team pulling a face for the camera while working the line"
-          caption="One of the team, caught mid-service."
-        />
       </div>
     </div>
   </section>
@@ -149,33 +112,8 @@ const { contact, hours } = restaurant;
     color: var(--warm-50);
   }
 
-  .note-dark {
-    margin-top: var(--space-3);
-    color: var(--warm-400);
-    max-width: 48ch;
-  }
-
-  .grill {
-    margin: var(--space-6) 0 0;
-  }
-
-  .grill img {
-    width: 100%;
-    border-radius: var(--radius-lg);
-  }
-
-  .grill figcaption {
-    margin-top: var(--space-3);
-    font-size: var(--font-size-sm);
-    color: var(--mural-sand);
-  }
-
   .strip {
     margin-top: var(--space-6);
-  }
-
-  .joke-slot {
-    margin-top: var(--space-7);
   }
 
   /* --- order: sand. The primary action gets the most legible ground. --- */
