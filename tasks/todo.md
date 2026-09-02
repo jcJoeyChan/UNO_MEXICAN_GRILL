@@ -13,19 +13,19 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Stand up the Astro static + TypeScript project inside the existing repo without disturbing files already committed. Wire the ESLint, Prettier, and Vitest tooling `SPEC.md` names, and the seven npm scripts it specifies.
 
 **Acceptance criteria:**
-- [ ] Astro (static output) + TypeScript strict installed and building
-- [ ] ESLint (`@typescript-eslint`, `eslint-plugin-astro`) and Prettier (`prettier-plugin-astro`) configured
-- [ ] Vitest configured and running
-- [ ] All seven scripts from `SPEC.md` exist and work: `dev`, `build`, `preview`, `lint`, `format`, `typecheck`, `test`
-- [ ] `src/content/menu.json` is byte-identical to before scaffolding
-- [ ] `PRODUCT.md`, `SPEC.md`, `DECISIONS.md`, `.impeccable/`, `public/images/`, `public/Menu/` all untouched
-- [ ] `.gitignore` covers `node_modules`, `dist`, `.astro`
+- [x] Astro (static output) + TypeScript strict installed and building
+- [x] ESLint (`@typescript-eslint`, `eslint-plugin-astro`) and Prettier (`prettier-plugin-astro`) configured
+- [x] Vitest configured and running
+- [x] All seven scripts from `SPEC.md` exist and work: `dev`, `build`, `preview`, `lint`, `format`, `typecheck`, `test`
+- [x] `src/content/menu.json` is byte-identical to before scaffolding
+- [x] `PRODUCT.md`, `SPEC.md`, `DECISIONS.md`, `.impeccable/`, `public/images/`, `public/Menu/` all untouched
+- [x] `.gitignore` covers `node_modules`, `dist`, `.astro`
 
 **Verification:**
-- [ ] `npm run build` succeeds on the empty starter
-- [ ] `npm run lint && npm run typecheck && npm run test` all pass
-- [ ] `git status` shows no deletions or modifications to pre-existing tracked files
-- [ ] Manual: `git diff --stat src/content/menu.json` is empty
+- [x] `npm run build` succeeds on the empty starter
+- [x] `npm run lint && npm run typecheck && npm run test` all pass
+- [x] `git status` shows no deletions or modifications to pre-existing tracked files
+- [x] Manual: `git diff --stat src/content/menu.json` is empty
 
 **Dependencies:** None
 
