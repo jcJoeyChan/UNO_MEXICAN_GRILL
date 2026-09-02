@@ -1,0 +1,101 @@
+---
+/**
+ * Where the contact form lands after a successful Netlify submission.
+ *
+ * A real page rather than Netlify's default receipt, so someone who has just
+ * written in still sees the phone number and the ordering channels — the two
+ * things they are most likely to want next.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OrderingLinks from '../components/OrderingLinks.astro';
+import Serape from '../components/Serape.astro';
+import restaurant from '../content/restaurant.json';
+
+const { contact } = restaurant;
+---
+
+<BaseLayout
+  title="Thanks — UNO Mexican Grill"
+  description="Your message reached UNO Mexican Grill in Glen Oaks. We answer by email, usually within a day."
+>
+  <div class="wrap">
+    <h1>Thanks — that reached us.</h1>
+    <p class="lede">
+      We answer by email. If it is urgent, or you want to place an order, calling is faster.
+    </p>
+
+    <p class="actions">
+      <a class="btn btn-primary" href={contact.phoneHref}>Call {contact.phone}</a>
+      <a class="btn btn-secondary" href="/menu">View the menu</a>
+    </p>
+
+    <Serape weight="rule" class="page-rule" />
+
+    <section class="order-block" aria-labelledby="order-heading">
+      <h2 id="order-heading">Order while you wait</h2>
+      <OrderingLinks variant="block" />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap {
+    max-width: var(--content-narrow);
+    margin: 0 auto;
+    padding: var(--space-9) var(--space-4) var(--space-8);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-3xl);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+  }
+
+  .btn-secondary {
+    border: 2px solid var(--border-strong);
+    color: var(--text);
+  }
+
+  .page-rule {
+    margin-top: var(--space-8);
+  }
+
+  .order-block {
+    margin-top: var(--space-7);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--space-4);
+  }
+</style>

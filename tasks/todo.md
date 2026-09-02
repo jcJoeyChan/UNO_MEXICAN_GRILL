@@ -250,14 +250,14 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Phone, hours, address, and every ordering channel in one place. Default is no contact form — `PRODUCT.md` says the site routes to existing channels rather than operating its own. **Confirm with the user before building; see Open Questions.**
 
 **Acceptance criteria:**
-- [ ] Phone (tap-to-call), address, hours, and all four ordering channels present
-- [ ] Walk-in and call-in-for-pickup both described
+- [x] Phone (tap-to-call), address, hours, and all four ordering channels present
+- [x] Walk-in and call-in-for-pickup both described
 - [x] Form approved by the user 2026-09-02: Netlify Forms, name/email/message only, honeypot for spam, nothing beyond those three fields
-- [ ] Catering enquiry routed to phone
+- [x] Catering enquiry routed to phone
 
 **Verification:**
-- [ ] Build, lint, typecheck pass
-- [ ] Manual: every channel link resolves to the correct store page
+- [x] Build, lint, typecheck pass
+- [x] Manual: every channel link resolves to the correct store page
 
 **Dependencies:** Task 4
 

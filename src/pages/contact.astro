@@ -1,37 +1,244 @@
 ---
-/** Placeholder — built in Task 9. */
+/**
+ * Contact.
+ *
+ * The form is for questions and catering enquiries — never for orders.
+ * PRODUCT.md is explicit that ordering is external, so the ordering channels
+ * sit above the form and the form says plainly that it is not a way to order.
+ *
+ * Netlify Forms handles submissions: no backend, no third-party script. Three
+ * fields only, plus a honeypot. Collecting anything more would be collecting
+ * personal data this restaurant has no use for.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import OrderingLinks from '../components/OrderingLinks.astro';
+import Serape from '../components/Serape.astro';
+import restaurant from '../content/restaurant.json';
+
+const { contact, hours } = restaurant;
 ---
 
 <BaseLayout
-  title="Contact — UNO Mexican Grill"
-  description="Call, visit, or order from UNO Mexican Grill in Glen Oaks."
+  title="Contact — UNO Mexican Grill, Glen Oaks NY"
+  description="Call UNO Mexican Grill on (718) 470-2050, visit us at 256-31 Union Turnpike in Glen Oaks, or send a question about catering and large orders."
 >
   <div class="wrap">
-    <p class="provisional">Placeholder — this page is built in Task 9.</p>
-    <h1>Contact</h1>
+    <header class="page-head">
+      <h1>Contact</h1>
+      <p class="lede">
+        Quickest is the phone — someone is there whenever we are open, {
+          hours.summary.toLowerCase()
+        }.
+      </p>
+    </header>
+
+    <Serape weight="rule" class="page-rule" />
+
+    <div class="grid">
+      <section class="card" aria-labelledby="direct-heading">
+        <h2 id="direct-heading">Talk to us</h2>
+
+        <a class="phone" href={contact.phoneHref}>{contact.phone}</a>
+        <p class="note">Call to order pickup, ask about catering, or check on a large order.</p>
+
+        <address>
+          {contact.addressLine}<br />
+          {`${contact.locality}, ${contact.region} ${contact.postalCode}`}
+        </address>
+        <p class="note">{contact.landmark}</p>
+        <p class="note"><a href="/location">Directions and full hours</a></p>
+      </section>
+
+      <section class="card card-quiet" aria-labelledby="order-heading">
+        <h2 id="order-heading">To place an order</h2>
+        <p class="note">Ordering happens on these, not here — pick whichever you already use.</p>
+        <OrderingLinks variant="block" />
+      </section>
+    </div>
+
+    <section class="form-section" aria-labelledby="form-heading">
+      <h2 id="form-heading">Send a question</h2>
+      <p class="note">
+        For catering, large orders and anything else. We answer by email. <strong
+          >This form does not place an order</strong
+        > — use a channel above or call.
+      </p>
+
+      <form
+        class="form"
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        action="/contact-thanks"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+
+        <p class="hidden-field">
+          <label>
+            Leave this empty if you are human: <input name="bot-field" tabindex="-1" />
+          </label>
+        </p>
+
+        <div class="field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+          <p class="hint">So we can reply. We will not use it for anything else.</p>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+    </section>
   </div>
 </BaseLayout>
 
 <style>
   .wrap {
-    max-width: var(--content-narrow);
+    max-width: var(--content-max);
     margin: 0 auto;
-    padding: var(--space-8) var(--space-4);
+    padding: var(--space-7) var(--space-4) var(--space-8);
   }
+
   h1 {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    font-size: var(--font-size-display);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    max-width: var(--content-narrow);
+  }
+
+  .page-rule {
+    margin-top: var(--space-6);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
     letter-spacing: var(--letter-spacing-tight);
   }
-  .provisional {
+
+  .grid {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-7);
+  }
+
+  @media (min-width: 52rem) {
+    .grid {
+      grid-template-columns: 1fr 1.3fr;
+      align-items: start;
+    }
+  }
+
+  .card {
+    padding: var(--space-6);
+    background: var(--mural-sand);
+    border-radius: var(--radius-lg);
+  }
+
+  .card-quiet {
+    background: var(--mural-sky-wash);
+  }
+
+  .phone {
     display: inline-block;
-    margin-bottom: var(--space-5);
-    padding: var(--space-2) var(--space-4);
-    background: var(--state-seasonal-bg);
-    color: var(--state-seasonal-text);
-    border-radius: var(--radius-full);
+    margin-top: var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--brand-green-ink);
+  }
+
+  address {
+    margin-top: var(--space-5);
+    font-style: normal;
+    line-height: var(--line-height-snug);
+  }
+
+  .note {
+    margin-top: var(--space-2);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    color: var(--warm-600);
+  }
+
+  .form-section {
+    margin-top: var(--space-9);
+    max-width: var(--content-narrow);
+  }
+
+  .form {
+    margin-top: var(--space-5);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  label {
+    font-weight: var(--font-weight-bold);
+  }
+
+  input,
+  textarea {
+    padding: var(--space-3);
+    border: 2px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .hint {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  /* Netlify's honeypot: hidden from people, visible to bots that fill
+     everything. Not display:none, which some bots skip. */
+  .hidden-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .btn {
+    justify-self: start;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .btn-primary {
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--brand-green-ink);
   }
 </style>
