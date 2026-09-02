@@ -296,14 +296,14 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Only "Small & Large Party Catering Available" is confirmed, plus Fajitas by the Pound as genuinely party-sized menu items. Everything else stays provisional and routes to a phone call.
 
 **Acceptance criteria:**
-- [ ] Confirmed catering availability stated; phone is the primary call to action
-- [ ] Fajitas by the Pound surfaced as real party-scale options with real prices
-- [ ] Offerings, pricing, minimums, and lead times marked provisional — no invented packages
-- [ ] No fabricated testimonials or event photos
+- [x] Confirmed catering availability stated; phone is the primary call to action
+- [x] Fajitas by the Pound surfaced as real party-scale options with real prices
+- [x] Offerings, pricing, minimums, and lead times marked provisional — no invented packages
+- [x] No fabricated testimonials or event photos
 
 **Verification:**
-- [ ] Build, lint, typecheck pass
-- [ ] Manual: no claim on the page lacks a source in `PRODUCT.md` or `menu.json`
+- [x] Build, lint, typecheck pass
+- [x] Manual: no claim on the page lacks a source in `PRODUCT.md` or `menu.json`
 
 **Dependencies:** Task 4
 

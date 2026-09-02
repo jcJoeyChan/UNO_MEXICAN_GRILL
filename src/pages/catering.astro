@@ -1,32 +1,256 @@
 ---
-/** Placeholder — built in Task 11. */
+/**
+ * Catering.
+ *
+ * Confirmed: "Small & Large Party Catering Available", printed on the menu.
+ * That is the entire supply of real catering information.
+ *
+ * So rather than invent packages, minimums and lead times, this page leans on
+ * menu items that genuinely scale — Fajitas by the Pound feeds a group and has
+ * real prices — and routes everything else to a phone call. Every price shown
+ * is a real menu price, not a catering rate someone made up.
+ */
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Serape from '../components/Serape.astro';
+import restaurant from '../content/restaurant.json';
+import { sortCategories, formatPrice } from '../lib/menu';
+
+const entries = await getCollection('menu');
+const categories = sortCategories(entries.map((entry) => entry.data));
+const fajitas = categories.find((category) => category.id === 'fajitas-by-the-pound');
+const platters = categories.find((category) => category.id === 'rice-platters');
+const { contact, catering } = restaurant;
 ---
 
 <BaseLayout
-  title="Catering — UNO Mexican Grill"
-  description="Small and large party catering from UNO Mexican Grill."
+  title="Catering — UNO Mexican Grill, Glen Oaks NY"
+  description="Small and large party catering from UNO Mexican Grill in Glen Oaks. Fajitas by the pound with fresh tortillas, rice platters and sides. Call (718) 470-2050."
 >
-  <div class="wrap">
-    <p class="provisional">Placeholder — this page is built in Task 11.</p>
-    <h1>Catering</h1>
-  </div>
+  <section class="intro">
+    <div class="section-inner">
+      <h1>Feeding a crowd</h1>
+      <p class="lede">{catering.summary}. Call and tell us what you need.</p>
+      <p class="actions">
+        <a class="btn btn-primary" href={contact.phoneHref}>Call {contact.phone}</a>
+        <a class="btn btn-secondary" href="/contact">Send a question</a>
+      </p>
+    </div>
+  </section>
+
+  <Serape weight="band" />
+
+  {
+    fajitas && (
+      <section class="scale" aria-labelledby="scale-heading">
+        <div class="section-inner">
+          <h2 id="scale-heading">{fajitas.name}</h2>
+          <p class="note">{fajitas.note}</p>
+          <ul class="items" role="list">
+            {fajitas.items.map((item) => (
+              <li>
+                <span class="num">{item.number}</span>
+                <span class="name">
+                  {item.name}
+                  {item.description && <span class="desc">{item.description}</span>}
+                </span>
+                <span class="price">{item.price !== undefined && formatPrice(item.price)}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="note">
+            A pound comes with ten fresh tortillas, peppers, onion, black bean and salsa ranchera —
+            it is the closest thing on the menu to a party tray.
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    platters && (
+      <section class="platters" aria-labelledby="platters-heading">
+        <div class="section-inner">
+          <h2 id="platters-heading">Or build it from platters</h2>
+          <p class="note-dark">
+            {platters.items.length} rice platters, each served with rice, black bean, salad,
+            guacamole, corn chips and a fresh flour tortilla. Order several and let people pick.
+          </p>
+          <p class="link-row">
+            <a href="/menu#rice-platters">See all rice platters</a>
+            <a href="/menu#side-orders">Sides by the 8 oz</a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="unknowns" aria-labelledby="unknowns-heading">
+    <div class="section-inner narrow">
+      <p class="provisional">Placeholder — not yet confirmed</p>
+      <h2 id="unknowns-heading">What we still need to tell you</h2>
+      <p class="note">
+        Party sizes, lead times, deposits, delivery and set-up: none of it is written down yet, so
+        none of it is on this page. Rather than guess, we would rather you called and got a straight
+        answer.
+      </p>
+      <p class="note">
+        <a href={contact.phoneHref}>{contact.phone}</a> — {restaurant.hours.summary.toLowerCase()}.
+      </p>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .wrap {
-    max-width: var(--content-narrow);
+  .section-inner {
+    max-width: var(--content-max);
     margin: 0 auto;
+  }
+
+  .narrow {
+    max-width: var(--content-narrow);
+    margin-inline: auto;
+  }
+
+  section {
     padding: var(--space-8) var(--space-4);
   }
+
+  .intro {
+    padding-top: var(--space-9);
+  }
+
   h1 {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    font-size: var(--font-size-display);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    max-width: var(--content-narrow);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+  }
+
+  .btn-secondary {
+    border: 2px solid var(--border-strong);
+    color: var(--text);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
     letter-spacing: var(--letter-spacing-tight);
   }
+
+  .scale {
+    background: var(--mural-sand);
+  }
+
+  .note {
+    max-width: 60ch;
+    margin-top: var(--space-3);
+    color: var(--warm-600);
+  }
+
+  .items {
+    max-width: 42rem;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 2px solid var(--text);
+  }
+
+  .items li {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr auto;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .num {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    border-radius: var(--radius-sm);
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .name {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .desc {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: var(--warm-600);
+  }
+
+  .price {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .platters {
+    background: var(--surface-inverse);
+    color: var(--warm-50);
+  }
+
+  .note-dark {
+    max-width: 60ch;
+    margin-top: var(--space-3);
+    color: var(--mural-sand);
+  }
+
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+
+  .link-row a {
+    color: var(--mural-sky);
+  }
+
+  .unknowns {
+    background: var(--mural-sky-wash);
+  }
+
   .provisional {
     display: inline-block;
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-4);
     padding: var(--space-2) var(--space-4);
     background: var(--state-seasonal-bg);
     color: var(--state-seasonal-text);
