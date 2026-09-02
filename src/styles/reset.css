@@ -59,13 +59,9 @@ button {
   border: none;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* Body copy may break a long word rather than overflow. Headings must not:
+   a display headline split as "Mexica / n" is worse than any overflow. */
+p {
   overflow-wrap: break-word;
 }
 

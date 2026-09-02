@@ -41,6 +41,35 @@ A declined challenger is not wasted: the discipline it does better gets transfer
 
 ---
 
+## Hero form changed: full-bleed photo → photo mosaic (2026-09-02)
+
+The direction contract's FIRST VIEWPORT specified one full-bleed real photograph. Building it revealed the source photography cannot carry that form:
+
+| File | Pixels |
+|---|---|
+| Spread2.jpg | 750x600 |
+| OUTSIDE.jpg | 348x348 |
+| Tostada_Salad.jpg | 289x174 |
+| Burrito.jpg | 251x201 |
+| Spread1.jpg, Nacho_supreme.jpg | 225x225 |
+
+A full-bleed desktop hero needs roughly 2000px wide. Upscaling a 750px image to fill it produces visible softness, and a soft hero on a restaurant site reads as cheap — which attacks the thesis directly, since the whole bet is "this is real food, not stock photography". Shipping a blurry photograph to prove the food is real would have been self-defeating.
+
+**Options considered:**
+
+1. *Get better source files.* Preferred, but the originals may not exist; the user has only what ChowBus resized.
+2. *Generate or buy stock imagery.* Rejected outright — PRODUCT.md forbids fabricated content, and stock food photography is precisely what the thesis refuses.
+3. *Crop one photo to a wide letterbox band.* Reduces the pixel deficit but not enough, and cropping a 225px image to a banner leaves almost nothing.
+4. **Photo mosaic — chosen.** Every photograph renders at or below its native size, so all six stay sharp. Spread2 anchors as the large tile; the rest fill smaller ones.
+
+The mosaic is close to candidate 4, the *photo-grid taqueria wall*, which the concept-seed roll dealt but which was not chosen. The constraint has since made it the stronger option. It also arguably serves the thesis better than the original: six real dishes carry more evidence of a real kitchen than one photograph does.
+
+**Unchanged:** thesis, own-world, story, memorable moment, and the persistent order rail. This is a change of form, not of direction. Recorded in `.impeccable/surfaces/homepage.md` as a FORM AMENDMENT.
+
+**If larger originals ever surface**, revisiting the full-bleed form is legitimate — but the mosaic should be judged on its own merits first rather than assumed inferior.
+
+---
+
 ## Technical choices and the alternatives rejected
 
 | Decision | Chosen | Rejected alternatives | Why |

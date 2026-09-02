@@ -186,19 +186,20 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Build the chosen direction: a full-bleed real food photo carrying the first viewport, headline and one-line positioning, the live status pill, and primary "Order Now ▾" / secondary "View Menu" in the lower third — with a curated menu preview below the fold. Explicitly refuses the generic headline-over-stock-hero template.
 
 **Acceptance criteria:**
-- [ ] First viewport contains: sticky bar, full-bleed real photo, headline, one-line positioning, live open/closed pill, primary and secondary CTAs in the lower third
-- [ ] Hero photo is one of the real photographs — no stock, no upscale-gloss treatment
-- [ ] Below-fold menu preview shows a curated subset (not all 12 categories) with oversized category headings
-- [ ] Hero entrance is a subtle fade/soft-scale; no autoplay video
-- [ ] Menu-preview cards scroll-reveal with light stagger
-- [ ] All motion fully disabled under `prefers-reduced-motion`
-- [ ] A visitor can reach an ordering channel or the menu in one interaction from landing
+- [x] First viewport contains: sticky bar, photo mosaic, headline, one-line positioning, live open/closed pill, primary and secondary CTAs in the lower third
+- [x] Mosaic uses the real photographs — no stock, no upscale-gloss treatment
+- [x] **No image is rendered wider than its native pixels** (measured at 1440px and 375px). This is the whole reason the form changed; shipping a soft hero would defeat the thesis.
+- [x] Below-fold menu preview shows a curated subset (not all 12 categories) with oversized category headings
+- [x] Hero entrance is a subtle fade/soft-scale; no autoplay video
+- [x] Menu-preview cards scroll-reveal with light stagger
+- [x] All motion fully disabled under `prefers-reduced-motion`
+- [x] A visitor can reach an ordering channel or the menu in one interaction from landing
 
 **Verification:**
-- [ ] `npm run build` succeeds; lint and typecheck pass
-- [ ] Manual: with reduced-motion enabled, all content is present and no animation runs
-- [ ] Manual: first viewport at 375 px still shows pill + both CTAs without scrolling
-- [ ] Manual: hero image does not cause layout shift
+- [x] `npm run build` succeeds; lint and typecheck pass
+- [x] Manual: with reduced-motion enabled, all content is present and no animation runs
+- [x] Manual: first viewport at 375 px still shows pill + both CTAs without scrolling
+- [x] Manual: hero image does not cause layout shift
 
 **Dependencies:** Task 6
 

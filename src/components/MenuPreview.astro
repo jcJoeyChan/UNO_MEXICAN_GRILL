@@ -1,0 +1,185 @@
+---
+/**
+ * Below-fold menu preview — a curated subset, not the full 15+ category
+ * catalog. Headings carry real display weight, the discipline kept from the
+ * declined futurist-bolted-book challenger.
+ *
+ * Cards scroll-reveal with a light stagger. The reveal is opt-in from
+ * JavaScript: without it the content is simply visible, so a failed script can
+ * never hide the menu.
+ */
+import { formatPrice, type MenuCategory } from '../lib/menu';
+
+interface Props {
+  categories: MenuCategory[];
+  /** Category ids to feature, in order. */
+  feature: string[];
+  perCategory?: number;
+}
+
+const { categories, feature, perCategory = 3 } = Astro.props;
+
+const featured = feature
+  .map((id) => categories.find((category) => category.id === id))
+  .filter((category): category is MenuCategory => category !== undefined)
+  .map((category) => ({
+    category,
+    items: category.items.slice(0, perCategory),
+  }));
+---
+
+<div class="preview" data-reveal-root>
+  {
+    featured.map(({ category, items }, index) => (
+      <section class="group" data-reveal style={`--stagger:${index * 90}ms`}>
+        <h3 class="group-title">
+          <a href={`/menu#${category.id}`}>{category.name}</a>
+        </h3>
+        <ul class="items" role="list">
+          {items.map((item) => (
+            <li>
+              {item.number && <span class="num">{item.number}</span>}
+              <span class="name">{item.name}</span>
+              <span class="price">
+                {item.price !== undefined
+                  ? formatPrice(item.price)
+                  : formatPrice(Object.values(item.prices ?? {}).filter(Boolean)[0] as number)}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p class="more">
+          <a href={`/menu#${category.id}`}>
+            All {category.items.length} <span class="visually-hidden">{category.name} </span>items
+          </a>
+        </p>
+      </section>
+    ))
+  }
+</div>
+
+<script>
+  // Reveal is additive: the class that hides cards is only applied once this
+  // script runs, so no-JS visitors see everything immediately.
+  const root = document.querySelector<HTMLElement>('[data-reveal-root]');
+
+  if (root) {
+    root.classList.add('reveal-ready');
+
+    const cards = root.querySelectorAll<HTMLElement>('[data-reveal]');
+    const reveal = (card: Element) => card.classList.add('is-revealed');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+    );
+
+    for (const card of cards) observer.observe(card);
+
+    // Failsafe. Once the hiding class is applied, the menu preview is invisible
+    // until something reveals it — so it must not depend on the observer
+    // firing. It legitimately does not fire while the page is hidden (a
+    // background tab, a prerender), and this content is too important to gamble
+    // on that resolving. After a beat, show everything regardless.
+    window.setTimeout(() => {
+      for (const card of cards) reveal(card);
+    }, 1500);
+  }
+</script>
+
+<style>
+  .preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-5);
+  }
+
+  .group {
+    padding-top: var(--space-4);
+    border-top: 2px solid var(--text);
+  }
+
+  /* Confidently oversized — not a timid corporate heading. */
+  .group-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-3);
+  }
+
+  .group-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .group-title a:hover {
+    color: var(--brand-green-ink);
+  }
+
+  .items {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .items li {
+    display: grid;
+    grid-template-columns: 1.75rem 1fr auto;
+    gap: var(--space-2);
+    align-items: baseline;
+    font-size: var(--font-size-sm);
+  }
+
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-muted);
+  }
+
+  .name {
+    color: var(--text-secondary);
+  }
+
+  .price {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .more {
+    margin-top: var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Only applied once JS runs — see the script comment. */
+  .reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+    transition:
+      opacity var(--duration-slow) var(--ease-out) var(--stagger, 0ms),
+      transform var(--duration-slow) var(--ease-out) var(--stagger, 0ms);
+  }
+
+  .reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Belt and braces: even with the tokens collapsed, never animate here. */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-ready [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

@@ -1,52 +1,218 @@
 ---
 /**
- * Placeholder homepage. Task 7 replaces this with the order-rail hero from
- * .impeccable/surfaces/homepage.md.
+ * Homepage — the order-rail hero from .impeccable/surfaces/homepage.md,
+ * with the mosaic form amendment recorded there and in DECISIONS.md.
+ *
+ * Thesis: real food photography carries the page, and a persistent order rail
+ * keeps ordering one tap away at every scroll position. It deliberately refuses
+ * the category default of a big headline over a decorative stock hero.
  */
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroMosaic from '../components/HeroMosaic.astro';
+import HoursBadge from '../components/HoursBadge.astro';
+import MenuPreview from '../components/MenuPreview.astro';
+import OrderingLinks from '../components/OrderingLinks.astro';
 import restaurant from '../content/restaurant.json';
+import { sortCategories, countItems } from '../lib/menu';
+
+const entries = await getCollection('menu');
+const categories = sortCategories(entries.map((entry) => entry.data));
+const total = countItems(categories);
+const { contact, hours } = restaurant;
 ---
 
 <BaseLayout
-  title="UNO Mexican Grill — Casual Mexican takeout & dine-in in Glen Oaks, NY"
-  description="Casual Mexican takeout and dine-in on Union Turnpike in Glen Oaks, Queens. Open 7 days, 11 am to 9:30 pm. Order pickup or delivery."
+  title="UNO Mexican Grill — Mexican takeout & dine-in in Glen Oaks, Queens"
+  description="Casual Mexican takeout and dine-in on Union Turnpike in Glen Oaks, Queens. Tacos, burritos, quesadillas and rice platters. Open 7 days, 11 am to 9:30 pm."
 >
-  <div class="wrap">
-    <p class="provisional">Placeholder — the homepage is built in Task 7.</p>
-    <h1>{restaurant.name}</h1>
-    <p class="lede">{restaurant.tagline}</p>
-    <p>
-      The shared shell is in place: sticky order rail, live open/closed pill, and every ordering
-      channel two taps away from any page. See the <a href="/tokens">token reference</a>.
-    </p>
-  </div>
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <HoursBadge />
+        <h1 id="hero-heading">Real Mexican, made when you order it.</h1>
+        <p class="positioning">
+          {restaurant.tagline} on Union Turnpike — tortillas from the machine, grilled to order.
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="#order">Order Now</a>
+          <a class="btn btn-secondary" href="/menu">View Menu</a>
+        </div>
+
+        <p class="meta">
+          <span>{contact.landmark}</span>
+          <span aria-hidden="true">·</span>
+          <a href={contact.phoneHref}>{contact.phone}</a>
+        </p>
+      </div>
+
+      <div class="hero-media">
+        <HeroMosaic />
+      </div>
+    </div>
+  </section>
+
+  <section class="order" id="order" aria-labelledby="order-heading">
+    <div class="section-inner">
+      <h2 id="order-heading">Order from</h2>
+      <p class="section-note">
+        Pickup, delivery, call ahead or walk in — {hours.summary.toLowerCase()}.
+      </p>
+      <OrderingLinks variant="block" />
+    </div>
+  </section>
+
+  <section class="preview-section" aria-labelledby="preview-heading">
+    <div class="section-inner">
+      <header class="preview-head">
+        <h2 id="preview-heading">On the menu</h2>
+        <p class="section-note">
+          A few favourites. All {total} items, with prices, on the <a href="/menu">full menu</a>.
+        </p>
+      </header>
+      <MenuPreview
+        categories={categories}
+        feature={['tacos', 'burritos', 'quesadillas', 'tostada-salads']}
+      />
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .wrap {
-    max-width: var(--content-narrow);
-    margin: 0 auto;
-    padding: var(--space-8) var(--space-4);
+  .hero {
+    padding: var(--space-6) var(--space-4) var(--space-7);
   }
+
+  .hero-inner {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 60rem) {
+    .hero-inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-7);
+    }
+  }
+
+  .hero-copy {
+    max-width: 36rem;
+  }
+
   h1 {
-    font-size: var(--font-size-3xl);
+    margin-top: var(--space-3);
+    /* Deliberately below --font-size-display (max 6rem): the hero headline
+       shares its row with the mosaic, so it must fit ~34rem without breaking. */
+    font-size: clamp(2.5rem, 3.2vw + 1rem, 4.25rem);
     font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
-    margin-bottom: var(--space-2);
+    line-height: var(--line-height-tight);
   }
-  .lede {
-    font-size: var(--font-size-xl);
+
+  .positioning {
+    margin-top: var(--space-4);
+    font-size: var(--font-size-lg);
     color: var(--text-secondary);
-    margin-bottom: var(--space-5);
   }
-  .provisional {
-    display: inline-block;
-    margin-bottom: var(--space-5);
-    padding: var(--space-2) var(--space-4);
-    background: var(--state-seasonal-bg);
-    color: var(--state-seasonal-text);
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .btn-primary {
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--brand-green-ink);
+  }
+
+  .btn-secondary {
+    border: 2px solid var(--border-strong);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+  }
+
+  /* Stack instead of wrapping: when the landmark wrapped, the separator dot
+     was pushed to the start of the next line and read as a stray bullet. */
+  @media (max-width: 34rem) {
+    .meta {
+      display: block;
+    }
+
+    .meta span[aria-hidden] {
+      display: none;
+    }
+
+    .meta a {
+      display: inline-block;
+      margin-top: var(--space-1);
+    }
+  }
+
+  .section-inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  .order,
+  .preview-section {
+    padding: var(--space-7) var(--space-4);
+    scroll-margin-top: calc(var(--rail-height) + var(--space-4));
+  }
+
+  .order {
+    background: var(--surface-raised);
+  }
+
+  h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  .section-note {
+    margin-top: var(--space-2);
+    color: var(--text-secondary);
+  }
+
+  .order :global(.ordering) {
+    margin-top: var(--space-4);
+  }
+
+  .preview-head {
+    margin-bottom: var(--space-6);
   }
 </style>
