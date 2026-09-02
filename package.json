@@ -15,7 +15,12 @@
     "format": "prettier --write .",
     "typecheck": "astro check",
     "test": "vitest run",
-    "astro": "astro"
+    "astro": "astro",
+    "check:content": "node scripts/check-content.mjs",
+    "check:audit": "node scripts/audit.mjs",
+    "check:fast": "npm run typecheck && npm run lint",
+    "check:task": "npm run typecheck && npm run lint && npm run test && npm run build && npm run check:content",
+    "check:full": "npm run check:task && npm run check:audit"
   },
   "dependencies": {
     "astro": "^7.2.10"
@@ -26,6 +31,7 @@
     "eslint": "^10.9.1",
     "eslint-plugin-astro": "^3.1.0",
     "globals": "^17.12.0",
+    "lighthouse": "^13.4.1",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "~5.9.3",

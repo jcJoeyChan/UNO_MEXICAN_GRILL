@@ -1,0 +1,20 @@
+{
+  "/": {
+    "performance": 77,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 91
+  },
+  "/menu": {
+    "performance": 80,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 91
+  },
+  "/location": {
+    "performance": 80,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 91
+  }
+}

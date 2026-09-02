@@ -18,7 +18,7 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 - [x] Vitest configured and running
 - [x] All seven scripts from `SPEC.md` exist and work: `dev`, `build`, `preview`, `lint`, `format`, `typecheck`, `test`
 - [x] `src/content/menu.json` is byte-identical to before scaffolding
-- [x] `PRODUCT.md`, `SPEC.md`, `DECISIONS.md`, `.impeccable/`, `public/images/`, `public/Menu/` all untouched
+- [x] `PRODUCT.md`, `SPEC.md`, `DECISIONS.md`, `.impeccable/`, `public/images/`, `public/menu.pdf` all untouched
 - [x] `.gitignore` covers `node_modules`, `dist`, `.astro`
 
 **Verification:**
@@ -169,7 +169,7 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 
 **Verification:**
 - [ ] `npm run build` succeeds; lint and typecheck pass
-- [ ] Manual: spot-check 10 items against `public/Menu/MENU.pdf`, including one from each price shape
+- [ ] Manual: spot-check 10 items against `public/menu.pdf`, including one from each price shape
 - [ ] Manual: confirm no item anywhere reads "sold out"
 - [ ] Manual: 375 px and 1440 px both legible without horizontal scroll
 
@@ -329,7 +329,7 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** The real photographs and the 7.9 MB scanned PDF are the site's entire payload. Get them down without visible loss.
 
 **Acceptance criteria:**
-- [ ] `MENU.pdf` compressed to under 1 MB with text still legible at 100%
+- [ ] `public/menu.pdf` compressed to under 1 MB with text still legible at 100%
 - [ ] Original PDF preserved (e.g. `MENU.original.pdf`, untracked or clearly named) so nothing is lost
 - [ ] Food photos served responsively via Astro's image pipeline, with modern formats and correct `width`/`height`
 - [ ] Hero image preloaded; below-fold images lazy-loaded
@@ -342,7 +342,7 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 
 **Dependencies:** Tasks 7, 8, 10, 11
 
-**Files likely touched:** `public/Menu/`, `src/components/Hero.astro`, `src/components/MenuPreview.astro`, `astro.config.mjs`
+**Files likely touched:** `public/menu.pdf`, `src/components/Hero.astro`, `src/components/MenuPreview.astro`, `astro.config.mjs`
 
 **Estimated scope:** Small (1–2 files)
 

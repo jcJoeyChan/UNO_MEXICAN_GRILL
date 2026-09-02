@@ -283,8 +283,17 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
   }
 
   @media (max-width: 47.99rem) {
+    /* Hidden visually, not removed. display:none here left the home link with
+       no accessible name at all — the logo is alt="" decorative — which
+       Lighthouse flagged as link-name. Screen readers still announce "UNO
+       Mexican Grill". */
     .brand-name {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
 
     .hamburger {

@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# constraints baseline is committed (it is the recorded floor)
+# lighthouse temp files
+.lighthouseci/
