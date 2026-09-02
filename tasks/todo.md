@@ -380,16 +380,16 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** The direction contract's FINISH clause is explicit: "unreviewed and undocumented is unfinished." Because no comp exists, the review audits behavior against the contract, then records the shipped design system.
 
 **Acceptance criteria:**
-- [ ] Finish review run against `.impeccable/surfaces/homepage.md` — thesis, own-world, story, first viewport, form, memorable moment
-- [ ] Verdict recorded, with material fixes applied or explicitly deferred with reasons
-- [ ] `DESIGN.md` derived from the shipped artifact, not from intentions
-- [ ] Every shipping raster carries its provenance, per the contract
-- [ ] Confirmed: the build does not read as the generic template the thesis refuses
+- [x] Finish review run against `.impeccable/surfaces/homepage.md` — thesis, own-world, story, first viewport, form, memorable moment
+- [x] Verdict recorded, with material fixes applied or explicitly deferred with reasons
+- [x] `DESIGN.md` derived from the shipped artifact, not from intentions
+- [x] Every shipping raster carries its provenance, per the contract
+- [x] Confirmed: the build does not read as the generic template the thesis refuses
 
 **Verification:**
-- [ ] Review verdict is written down, not just asserted
-- [ ] Manual: `DESIGN.md` matches what actually shipped
-- [ ] All quality gates pass
+- [x] Review verdict is written down, not just asserted
+- [x] Manual: `DESIGN.md` matches what actually shipped
+- [x] All quality gates pass
 
 **Dependencies:** Tasks 12, 13
 

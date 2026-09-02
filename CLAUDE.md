@@ -10,6 +10,7 @@ Public marketing site for a real restaurant in Glen Oaks, Queens. Astro static +
 | `PRODUCT.md`                      | Product truth — users, positioning, confirmed facts, brand commitments |
 | `SPEC.md`                         | Technical contract — stack, structure, conventions, boundaries         |
 | `DECISIONS.md`                    | Why, and what was chosen against                                       |
+| `DESIGN.md`                       | The design system as shipped, plus the finish-review verdict            |
 | `.impeccable/surfaces/homepage.md`| The homepage direction contract                                        |
 | `tasks/plan.md`, `tasks/todo.md`  | The 15-task build plan and its current state                           |
 
