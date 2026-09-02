@@ -1,0 +1,219 @@
+---
+/**
+ * Full-bleed mural hero.
+ *
+ * Second amendment to the FIRST VIEWPORT. The photo mosaic solved the
+ * resolution problem but read as a grid of thumbnails — six 168px tiles cannot
+ * carry a homepage. The mural is the only image with the pixels to fill a
+ * viewport (5277x2356 after cropping), it is hand-painted, it is unmistakably
+ * this restaurant, and it has the restaurant's name painted into it.
+ *
+ * The scrim is weighted to the LEFT because the painted "UNO MEXICAN GRILL"
+ * sign sits on the right of the mural — darkening the left keeps the copy
+ * legible without covering the one part of the painting that names the place.
+ */
+import HoursBadge from './HoursBadge.astro';
+
+interface Props {
+  headline: string;
+  positioning: string;
+  landmark: string;
+  phone: string;
+  phoneHref: string;
+}
+
+const { headline, positioning, landmark, phone, phoneHref } = Astro.props;
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <!-- WebP first, JPEG fallback. The mural is the LCP element, and at ~49%
+       fewer bytes WebP is the difference between meeting the performance floor
+       and missing it. -->
+  <picture>
+    <source
+      type="image/webp"
+      srcset="
+        /images/mural-1200.webp 1200w,
+        /images/mural-1800.webp 1800w,
+        /images/mural-2400.webp 2400w
+      "
+      sizes="100vw"
+    />
+    <img
+      class="backdrop"
+      src="/images/mural-1800.jpg"
+      srcset="/images/mural-1200.jpg 1200w, /images/mural-1800.jpg 1800w, /images/mural-2400.jpg 2400w"
+      sizes="100vw"
+      width="1800"
+      height="804"
+      alt="The hand-painted desert mural in the dining room, with a painted sign reading UNO Mexican Grill"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+
+  <div class="scrim">
+    <div class="copy">
+      <HoursBadge class="hero-pill" />
+      <h1 id="hero-heading">{headline}</h1>
+      <p class="positioning">{positioning}</p>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="#order">Order Now</a>
+        <a class="btn btn-secondary" href="/menu">View Menu</a>
+      </div>
+
+      <p class="meta">
+        <span>{landmark}</span>
+        <a href={phoneHref}>{phone}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--surface-inverse);
+  }
+
+  picture {
+    position: absolute;
+    inset: 0;
+  }
+
+  .backdrop {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+
+  .scrim {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: min(78vh, 40rem);
+    padding: var(--space-8) var(--space-4);
+    /* A steep falloff, not a gradual one.
+       A gradual gradient across the full width meant the mural was never
+       actually visible: by the time the scrim was light enough to see the
+       painting, there was only a sliver of hero left. So the copy lives in a
+       dark left column and the scrim clears completely by 62%, leaving the
+       right third of the painting — the adobe buildings and the hand-painted
+       UNO MEXICAN GRILL sign — fully legible.
+       Text contrast is measured by compositing the real mural pixels with this
+       gradient; Lighthouse cannot check text over an image. */
+    background: linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--surface-inverse) 93%, transparent) 0%,
+      color-mix(in srgb, var(--surface-inverse) 90%, transparent) 42%,
+      color-mix(in srgb, var(--surface-inverse) 30%, transparent) 56%,
+      transparent 66%
+    );
+  }
+
+  .copy {
+    width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  /* Everything readable stays inside the scrim's dark plateau. */
+  .copy > * {
+    max-width: min(34rem, 42%);
+  }
+
+  @media (max-width: 60rem) {
+    .copy > * {
+      max-width: 34rem;
+    }
+  }
+
+  h1 {
+    margin-top: var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--font-size-hero);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+    color: var(--warm-50);
+  }
+
+  .positioning {
+    margin-top: var(--space-4);
+    font-size: var(--font-size-lg);
+    color: var(--mural-sand);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .btn-primary {
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+  }
+
+  .btn-primary:hover {
+    background: var(--brand-green);
+    color: var(--surface-inverse);
+  }
+
+  /* On the dark hero the secondary button is outlined in sand rather than the
+     neutral border token, which would all but vanish. */
+  .btn-secondary {
+    border: 2px solid var(--mural-sand);
+    color: var(--warm-50);
+  }
+
+  .btn-secondary:hover {
+    background: var(--warm-50);
+    color: var(--surface-inverse);
+  }
+
+  /* Sand rather than warm-400: measured over the real mural pixels, warm-400
+     landed at 4.86:1 — passing, but with almost no margin if the crop ever
+     changes. Sand clears it comfortably. */
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-6);
+    font-size: var(--font-size-sm);
+    color: var(--mural-sand);
+  }
+
+  .meta a {
+    color: var(--mural-sand);
+  }
+
+  @media (max-width: 48rem) {
+    /* Vertical scrim on narrow screens: there is no room for a left-weighted
+       one, and the copy needs the full width. */
+    .scrim {
+      align-items: flex-end;
+      min-height: min(80vh, 34rem);
+      background: linear-gradient(
+        to top,
+        color-mix(in srgb, var(--surface-inverse) 94%, transparent) 0%,
+        color-mix(in srgb, var(--surface-inverse) 86%, transparent) 55%,
+        color-mix(in srgb, var(--surface-inverse) 45%, transparent) 100%
+      );
+    }
+  }
+</style>

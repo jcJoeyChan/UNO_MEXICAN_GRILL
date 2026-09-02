@@ -1,19 +1,21 @@
 ---
 /**
- * Homepage — the order-rail hero from .impeccable/surfaces/homepage.md,
- * with the mosaic form amendment recorded there and in DECISIONS.md.
+ * Homepage — order-rail hero, second form amendment.
  *
- * Thesis: real food photography carries the page, and a persistent order rail
- * keeps ordering one tap away at every scroll position. It deliberately refuses
- * the category default of a big headline over a decorative stock hero.
+ * The mural now carries the first viewport; the food photography moves to a
+ * dark strip immediately below it. See DECISIONS.md: the mosaic solved the
+ * resolution problem but read as thumbnails, and small photographs look
+ * intentional on a dark ground and cheap on beige.
+ *
+ * Sections alternate real grounds — mural, dark, sand, sky — so the page has
+ * rhythm as you scroll instead of one flat off-white.
  */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MuralHero from '../components/MuralHero.astro';
 import HeroMosaic from '../components/HeroMosaic.astro';
-import HoursBadge from '../components/HoursBadge.astro';
 import MenuPreview from '../components/MenuPreview.astro';
 import OrderingLinks from '../components/OrderingLinks.astro';
-import MuralBand from '../components/MuralBand.astro';
 import Serape from '../components/Serape.astro';
 import restaurant from '../content/restaurant.json';
 import { sortCategories, countItems } from '../lib/menu';
@@ -27,57 +29,50 @@ const { contact, hours } = restaurant;
 <BaseLayout
   title="UNO Mexican Grill — Tex-Mex takeout & dine-in in Glen Oaks, Queens"
   description="Casual Tex-Mex takeout and dine-in on Union Turnpike in Glen Oaks, Queens. Tacos, burritos, quesadillas and rice platters. Open 7 days, 11 am to 9:30 pm."
+  preloadImage={{
+    srcset:
+      '/images/mural-1200.webp 1200w, /images/mural-1800.webp 1800w, /images/mural-2400.webp 2400w',
+    sizes: '100vw',
+    type: 'image/webp',
+  }}
 >
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-inner">
-      <div class="hero-copy">
-        <HoursBadge />
-        <h1 id="hero-heading">Tex-Mex, made when you order it.</h1>
-        <p class="positioning">
-          {restaurant.tagline} on Union Turnpike — tortillas off our own machine, baked and grilled when
-          you order.
-        </p>
+  <MuralHero
+    headline="Tex-Mex, made when you order it."
+    positioning="Tortillas off our own machine, baked and grilled when you order. Takeout or dine in, seven days a week on Union Turnpike."
+    landmark={contact.landmark}
+    phone={contact.phone}
+    phoneHref={contact.phoneHref}
+  />
 
-        <div class="actions">
-          <a class="btn btn-primary" href="#order">Order Now</a>
-          <a class="btn btn-secondary" href="/menu">View Menu</a>
-        </div>
+  <Serape weight="band" />
 
-        <p class="meta">
-          <span>{contact.landmark}</span>
-          <span aria-hidden="true">·</span>
-          <a href={contact.phoneHref}>{contact.phone}</a>
-        </p>
-      </div>
-
-      <div class="hero-media">
+  <section class="food" aria-labelledby="food-heading">
+    <div class="section-inner">
+      <h2 id="food-heading">What comes out of the kitchen</h2>
+      <p class="note-dark">
+        Every photograph here is our food, in our trays, on our tables. Nothing borrowed.
+      </p>
+      <div class="strip">
         <HeroMosaic />
       </div>
     </div>
   </section>
 
-  <Serape weight="rule" />
-
   <section class="order" id="order" aria-labelledby="order-heading">
     <div class="section-inner">
       <h2 id="order-heading">Order from</h2>
-      <p class="section-note">
-        Pickup, delivery, call ahead or walk in — {hours.summary.toLowerCase()}.
-      </p>
+      <p class="note">Pickup, delivery, call ahead or walk in — {hours.summary.toLowerCase()}.</p>
       <OrderingLinks variant="block" />
     </div>
   </section>
 
-  <MuralBand
-    heading="Come sit down"
-    body="Our dining room is painted with a desert mural by a local artist. Eat in, or take it to go — the tortillas come off the machine either way."
-  />
+  <Serape weight="band" />
 
   <section class="preview-section" aria-labelledby="preview-heading">
     <div class="section-inner">
       <header class="preview-head">
         <h2 id="preview-heading">On the menu</h2>
-        <p class="section-note">
+        <p class="note">
           A few favourites. All {total} items, with prices, on the <a href="/menu">full menu</a>.
         </p>
       </header>
@@ -90,134 +85,57 @@ const { contact, hours } = restaurant;
 </BaseLayout>
 
 <style>
-  .hero {
-    padding: var(--space-6) var(--space-4) var(--space-7);
-  }
-
-  .hero-inner {
-    display: grid;
-    gap: var(--space-6);
-    align-items: center;
-    max-width: var(--content-max);
-    margin: 0 auto;
-  }
-
-  @media (min-width: 60rem) {
-    .hero-inner {
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: var(--space-7);
-    }
-  }
-
-  .hero-copy {
-    max-width: 36rem;
-  }
-
-  h1 {
-    font-family: var(--font-display);
-    margin-top: var(--space-3);
-    font-size: var(--font-size-hero);
-    letter-spacing: var(--letter-spacing-tight);
-    line-height: var(--line-height-tight);
-  }
-
-  .positioning {
-    margin-top: var(--space-4);
-    font-size: var(--font-size-lg);
-    color: var(--text-secondary);
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-5);
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-3) var(--space-5);
-    border-radius: var(--radius-full);
-    font-weight: var(--font-weight-bold);
-    text-decoration: none;
-    transition:
-      background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out);
-  }
-
-  .btn-primary {
-    background: var(--brand-green-deep);
-    color: var(--brand-white);
-  }
-
-  .btn-primary:hover {
-    background: var(--brand-green-ink);
-  }
-
-  .btn-secondary {
-    border: 2px solid var(--border-strong);
-    color: var(--text);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--text);
-  }
-
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-5);
-    font-size: var(--font-size-sm);
-    color: var(--text-muted);
-  }
-
-  /* Stack instead of wrapping: when the landmark wrapped, the separator dot
-     was pushed to the start of the next line and read as a stray bullet. */
-  @media (max-width: 34rem) {
-    .meta {
-      display: block;
-    }
-
-    .meta span[aria-hidden] {
-      display: none;
-    }
-
-    .meta a {
-      display: inline-block;
-      margin-top: var(--space-1);
-    }
-  }
-
   .section-inner {
     max-width: var(--content-max);
     margin: 0 auto;
   }
 
-  .order,
-  .preview-section {
-    padding: var(--space-7) var(--space-4);
+  section {
+    padding: var(--space-8) var(--space-4);
     scroll-margin-top: calc(var(--rail-height) + var(--space-4));
-  }
-
-  .order {
-    background: var(--surface-raised);
   }
 
   h2 {
     font-family: var(--font-display);
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-3xl);
     letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
   }
 
-  .section-note {
-    margin-top: var(--space-2);
+  .note {
+    margin-top: var(--space-3);
     color: var(--text-secondary);
   }
 
-  .order :global(.ordering) {
-    margin-top: var(--space-4);
+  /* --- food: dark ground. Small photographs read as a gallery on dark and as
+         clip art on beige, which is what the beige version looked like. --- */
+  .food {
+    background: var(--surface-inverse);
+    color: var(--warm-50);
+  }
+
+  .note-dark {
+    margin-top: var(--space-3);
+    color: var(--warm-400);
+    max-width: 48ch;
+  }
+
+  .strip {
+    margin-top: var(--space-6);
+  }
+
+  /* --- order: sand. The primary action gets the most legible ground. --- */
+  .order {
+    background: var(--mural-sand);
+  }
+
+  .order .note {
+    color: var(--warm-600);
+  }
+
+  /* --- menu preview: sky wash, straight off the mural's painted sky. --- */
+  .preview-section {
+    background: var(--mural-sky-wash);
   }
 
   .preview-head {

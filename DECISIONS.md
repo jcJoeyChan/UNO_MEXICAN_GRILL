@@ -113,6 +113,37 @@ Adding a typeface is a dependency, which `SPEC.md` requires approval for. The us
 
 ---
 
+## Second visual pass: bolder, and the mural becomes the hero (2026-09-02)
+
+The A+C hybrid was still not satisfying. The user's read: still too quiet overall, the hero mosaic was weak, and there was too much beige. All three were fair — I had hedged toward C's restraint after being told the site looked plain.
+
+**What changed**
+
+| Before | After |
+|---|---|
+| Hero: 6 food tiles at 168px on beige | Hero: full-bleed mural, copy in a dark left column |
+| Mural: a band below the ordering section | Mural: the first viewport |
+| Food: the hero | Food: a dark strip immediately below, six photos in one row |
+| Every section on one off-white | Sections alternate mural / dark / sand / sky wash |
+
+Small photographs read as a gallery on a dark ground and as clip art on beige. That single change did more for the food photography than any amount of layout work on the beige version.
+
+**Text over a painting is the real risk, and no audit catches it.** Lighthouse scores accessibility 100 while text sits illegibly over an image, because it does not evaluate that case. So contrast here is measured by drawing the mural to a canvas, compositing it with the scrim gradient at each pixel, and taking the worst case under each text block:
+
+| Attempt | Headline | Verdict |
+|---|---|---|
+| Gradual gradient, falloff at 38% | **2.16:1** | Fails (large text needs 3:1) |
+| Plateau extended to 52% | 5.73:1 | Passes, but the mural was invisible — the scrim only lightened at the extreme right edge |
+| Steep falloff, copy in a left column | **12.72:1** | Passes, and the right third of the painting is fully clear |
+
+The third is what shipped. Body copy measures 9.49:1. The meta line measured 4.86:1 on `--warm-400` — passing, but with almost no margin if the crop ever changes, so it moved to `--mural-sand`.
+
+The lesson: fighting a gradient was the wrong approach. Constraining the copy to a column and letting the scrim clear completely gives both legibility and the painting.
+
+**Performance cost, paid down not written off.** The full-bleed hero made the mural the LCP element and the homepage dropped 100 → 97, below the floor. Rather than re-baseline, the image was converted to WebP (49% fewer bytes) and the LCP preloaded, recovering to 98 — inside the ±2 tolerance. The floor stays at 100 with no headroom on the homepage, which is deliberate: the next regression should fail.
+
+---
+
 ## Technical choices and the alternatives rejected
 
 | Decision | Chosen | Rejected alternatives | Why |

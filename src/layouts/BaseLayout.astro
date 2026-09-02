@@ -12,9 +12,15 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  /**
+   * LCP image to preload, as [srcset, sizes, type]. The browser cannot discover
+   * an image inside a <picture> until CSS and layout resolve; preloading it
+   * starts the fetch immediately, which is what a full-bleed hero needs.
+   */
+  preloadImage?: { srcset: string; sizes: string; type: string };
 }
 
-const { title, description } = Astro.props;
+const { title, description, preloadImage } = Astro.props;
 ---
 
 <html lang="en">
@@ -29,6 +35,18 @@ const { title, description } = Astro.props;
       type="font/woff2"
       crossorigin
     />
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          type={preloadImage.type}
+          fetchpriority="high"
+        />
+      )
+    }
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
