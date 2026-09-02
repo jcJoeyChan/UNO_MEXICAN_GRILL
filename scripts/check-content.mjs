@@ -131,6 +131,18 @@ if (!existsSync(dist)) {
     const html = readFileSync(file, 'utf8');
     const page = file.slice(dist.length) || '/';
 
+    // The food is Tex-Mex. Claiming authenticity is a factual claim about the
+    // cuisine, and it is not true — PRODUCT.md records this. "Mexican" alone is
+    // fine: it is in the restaurant's name.
+    for (const claim of [/\bauthentic\b/i, /real\s+mexican/i, /traditional\s+mexican/i]) {
+      if (claim.test(html)) {
+        fail(
+          'cuisine-claim',
+          `${page} claims authenticity (${claim}). The food is Tex-Mex — see PRODUCT.md. Lead with the tortillas instead.`,
+        );
+      }
+    }
+
     // The seasonal soup must never be presented as sold out anywhere.
     if (/sold\s*out/i.test(html)) {
       fail(
