@@ -36,7 +36,7 @@ Test:     npm run test         (vitest run)
 src/
   components/     → Reusable UI pieces (Nav, Footer, MenuItemCard, HoursBadge, OrderingLinks, etc.)
   layouts/         → Shared page shell(s) (BaseLayout.astro)
-  pages/           → Route files: index.astro, menu.astro, location.astro, contact.astro
+  pages/           → Route files: index.astro, menu.astro, location.astro, contact.astro, about.astro, catering.astro
   content/         → Content collections (menu items, hours) — placeholder entries until real data lands
   styles/          → Global tokens (colors, spacing, type scale) and reset
   lib/             → Small utilities (e.g. isOpenNow(hours))
@@ -86,21 +86,20 @@ Naming: PascalCase for components, camelCase for functions/variables, kebab-case
 
 ## Boundaries
 
-- **Always:** run `npm run lint`, `npm run typecheck`, and `npm run test` before considering a task done; follow the naming conventions above; keep placeholder content (menu items, prices, photos, testimonials) visibly provisional until real assets are supplied — never present invented content as factual.
+- **Always:** run `npm run lint`, `npm run typecheck`, and `npm run test` before considering a task done; follow the naming conventions above; keep placeholder content (photos, and any About/Catering copy not yet supplied) visibly provisional until real assets are supplied — never present invented content as factual.
 - **Ask first:** adding any dependency beyond what's listed above; changing the deploy target or Netlify config; introducing an in-site ordering/payment backend (ordering is explicitly external per `PRODUCT.md`); changing the site's page structure/IA.
 - **Never:** commit secrets or API keys; fabricate real menu items, prices, reviews, or press mentions; remove a failing test without approval; edit generated/vendor output directly.
 
 ## Success Criteria
 
 - `npm run build` completes with no errors; `npm run typecheck` and `npm run lint` pass clean.
-- Site has four pages sharing one layout/design system: Home, Menu, Location & Hours, Contact.
-- Every page surfaces the ordering channels (ChowBus, UberEats, DoorDash, Grubhub) plus phone/walk-in, once their real links are supplied; until then, the UI clearly marks them as pending.
-- Placeholder menu items, photos, and copy are visually distinguishable as provisional wherever real content hasn't been supplied yet.
+- Site has six pages sharing one layout/design system: Home, Menu, Location & Hours, Contact, About, Catering.
+- Every page surfaces the ordering channels (ChowBus, UberEats, DoorDash, Grubhub) plus phone/walk-in — all four links are confirmed (see `PRODUCT.md`).
+- Placeholder photos and copy (e.g. About's story, Catering's offerings/pricing) are visually distinguishable as provisional wherever real content hasn't been supplied yet; swapped in once the user provides it.
 - Visual direction reads as modern with tasteful, non-excessive motion — verified via an Impeccable audit/critique pass before considering the build done.
 - Site deploys successfully to Netlify.
 
 ## Open Questions
 
-- Exact final page list — is there a need for an About/Story or Catering page beyond Home/Menu/Location/Contact? (default: the four above; expand if the user confirms more.)
-- Real menu items/prices, photos, logo, address, hours, and the specific ChowBus/UberEats/DoorDash/Grubhub URLs — pending from the user (see `PRODUCT.md` Evidence on Hand).
+- About and Catering page content (story copy, catering offerings/pricing, any dedicated photos) is not yet supplied — build with clearly-marked placeholder copy/imagery until the user provides real content.
 - No accessibility standard has been formally locked (no CONSTRAINTS.md yet) — building to a reasonable WCAG AA baseline as good practice, not as an enforced gate.

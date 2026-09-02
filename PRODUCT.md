@@ -27,28 +27,31 @@ Casual, approachable Mexican takeout with a dine-in option — explicitly not an
 
 Ordering happens across multiple external channels, not on this site directly:
 
-- ChowBus POS (online ordering for pickup)
-- UberEats, DoorDash, Grubhub (third-party delivery)
-- Phone call-in for pickup
+- ChowBus POS (online ordering for pickup) — https://pos.chowbus.com/online-ordering/store/UNO-Mexican-Grill/15192
+- UberEats — https://www.ubereats.com/store/uno-mexican-grill/iiEbxQepXvSSxOIxUKzY2Q
+- DoorDash — https://www.doordash.com/store/uno-mexican-grill-glen-oaks-29086681/37519563/
+- Grubhub — https://www.grubhub.com/restaurant/uno-mexican-grill-25631-union-tpke-queens/8361416
+- Phone call-in for pickup — (718) 470-2050
 - Walk-in
 
 The site's job is to route customers to the right channel clearly, not to replicate a checkout experience.
 
 ## Capabilities and Constraints
 
-- No native online ordering/payment backend is needed on this site. The site should link out to the ChowBus POS ordering page and the third-party delivery apps (UberEats, DoorDash, Grubhub) once those links are provided.
-- Real assets — menu items/prices, food photos, logo, address, and hours — are partially available; some are confirmed, some are still TBD. Do not fabricate real menu items, prices, or photos as if factual; use clearly-provisional placeholders until the real content is supplied.
-- Identity is casual takeout-with-dine-in — avoid fine-dining visual or verbal register.
+- No native online ordering/payment backend is needed on this site. The site links out to the four ordering channels above (all four links confirmed).
+- Real assets confirmed: full menu with prices (sourced from the ChowBus store page), logo, five real food photos, and one storefront/exterior photo (all in `public/images/`: Logo.png, Spread1.jpg, Spread2.jpg, Burrito.jpg, Nacho_supreme.jpg, Tostada_Salad.jpg, OUTSIDE.jpg), address (256-31 Union Tpke, Glen Oaks, NY 11004), phone, and daily hours (11 AM–9:30 PM, with a note that holiday hours may differ). Do not fabricate menu items, prices, or photos beyond what's confirmed here.
+- Identity is casual takeout-with-dine-in — avoid fine-dining visual or verbal register; the real food photography (paper trays, foil containers, wood table) is itself evidence of this register and should not be styled toward upscale gloss.
 
 ## Brand Commitments
 
 - Name: UNO Mexican Grill (confirmed).
+- Logo (confirmed, `public/images/Logo.png`): kelly-green circular badge, bold red ring typography, red taco line-art on white center.
 - Visual direction constraint (user-stated, carried forward for later DESIGN.md work): modern look with tasteful, non-excessive animation.
-- Logo, color palette, and voice: not yet confirmed.
+- Voice: casual, not yet otherwise specified.
 
 ## Evidence on Hand
 
-Some real assets (menu items, photos, logo, address/hours) exist but have not yet been supplied — treated as TBD until provided by the user. Do not fabricate testimonials, reviews, press mentions, or benchmarks.
+Confirmed real assets: logo, five food photos, full menu with prices, address, phone, hours, and all four ordering-channel links (see Operating Context). No testimonials, reviews, press mentions, or benchmarks exist — do not fabricate them.
 
 ## Product Principles
 
