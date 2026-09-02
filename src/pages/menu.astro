@@ -1,99 +1,187 @@
 ---
 /**
- * Placeholder — the full catalog is built in Task 6.
+ * The full menu — all 12 categories, all 79 items.
  *
- * Reads through the content collection rather than raw JSON so the wiring is
- * proven end-to-end: loader, schema, and typed helpers.
+ * Everything on this page comes from the restaurant's own printed menu, read
+ * through the content collection. Nothing here is invented.
  */
 import { getCollection } from 'astro:content';
+import { statSync } from 'node:fs';
+import { join } from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { sortCategories, countItems, isSeasonal, seasonalLabel } from '../lib/menu';
+import MenuCategory from '../components/MenuCategory.astro';
+import OrderingLinks from '../components/OrderingLinks.astro';
+import { sortCategories, countItems, isSeasonal } from '../lib/menu';
 
 const entries = await getCollection('menu');
 const categories = sortCategories(entries.map((entry) => entry.data));
 const total = countItems(categories);
+
+// Read the real file size at build time so the download label can never drift
+// from the file it describes.
+//
+// Resolved from process.cwd(), not import.meta.url: during `astro build` this
+// module is bundled into dist/.prerender/, so a URL relative to the module
+// resolves to dist/public/menu.pdf and the build dies with ENOENT.
+const pdfBytes = statSync(join(process.cwd(), 'public/menu.pdf')).size;
+const pdfSize = `${(pdfBytes / 1024 / 1024).toFixed(1)} MB`;
 ---
 
 <BaseLayout
-  title="Menu — UNO Mexican Grill"
-  description="The full UNO Mexican Grill menu with prices — tacos, burritos, quesadillas, rice platters, tostada salads and more, in Glen Oaks, NY."
+  title="Menu — UNO Mexican Grill, Glen Oaks NY"
+  description="The full UNO Mexican Grill menu with prices — tacos, burritos, quesadillas, nachos, rice platters, tostada salads, fajitas by the pound, sides and more."
 >
   <div class="wrap">
-    <p class="provisional">Placeholder — the full menu page is built in Task 6.</p>
-    <h1>Menu</h1>
-    <p class="lede">
-      {categories.length} categories, {total} items, loaded and validated through the content collection.
-    </p>
+    <header class="page-head">
+      <h1>Menu</h1>
+      <p class="lede">
+        {total} items across {categories.length} categories. Order for pickup or delivery, call ahead,
+        or walk in.
+      </p>
 
-    <ul class="cats" role="list">
-      {
-        categories.map((category) => (
-          <li>
-            <span class="cat-name">{category.name}</span>
-            <span class="cat-count">{category.items.length} items</span>
-            {isSeasonal(category) && <span class="seasonal">{seasonalLabel(category)}</span>}
-          </li>
-        ))
-      }
-    </ul>
+      <ul class="conventions" role="list">
+        <li><strong>Please order by number.</strong> Every item has one.</li>
+        <li>
+          <span class="veg" aria-hidden="true">*</span> marks a vegetarian item.
+        </li>
+        <li class="quiet">Prices are from our printed menu and may change — call to confirm.</li>
+      </ul>
+
+      <nav class="jump" aria-label="Menu categories">
+        <ul role="list">
+          {
+            categories.map((category) => (
+              <li>
+                <a href={`#${category.id}`}>
+                  {category.name}
+                  {isSeasonal(category) && (
+                    <span class="jump-seasonal" aria-hidden="true">
+                      ·
+                    </span>
+                  )}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </header>
+
+    {categories.map((category) => <MenuCategory category={category} />)}
+
+    <section class="order-block" aria-labelledby="order-heading">
+      <h2 id="order-heading">Ready to order?</h2>
+      <OrderingLinks variant="block" />
+    </section>
+
+    <p class="download">
+      <a href="/menu.pdf" download>Download the printed menu</a>
+      <span class="download-meta">PDF, {pdfSize}</span>
+    </p>
   </div>
 </BaseLayout>
 
 <style>
   .wrap {
-    max-width: var(--content-narrow);
+    max-width: var(--content-max);
     margin: 0 auto;
-    padding: var(--space-8) var(--space-4);
+    padding: var(--space-7) var(--space-4) var(--space-8);
   }
+
+  .page-head {
+    max-width: var(--content-narrow);
+  }
+
   h1 {
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-display);
     font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
-    margin-bottom: var(--space-2);
+    line-height: var(--line-height-tight);
   }
+
   .lede {
+    margin-top: var(--space-3);
+    font-size: var(--font-size-lg);
     color: var(--text-secondary);
-    margin-bottom: var(--space-5);
   }
-  .provisional {
-    display: inline-block;
-    margin-bottom: var(--space-5);
-    padding: var(--space-2) var(--space-4);
-    background: var(--state-seasonal-bg);
-    color: var(--state-seasonal-text);
-    border-radius: var(--radius-full);
+
+  .conventions {
+    margin: var(--space-5) 0 0;
+    padding: var(--space-4);
+    background: var(--surface-raised);
+    border-radius: var(--radius-md);
+    list-style: none;
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-  }
-  .cats {
     display: grid;
+    gap: var(--space-2);
+  }
+
+  .conventions .quiet {
+    color: var(--text-muted);
+  }
+
+  .veg {
+    color: var(--brand-green-ink);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .jump {
+    margin-top: var(--space-5);
+  }
+
+  .jump ul {
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .cats li {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3);
+
+  .jump a {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
     border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
   }
-  .cat-name {
+
+  .jump a:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  .jump-seasonal {
+    color: var(--state-seasonal-text);
     font-weight: var(--font-weight-bold);
   }
-  .cat-count {
-    font-size: var(--font-size-sm);
-    color: var(--text-muted);
-    margin-left: auto;
+
+  .order-block {
+    margin-top: var(--space-9);
+    padding: var(--space-6);
+    background: var(--surface-raised);
+    border-radius: var(--radius-lg);
   }
-  .seasonal {
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    background: var(--state-seasonal-bg);
-    color: var(--state-seasonal-text);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
+
+  .order-block h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--space-4);
+  }
+
+  .download {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    font-size: var(--font-size-sm);
+  }
+
+  .download-meta {
+    color: var(--text-muted);
   }
 </style>

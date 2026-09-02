@@ -16,7 +16,7 @@ Every task clears all five before it counts as done.
 | ------------------------ | ---------------------- | ------------------------------------------------------------------------- |
 | Types clean              | `npm run typecheck`    | `astro check`, TypeScript strict. Zero errors, zero warnings, zero hints. |
 | Lint clean               | `npm run lint`         | ESLint 10 flat config. Zero errors.                                       |
-| Tests pass               | `npm run test`         | Vitest. Currently 26 tests across 2 files.                                |
+| Tests pass               | `npm run test`         | Vitest. Currently 54 tests across 3 files.                                |
 | Build succeeds           | `npm run build`        | Astro static output.                                                      |
 | Content integrity passes | `npm run check:content`| The project's own rules about truthful content — see below.               |
 
@@ -44,39 +44,27 @@ Run all five: `npm run check:task` — **currently ~5 seconds**, budget 90 secon
 
 ---
 
-## Accessibility — enforced
+## Accessibility, performance, best practices, SEO — all enforced
 
 `SPEC.md` commits to a WCAG AA baseline. Lighthouse's accessibility category is axe-core in a real browser, which is why it can measure colour contrast that a DOM shim cannot.
 
-**Command:** `npm run check:audit` (review/CI tier — takes ~25s, too slow for task end)
+**Command:** `npm run check:audit` (review/CI tier — ~30s, too slow for task end)
 
-| Page        | Floor | Measured 2026-09-02 |
-| ----------- | ----- | ------------------- |
-| `/`         | 100   | 100                 |
-| `/menu`     | 100   | 100                 |
-| `/location` | 100   | 100                 |
+| Page        | Performance | Accessibility | Best practices | SEO |
+| ----------- | ----------- | ------------- | -------------- | --- |
+| `/`         | 100         | 100           | 100            | 100 |
+| `/menu`     | 100         | 100           | 100            | 100 |
+| `/location` | 100         | 100           | 100            | 100 |
 
-Tolerance ±2. Stable across four consecutive runs — this number does not wobble, so a drop is a real regression.
+Measured 2026-09-02 against a production build, identical across three consecutive runs. Tolerance ±2.
 
-**Also enforced at the same floors:** best-practices **100**, SEO **91** on all three pages.
+> **These floors replaced an earlier, wrong set.** The first baseline recorded performance 58–80 and SEO 91, and performance was marked "measured only" on the reasoning that a 22-point swing between identical runs made it too noisy to gate. The reasoning was fine; the data was not. `astro dev` and `astro preview` both serve port 4321, and the audit script reused whatever was already answering — so it had been profiling an **unminified dev server**. Against a real production preview every category returns 100 and does not move. The script now builds and serves its own preview on port 4322 and refuses to audit a server it did not start.
+>
+> A second trap in the same area: Astro 7 daemonizes its preview server, so killing the spawned npm process leaves the real server running and Astro then refuses to start another. Lifecycle goes through `astro preview stop`.
 
-> Setting this up found a real bug. At mobile widths the brand text was `display: none` and the logo carries `alt=""`, leaving the home link with no accessible name at all. Fixed before baselining — a floor recorded on top of a known defect enshrines the defect.
+> Setting this up also found a real bug. At mobile widths the brand text was `display: none` and the logo carries `alt=""`, leaving the home link with no accessible name at all. Lighthouse flagged it as `link-name` and accessibility scored 96. Fixed before baselining — a floor recorded on top of a known defect enshrines the defect.
 
----
-
-## Performance — measured only, not enforced
-
-**Command:** `npm run check:audit` (reports, never fails the build)
-
-| Page        | Recorded 2026-09-02 | Observed range over 4 runs |
-| ----------- | ------------------- | -------------------------- |
-| `/`         | 77                  | 58–80                      |
-| `/menu`     | 80                  | 58–80                      |
-| `/location` | 80                  | 58–80                      |
-
-**Why this is not a gate yet.** Measured over four consecutive runs on identical builds, performance swung 22 points on the same pages while every other category returned an identical score every time. These pages are near-empty placeholders, so the number is currently measuring scheduling jitter rather than the site. A gate that fails at random is a gate people learn to ignore.
-
-**Promote it to enforced at Task 12**, when real images and content make the measurement meaningful. Move `performance` from `MEASURED_ONLY` to `ENFORCED` in `scripts/audit.mjs` and re-baseline with `node scripts/audit.mjs --update`.
+**Real images land at Task 12 and may genuinely push performance down.** That is the gate working, not a reason to weaken it: optimise the images, or record a deliberate exception below with an owner and an expiry.
 
 ---
 
@@ -95,7 +83,7 @@ Every exception needs an owner and an expiry. An exception with neither is just 
 
 | # | Exception                                                                 | Reason                                                                                                                | Owner            | Expires    |
 | - | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------- |
-| 1 | Performance measured, not enforced                                        | 22-point run-to-run variance on placeholder pages; not yet meaningful                                                  | Joey Chan        | 2026-10-01 (Task 12) |
+| 1 | ~~Performance measured, not enforced~~ **Withdrawn 2026-09-02**            | Based on a mismeasurement — the audit was profiling a dev server. Against a production build every score is 100 and stable, so performance is now enforced. | Joey Chan | Closed |
 | 2 | `eslint-plugin-jsx-a11y` not installed                                    | Does not support ESLint 10; it is a `peerOptional` of `eslint-plugin-astro`. Forcing it needs `--legacy-peer-deps`. Lighthouse covers a11y in the meantime. | Joey Chan | 2026-12-01 |
 | 3 | Menu prices unverified                                                    | Transcribed from a printed menu of unknown vintage; 14 items flagged. **Blocks public launch, not development.**       | Joey Chan        | Before launch (Task 15) |
 | 4 | Source photography below hero resolution                                  | Largest photo is 750×600; the direction contract needs ~2000px for a full-bleed hero. **Blocks Task 7.**              | Joey Chan        | 2026-09-16 |

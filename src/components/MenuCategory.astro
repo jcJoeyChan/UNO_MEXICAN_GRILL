@@ -1,0 +1,139 @@
+---
+/**
+ * One menu category.
+ *
+ * The oversized heading is deliberate — it is the discipline kept from the
+ * declined "futurist bolted book" challenger in DECISIONS.md: category headings
+ * get real display weight instead of timid corporate headings.
+ */
+import MenuItem from './MenuItem.astro';
+import menuData from '../content/menu.json';
+import { isSeasonal, seasonalLabel, formatPrice, type MenuCategory } from '../lib/menu';
+
+interface Props {
+  category: MenuCategory;
+}
+
+const { category } = Astro.props;
+const seasonal = isSeasonal(category);
+
+// Surface the shrimp preparation note only where shrimp actually appears.
+const hasShrimp = category.items.some((item) =>
+  `${item.name} ${item.description ?? ''}`.toLowerCase().includes('shrimp'),
+);
+const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
+---
+
+<section class="category" id={category.id} aria-labelledby={`${category.id}-heading`}>
+  <header class="head">
+    <h2 class="title" id={`${category.id}-heading`}>{category.name}</h2>
+
+    {
+      seasonal && (
+        <p class="seasonal">
+          <span class="dot" aria-hidden="true" />
+          {seasonalLabel(category)}
+        </p>
+      )
+    }
+
+    {category.note && <p class="note">{category.note}</p>}
+    {shrimpNote && <p class="note note-quiet">{shrimpNote}</p>}
+
+    {
+      category.modifiers?.map((modifier) => (
+        <p class="modifier">
+          <span class="modifier-name">{modifier.name}</span>
+          <span class="modifier-price">+{formatPrice(modifier.price)}</span>
+        </p>
+      ))
+    }
+  </header>
+
+  <ul class="items" role="list">
+    {category.items.map((item) => <MenuItem item={item} />)}
+  </ul>
+</section>
+
+<style>
+  .category {
+    margin-top: var(--space-8);
+    scroll-margin-top: calc(var(--rail-height) + var(--space-5));
+  }
+
+  .head {
+    margin-bottom: var(--space-3);
+  }
+
+  /* Confidently oversized, per the direction contract. */
+  .title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+  }
+
+  .note {
+    max-width: 44ch;
+    margin-top: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-snug);
+  }
+
+  .note-quiet {
+    color: var(--text-muted);
+  }
+
+  /* Seasonal has its own visual language — warm amber, never the grey of an
+     unavailable item. A winter-only soup is not a kitchen that ran out. */
+  .seasonal {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--state-seasonal-bg);
+    color: var(--state-seasonal-text);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .seasonal .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: currentColor;
+  }
+
+  /* The tostada-shell upgrade is shown as an explicit related tier rather than
+     a bare "+", the discipline donated by the declined sewing-pattern
+     challenger. */
+  .modifier {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .modifier-name {
+    color: var(--text-secondary);
+  }
+
+  .modifier-price {
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 2px solid var(--text);
+  }
+</style>

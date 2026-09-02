@@ -1,0 +1,150 @@
+---
+/**
+ * One line of the menu.
+ *
+ * The printed menu says "PLEASE ORDER BY NUMBER", so the number is shown as a
+ * real part of the item, not hidden. Items the menu lists without a number
+ * (drinks, desserts, soups) simply do not get one.
+ */
+import { priceTiers, type MenuItem } from '../lib/menu';
+
+interface Props {
+  item: MenuItem;
+}
+
+const { item } = Astro.props;
+const tiers = priceTiers(item);
+---
+
+<li class="item">
+  {item.number && <span class="num">{item.number}</span>}
+
+  <div class="body">
+    <h3 class="name">
+      {item.name}
+      {
+        item.vegetarian && (
+          <>
+            <span class="veg" aria-hidden="true">
+              *
+            </span>
+            <span class="visually-hidden">(vegetarian)</span>
+          </>
+        )
+      }
+    </h3>
+    {item.description && <p class="desc">{item.description}</p>}
+  </div>
+
+  <ul class:list={['prices', tiers.length > 1 && 'is-multi']} role="list">
+    {
+      tiers.map((tier) => (
+        <li class="tier">
+          {tier.label && <span class="tier-label">{tier.label}</span>}
+          <span class="tier-value">{tier.value}</span>
+        </li>
+      ))
+    }
+  </ul>
+</li>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr auto;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item:last-child {
+    border-bottom: none;
+  }
+
+  .num {
+    grid-column: 1;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-muted);
+  }
+
+  /* Unnumbered items keep the same left rhythm as numbered ones. */
+  .body {
+    grid-column: 2;
+  }
+
+  .name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-snug);
+  }
+
+  .veg {
+    color: var(--brand-green-ink);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .desc {
+    margin-top: 2px;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    line-height: var(--line-height-snug);
+  }
+
+  .prices {
+    grid-column: 3;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: right;
+  }
+
+  .tier {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 3.25rem;
+  }
+
+  .tier-label {
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .tier-value {
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-bold);
+  }
+
+  @media (max-width: 30rem) {
+    .item {
+      grid-template-columns: 2rem 1fr auto;
+    }
+
+    /* Only multi-tier items drop their prices under the name. A single price
+       stays on the item's own line — dropping it made every row twice as tall
+       and turned a scannable menu into a long scroll. */
+    .prices.is-multi {
+      grid-column: 2;
+      justify-content: flex-start;
+      gap: var(--space-4);
+      margin-top: var(--space-1);
+    }
+
+    .prices.is-multi .tier {
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .prices:not(.is-multi) .tier {
+      min-width: 0;
+    }
+  }
+</style>

@@ -13,7 +13,7 @@
  *   node scripts/audit.mjs                 # audit against a running preview
  *   node scripts/audit.mjs --update        # rewrite the floors with today's scores
  */
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import lighthouse from 'lighthouse';
@@ -21,30 +21,31 @@ import * as chromeLauncher from 'chrome-launcher';
 
 const root = new URL('..', import.meta.url).pathname;
 const BASELINE = join(root, '.constraints-baseline.json');
-const ORIGIN = process.env.AUDIT_ORIGIN ?? 'http://localhost:4321';
+const PORT = Number(process.env.AUDIT_PORT ?? 4322);
+const ORIGIN = process.env.AUDIT_ORIGIN ?? `http://localhost:${PORT}`;
 const PAGES = ['/', '/menu', '/location'];
 const CATEGORIES = ['performance', 'accessibility', 'best-practices', 'seo'];
 const update = process.argv.includes('--update');
 
 /**
- * Enforced vs measured-only.
+ * All four categories are enforced.
  *
- * Measured over four consecutive runs on identical builds, performance ranged
- * 58-80 on the same pages while accessibility, best-practices and SEO returned
- * exactly 100/100/91 every time. The pages are near-empty placeholders, so the
- * performance number is currently measuring scheduling jitter rather than the
- * site. Gating on it would fail at random, and a gate that fails at random is a
- * gate people learn to ignore.
+ * An earlier version of this file recorded performance as "measured only",
+ * reasoning that it swung 22 points between identical runs. That reasoning was
+ * sound but the data was not: the audit was hitting an unminified dev server.
+ * Against a real production preview the scores are 100/100/100/100 on all three
+ * pages, identical across three consecutive runs, so there is nothing to
+ * tolerate and every reason to hold the line.
  *
- * So performance is reported, not enforced, until Task 12 puts real images and
- * content on the page and the number starts meaning something. Move it into
- * ENFORCED then, and re-baseline.
+ * Real images arrive at Task 12 and may genuinely push performance down. That
+ * is the gate doing its job, not a reason to weaken it — optimise the images,
+ * or record a deliberate exception in CONSTRAINTS.md with an owner and expiry.
  */
-const ENFORCED = ['accessibility', 'best-practices', 'seo'];
-const MEASURED_ONLY = ['performance'];
+const ENFORCED = ['performance', 'accessibility', 'best-practices', 'seo'];
+const MEASURED_ONLY = [];
 
-// Small band for the stable categories — they have not moved at all, but a
-// one-point wobble should not fail a build.
+// The scores do not move at all against a production build, but a one-point
+// wobble should not fail a build.
 const TOLERANCE = 2;
 
 function waitForServer(url, timeoutMs = 30_000) {
@@ -64,20 +65,37 @@ function waitForServer(url, timeoutMs = 30_000) {
   });
 }
 
-let preview;
-async function ensureServer() {
+/**
+ * Always audit a fresh production preview on a dedicated port.
+ *
+ * Two traps here, both found the hard way:
+ *
+ * 1. The first version reused whatever answered on 4321. `astro dev` also
+ *    serves 4321, so the original baseline was recorded against an unminified
+ *    dev server — which is why performance appeared to swing 22 points while
+ *    every other category held steady. Auditing the dev server measures the dev
+ *    server, not the site.
+ *
+ * 2. Astro 7 daemonizes its preview server. Killing the spawned npm process
+ *    leaves the real server running, and Astro then refuses to start another
+ *    one. Lifecycle has to go through `astro preview stop`.
+ */
+function stopPreview() {
   try {
-    await waitForServer(ORIGIN, 1500);
-    return false;
+    execFileSync('npx', ['astro', 'preview', 'stop'], { cwd: root, stdio: 'ignore' });
   } catch {
-    console.log(`starting preview server at ${ORIGIN} ...`);
-    preview = spawn('npm', ['run', 'preview'], { cwd: root, stdio: 'ignore', detached: false });
-    await waitForServer(ORIGIN);
-    return true;
+    /* nothing running */
   }
 }
 
-const started = await ensureServer();
+async function startPreview() {
+  stopPreview();
+  console.log(`serving a production preview at ${ORIGIN} ...`);
+  spawn('npm', ['run', 'preview', '--', '--port', String(PORT)], { cwd: root, stdio: 'ignore' });
+  await waitForServer(ORIGIN);
+}
+
+await startPreview();
 const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless=new', '--no-sandbox'] });
 const results = {};
 
@@ -110,7 +128,7 @@ try {
   }
 } finally {
   chrome.kill(); // synchronous — awaiting it is a no-op
-  if (started && preview) preview.kill();
+  stopPreview();
 }
 
 if (update) {

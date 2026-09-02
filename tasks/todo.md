@@ -157,21 +157,21 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Render the complete menu across all 12 categories with confidently oversized category headings (the discipline kept from the declined "futurist bolted book" challenger). Item numbers are shown because the restaurant asks customers to order by number.
 
 **Acceptance criteria:**
-- [ ] All 79 items render, grouped by category, with correct prices in all three price shapes
-- [ ] Item numbers displayed; the "please order by number" convention explained once
-- [ ] Vegetarian items marked, with the asterisk convention explained
-- [ ] Soups render as **"Seasonal — back in winter"**, visually distinct from any sold-out styling, and never as "sold out"
-- [ ] Shrimp preparation note surfaced where shrimp items appear
-- [ ] Tostada salad `+$2` tostada-shell modifier shown as an explicit related tier, not a bare "+"
-- [ ] Category headings use display weight, not timid corporate headings
-- [ ] Link to the printed PDF, labeled as a download with its file size
-- [ ] Responsive: price columns stay readable at 375 px
+- [x] All 79 items render, grouped by category, with correct prices in all three price shapes
+- [x] Item numbers displayed; the "please order by number" convention explained once
+- [x] Vegetarian items marked, with the asterisk convention explained
+- [x] Soups render as **"Seasonal — back in winter"**, visually distinct from any sold-out styling, and never as "sold out"
+- [x] Shrimp preparation note surfaced where shrimp items appear
+- [x] Tostada salad `+$2` tostada-shell modifier shown as an explicit related tier, not a bare "+"
+- [x] Category headings use display weight, not timid corporate headings
+- [x] Link to the printed PDF, labeled as a download with its file size
+- [x] Responsive: price columns stay readable at 375 px
 
 **Verification:**
-- [ ] `npm run build` succeeds; lint and typecheck pass
-- [ ] Manual: spot-check 10 items against `public/menu.pdf`, including one from each price shape
-- [ ] Manual: confirm no item anywhere reads "sold out"
-- [ ] Manual: 375 px and 1440 px both legible without horizontal scroll
+- [x] `npm run build` succeeds; lint and typecheck pass
+- [x] Manual: spot-check 10 items against `public/menu.pdf`, including one from each price shape
+- [x] Manual: confirm no item anywhere reads "sold out"
+- [x] Manual: 375 px and 1440 px both legible without horizontal scroll
 
 **Dependencies:** Tasks 4, 5
 
