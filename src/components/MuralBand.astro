@@ -1,0 +1,102 @@
+---
+/**
+ * Full-bleed band of the dining room mural.
+ *
+ * This is the only photograph with the pixels to go full-bleed — 5277x2356
+ * after cropping to the painted area, against 750x600 for the largest food
+ * photo. It is deliberately NOT the hero: the direction contract's thesis is
+ * that real *food* photography carries the page. The mural carries place.
+ *
+ * The master lives in source-assets/ and is not shipped; only the three
+ * resized derivatives are.
+ */
+import Serape from './Serape.astro';
+
+interface Props {
+  heading: string;
+  body: string;
+}
+
+const { heading, body } = Astro.props;
+---
+
+<section class="mural" aria-labelledby="mural-heading">
+  <Serape weight="band" />
+
+  <div class="frame">
+    <img
+      src="/images/mural-1800.jpg"
+      srcset="/images/mural-1200.jpg 1200w, /images/mural-1800.jpg 1800w, /images/mural-2400.jpg 2400w"
+      sizes="100vw"
+      width="1800"
+      height="804"
+      alt="The hand-painted mural in the dining room: a desert landscape with purple mountains, adobe buildings, cacti and a painted sign reading UNO Mexican Grill"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="copy">
+      <div class="copy-inner">
+        <h2 id="mural-heading">{heading}</h2>
+        <p>{body}</p>
+      </div>
+    </div>
+  </div>
+
+  <Serape weight="band" />
+</section>
+
+<style>
+  .mural {
+    margin-top: var(--space-9);
+  }
+
+  .frame {
+    position: relative;
+    background: var(--warm-950);
+  }
+
+  img {
+    width: 100%;
+    height: clamp(15rem, 34vw, 26rem);
+    object-fit: cover;
+    object-position: center 42%;
+    display: block;
+  }
+
+  /* Copy sits on a scrim rather than bare over the painting: the mural is busy
+     and light in places, and text on it would fail contrast somewhere along
+     its width no matter which colour it used. */
+  .copy {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: var(--space-7) var(--space-4) var(--space-5);
+    background: linear-gradient(
+      to top,
+      rgb(36 22 17 / 0.92) 0%,
+      rgb(36 22 17 / 0.72) 55%,
+      transparent 100%
+    );
+    color: var(--warm-50);
+  }
+
+  /* One centred column, everything left-aligned inside it. Centring the
+     heading and the narrower paragraph independently pushed them out of
+     alignment with each other. */
+  .copy-inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  .copy h2 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+  }
+
+  .copy p {
+    margin-top: var(--space-2);
+    color: var(--mural-sand);
+    max-inline-size: 48ch;
+  }
+</style>

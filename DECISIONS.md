@@ -70,6 +70,49 @@ The mosaic is close to candidate 4, the *photo-grid taqueria wall*, which the co
 
 ---
 
+## Visual direction: A+C hybrid, mural, and a real typeface (2026-09-02)
+
+The built pages were correct and legible but read as plain — the user's word, and a fair one. Three causes, diagnosed rather than guessed: the type was a system font stack (the same face as every OS dialog), the palette was ~95% warm neutral because green and red were reserved for brand and state, and there was no ornament of any kind.
+
+Three directions were mocked up on identical real content — a throwaway `/directions` page, since describing typography is much less useful than showing it. **A — Counter board** (Archivo Black, serape band, dark menu section, amber number discs), **B — Warm print** (Fraunces serif, paper tones), **C — Ornament only** (no new typeface, stripe and chips alone).
+
+**Chosen: a hybrid of A and C**, at the user's direction. Display type and ornament from A; C's restraint everywhere else.
+
+B was rejected on two grounds. Its serif drifts toward the upscale register `PRODUCT.md` explicitly rules out, and the design hook independently flagged both of its faces — Fraunces and Inter — as overused, the exact defaults that make AI-built sites look alike. Archivo Black was not flagged.
+
+### What changed
+
+| Element | Decision |
+|---|---|
+| Display type | **Archivo Black**, self-hosted (~16KB, two subsets), SIL OFL 1.1. Headlines and category titles only. |
+| Body type | Unchanged system stack. One font file, no CDN, and the page stays restrained rather than shouty. |
+| Ornament | The **serape stripe** from the printed menu's woven bands — sage `#4e8a6f`, red `#d82f40`, sky `#80c3d7`, amber `#e9b665`, sampled from the scan. |
+| Place | A full-bleed **mural band**, from the hand-painted dining-room mural the user supplied. |
+| Item numbers | Green chips rather than grey fine print — "please order by number" is how the counter works, so it should look like a feature. |
+
+### The mural changes what is possible
+
+`MURAL.JPG` is 5712×4284 — a real 25-megapixel photograph, against 750×600 for the largest food photo. It is the only image that can go full-bleed.
+
+It is deliberately **not** the hero. The direction contract's thesis is that real *food* photography carries the page; the mural carries *place*. Making it the hero would have changed the thesis, not just the form. The master lives in `source-assets/` and is not shipped; three derivatives (1200/1800/2400px, 102–318KB) are, served via `srcset`.
+
+Copy over the mural sits on a scrim. The painting is busy and light in places, and text laid directly on it would fail contrast somewhere along its width whatever colour it used.
+
+### Amendment: the colour reserve is loosened
+
+`PRODUCT.md` and the earlier decisions reserved green and red for brand identity and state signalling, with neutrals carrying the interface. That discipline is exactly why the pages read restrained — and it is now **partially relaxed, deliberately**:
+
+- The **serape stripe** introduces four more colours, but only as a decorative rule. It never carries text and never signals state.
+- The **mural palette** (sky, adobe, terracotta, sage, sand) is available for grounds and accents.
+
+The core rule survives: green and red still mean brand and state in the *interface*. Ornament is now allowed its own colours. Every new pair that carries text was measured — white on the mural's frame green fails at 3.26:1 and white on adobe fails at 2.93:1, so both stay identity-only with deepened variants (`--mural-sage-deep`, `--mural-terracotta`) for text.
+
+### Dependency
+
+Adding a typeface is a dependency, which `SPEC.md` requires approval for. The user chose a direction that entails one. It is self-hosted rather than loaded from Google: the site works offline, no visitor data reaches a third party, and there is no extra DNS hop. Google Fonts was used only on the throwaway comparison page, which has been deleted.
+
+---
+
 ## Technical choices and the alternatives rejected
 
 | Decision | Chosen | Rejected alternatives | Why |

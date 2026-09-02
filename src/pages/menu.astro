@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MenuCategory from '../components/MenuCategory.astro';
 import OrderingLinks from '../components/OrderingLinks.astro';
+import Serape from '../components/Serape.astro';
 import { sortCategories, countItems, isSeasonal } from '../lib/menu';
 
 const entries = await getCollection('menu');
@@ -67,6 +68,8 @@ const pdfSize = `${(pdfBytes / 1024 / 1024).toFixed(1)} MB`;
       </nav>
     </header>
 
+    <Serape weight="rule" class="page-rule" />
+
     {categories.map((category) => <MenuCategory category={category} />)}
 
     <section class="order-block" aria-labelledby="order-heading">
@@ -93,8 +96,8 @@ const pdfSize = `${(pdfBytes / 1024 / 1024).toFixed(1)} MB`;
   }
 
   h1 {
+    font-family: var(--font-display);
     font-size: var(--font-size-display);
-    font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-tight);
   }
@@ -127,6 +130,13 @@ const pdfSize = `${(pdfBytes / 1024 / 1024).toFixed(1)} MB`;
 
   .jump {
     margin-top: var(--space-5);
+  }
+
+  /* One serape rule per page, under the header. The motif belongs to the
+     printed menu, but repeating it above all twelve categories would turn a
+     signature into wallpaper. */
+  .page-rule {
+    margin-top: var(--space-7);
   }
 
   .jump ul {
@@ -166,8 +176,8 @@ const pdfSize = `${(pdfBytes / 1024 / 1024).toFixed(1)} MB`;
   }
 
   .order-block h2 {
+    font-family: var(--font-display);
     font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
     margin-bottom: var(--space-4);
   }

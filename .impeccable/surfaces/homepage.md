@@ -28,6 +28,13 @@ Persuade. Homepage + shared header/footer shell (reused by Menu, Location, Conta
 
 Build path: code-led (no image generation tool available in this environment — no comp exists; ambition lives in this contract and is audited in behavior at finish review).
 
+## Visual language (added 2026-09-02)
+
+- Display type: Archivo Black, self-hosted, headlines and category titles only. Body stays on the system stack.
+- Ornament: the serape stripe sampled from the printed menu's woven bands. A rule between sections, never a background for text, one per page — repeating it above all twelve menu categories would turn a signature into wallpaper.
+- Place: a full-bleed band of the dining-room mural, below the ordering section. Not the hero: food carries the page, the mural carries place.
+- Item numbers are green chips, not grey fine print.
+
 ## Memorable moment
 
 Live open/closed status pill computed from real hours, always visible; menu-preview cards with confidently oversized category headings.

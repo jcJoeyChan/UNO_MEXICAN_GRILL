@@ -13,6 +13,8 @@ import HeroMosaic from '../components/HeroMosaic.astro';
 import HoursBadge from '../components/HoursBadge.astro';
 import MenuPreview from '../components/MenuPreview.astro';
 import OrderingLinks from '../components/OrderingLinks.astro';
+import MuralBand from '../components/MuralBand.astro';
+import Serape from '../components/Serape.astro';
 import restaurant from '../content/restaurant.json';
 import { sortCategories, countItems } from '../lib/menu';
 
@@ -54,6 +56,8 @@ const { contact, hours } = restaurant;
     </div>
   </section>
 
+  <Serape weight="rule" />
+
   <section class="order" id="order" aria-labelledby="order-heading">
     <div class="section-inner">
       <h2 id="order-heading">Order from</h2>
@@ -63,6 +67,11 @@ const { contact, hours } = restaurant;
       <OrderingLinks variant="block" />
     </div>
   </section>
+
+  <MuralBand
+    heading="Come sit down"
+    body="Our dining room is painted with a desert mural by a local artist. Eat in, or take it to go — the tortillas come off the machine either way."
+  />
 
   <section class="preview-section" aria-labelledby="preview-heading">
     <div class="section-inner">
@@ -105,11 +114,11 @@ const { contact, hours } = restaurant;
   }
 
   h1 {
+    font-family: var(--font-display);
     margin-top: var(--space-3);
     /* Deliberately below --font-size-display (max 6rem): the hero headline
        shares its row with the mosaic, so it must fit ~34rem without breaking. */
     font-size: clamp(2.5rem, 3.2vw + 1rem, 4.25rem);
-    font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
     line-height: var(--line-height-tight);
   }
@@ -199,8 +208,8 @@ const { contact, hours } = restaurant;
   }
 
   h2 {
+    font-family: var(--font-display);
     font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
   }
 

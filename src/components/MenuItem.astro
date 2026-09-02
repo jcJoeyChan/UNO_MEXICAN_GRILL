@@ -51,8 +51,8 @@ const tiers = priceTiers(item);
 <style>
   .item {
     display: grid;
-    grid-template-columns: 2.25rem 1fr auto;
-    align-items: baseline;
+    grid-template-columns: 2.4rem 1fr auto;
+    align-items: center;
     gap: var(--space-3);
     padding: var(--space-3) 0;
     border-bottom: 1px solid var(--border);
@@ -62,12 +62,23 @@ const tiers = priceTiers(item);
     border-bottom: none;
   }
 
+  /* "Please order by number" is how the counter actually works, so the number
+     is a chip rather than grey fine print. White on --brand-green-deep is
+     5.41:1. */
   .num {
     grid-column: 1;
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    padding: 0 var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
     font-variant-numeric: tabular-nums;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
-    color: var(--text-muted);
+    letter-spacing: 0;
   }
 
   /* Unnumbered items keep the same left rhythm as numbered ones. */
@@ -125,7 +136,7 @@ const tiers = priceTiers(item);
 
   @media (max-width: 30rem) {
     .item {
-      grid-template-columns: 2rem 1fr auto;
+      grid-template-columns: 2.25rem 1fr auto;
     }
 
     /* Only multi-tier items drop their prices under the name. A single price

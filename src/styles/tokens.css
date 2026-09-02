@@ -76,6 +76,48 @@
   --state-seasonal-text: #7a4a10; /* 6.68:1  AA pass */
 
   /* ---------------------------------------------------------------------
+     Mural palette — sampled from the hand-painted mural on the dining room
+     wall (source-assets/MURAL.JPG). Desert landscape: sky, adobe, sage scrub,
+     sand. These are the restaurant's own colours, painted by hand, and they
+     extend the warm neutrals without inventing anything.
+
+     Same rule as the logo green: the sampled colours are identity colours and
+     several cannot carry white text. Deepened variants exist for that.
+     --------------------------------------------------------------------- */
+  --mural-sky: #8db1d5;
+  --mural-sky-wash: #dceaf5; /* ink on this: 14.30:1  AAA — light ground */
+  --mural-adobe: #c18c59; /* ink on this:  5.98:1  AA  — white FAILS at 2.93 */
+  --mural-terracotta: #925c44; /* white on this: 5.47:1  AA */
+  --mural-sage: #5e6d50; /* white on this: 5.56:1  AA */
+  --mural-frame-green: #819742; /* identity only — white FAILS at 3.26 */
+  --mural-sage-deep: #4a5a2c; /* white on this: 7.53:1  AA */
+  --mural-sand: #d9d5ca; /* ink on this: 11.96:1  AAA */
+
+  --mural-terracotta-ink: #8a4a2f; /* on --surface: 6.34:1  AA — accent text */
+  --mural-sage-ink: #41522f; /* on --surface: 7.95:1  AA — accent text */
+
+  /* ---------------------------------------------------------------------
+     Serape stripe — sampled from the woven bands printed along the top and
+     bottom of the paper menu. Four colours plus white, irregular widths.
+     Used as a divider rule, never as a background for text.
+     --------------------------------------------------------------------- */
+  --serape-sage: #4e8a6f;
+  --serape-red: #d82f40;
+  --serape-sky: #80c3d7;
+  --serape-amber: #e9b665;
+  --serape: repeating-linear-gradient(
+    90deg,
+    var(--serape-sage) 0 13px,
+    var(--brand-white) 13px 17px,
+    var(--serape-red) 17px 29px,
+    var(--brand-white) 29px 33px,
+    var(--serape-sky) 33px 42px,
+    var(--brand-white) 42px 46px,
+    var(--serape-amber) 46px 58px,
+    var(--brand-white) 58px 62px
+  );
+
+  /* ---------------------------------------------------------------------
      Type. System stack for now — no webfont dependency has been approved
      (SPEC.md: "Ask first: adding any dependency"). Revisit at Task 7.
 
@@ -85,6 +127,11 @@
      must be able to shout.
      --------------------------------------------------------------------- */
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Display face only — headlines and category titles. Body stays on the system
+     stack: one ~10KB font file, no CDN, and the page stays restrained rather
+     than shouty. Archivo Black, SIL Open Font License 1.1, self-hosted. */
+  --font-display: 'Archivo Black', var(--font-sans);
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;

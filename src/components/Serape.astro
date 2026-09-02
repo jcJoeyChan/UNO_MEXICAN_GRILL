@@ -1,0 +1,34 @@
+---
+/**
+ * The serape stripe, taken from the woven bands printed along the top and
+ * bottom of the paper menu. Four colours sampled from the scan, not invented.
+ *
+ * Purely decorative, so it is hidden from assistive technology — a screen
+ * reader announcing a striped rule helps nobody.
+ */
+interface Props {
+  /** 'rule' is a hairline between sections; 'band' is the heavier version. */
+  weight?: 'rule' | 'band';
+  class?: string;
+}
+
+const { weight = 'rule', class: className } = Astro.props;
+---
+
+<div class:list={['serape', `is-${weight}`, className]} aria-hidden="true"></div>
+
+<style>
+  .serape {
+    background-image: var(--serape);
+    background-repeat: repeat-x;
+    width: 100%;
+  }
+
+  .is-rule {
+    height: 5px;
+  }
+
+  .is-band {
+    height: 12px;
+  }
+</style>

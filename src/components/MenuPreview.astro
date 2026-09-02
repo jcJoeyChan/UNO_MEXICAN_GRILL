@@ -103,11 +103,13 @@ const featured = feature
 
   .group {
     padding-top: var(--space-4);
-    border-top: 2px solid var(--text);
+    border-top: 5px solid transparent;
+    border-image: var(--serape) 5 repeat;
   }
 
   /* Confidently oversized — not a timid corporate heading. */
   .group-title {
+    font-family: var(--font-display);
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
@@ -134,16 +136,24 @@ const featured = feature
 
   .items li {
     display: grid;
-    grid-template-columns: 1.75rem 1fr auto;
+    grid-template-columns: 2rem 1fr auto;
     gap: var(--space-2);
-    align-items: baseline;
+    align-items: center;
     font-size: var(--font-size-sm);
   }
 
   .num {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 4px;
+    border-radius: var(--radius-sm);
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
     font-variant-numeric: tabular-nums;
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
-    color: var(--text-muted);
   }
 
   .name {
