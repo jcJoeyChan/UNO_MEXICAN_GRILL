@@ -272,16 +272,16 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Tell the restaurant's story using only what is actually confirmed — the six "Fresh is our #1 Goal" claims printed on the real menu, plus the storefront and food photography. No origin story has been supplied, so that section is explicitly provisional.
 
 **Acceptance criteria:**
-- [ ] The six freshness claims presented as the page's spine, in the restaurant's own words
-- [ ] Source typo "quaulity" corrected to "quality" in display copy
-- [ ] Real photography used; casual register preserved, no upscale styling
-- [ ] Origin-story section clearly marked provisional — visually distinguishable, not passed off as real
-- [ ] No invented history, awards, reviews, or press
+- [x] The six freshness claims presented as the page's spine, in the restaurant's own words
+- [x] Source typo "quaulity" corrected to "quality" in display copy
+- [x] Real photography used; casual register preserved, no upscale styling
+- [x] Origin-story section clearly marked provisional — visually distinguishable, not passed off as real
+- [x] No invented history, awards, reviews, or press
 
 **Verification:**
-- [ ] Build, lint, typecheck pass
-- [ ] Manual: every factual claim traces to `PRODUCT.md` or `menu.json`
-- [ ] Manual: a stranger can tell at a glance which copy is placeholder
+- [x] Build, lint, typecheck pass
+- [x] Manual: every factual claim traces to `PRODUCT.md` or `menu.json`
+- [x] Manual: a stranger can tell at a glance which copy is placeholder
 
 **Dependencies:** Task 4
 
