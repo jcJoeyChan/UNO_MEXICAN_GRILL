@@ -34,7 +34,7 @@ Live open/closed status pill computed from real hours, always visible; menu-prev
 ## States and ranges
 
 - Open/closed pill must handle "closes at 9:30pm" and a holiday-hours-may-differ note.
-- Menu preview (curated subset, not the full 15+ category catalog) must handle "+" variable pricing and sold-out items (e.g. seasonal soups).
+- Menu preview (curated subset, not the full 15+ category catalog) must handle "+" variable pricing and **seasonal items** (the seasonal soup is winter-only). Seasonal is its own state, visually distinct from sold-out: "Seasonal — back in winter", never "sold out". A true stock-out state may also be needed later; the two must not share styling.
 - Mobile: sticky bar collapses to logo + hamburger + Order button.
 
 ## Interaction and layout

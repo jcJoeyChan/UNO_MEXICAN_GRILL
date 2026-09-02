@@ -1,0 +1,228 @@
+{
+  "_provenance": {
+    "source": "public/Menu/MENU.pdf — the restaurant's own printed take-out menu (scanned, 2 pages, image-only)",
+    "transcribed": "2026-09-02",
+    "authority": "This file supersedes the ChowBus store page for item names, prices, and availability. ChowBus flags out-of-season items as 'sold out'; the printed menu states seasonality directly.",
+    "verifyBeforeLaunch": "Confirm prices with the restaurant before the site goes public — printed menus go stale.",
+    "knownSourceTypos": [
+      "'Peper' (item 3F) — printed as-is; corrected to 'Pepper' in the display name, original kept in nameAsPrinted",
+      "'Steamed Veggied Burrito' (item 23) — printed as-is",
+      "'Tex-Mex Chill' (item 34) — almost certainly 'Chili'; flagged, not silently corrected",
+      "'quaulity' in the Fresh-is-our-#1-Goal list — do not reproduce the typo in site copy"
+    ]
+  },
+
+  "conventions": {
+    "orderByNumber": true,
+    "orderByNumberNote": "The printed menu says PLEASE ORDER BY NUMBER. Item numbers are a real part of how this restaurant operates and should be visible on the site.",
+    "vegetarianMarker": "*",
+    "vegetarianNote": "An asterisk on the printed menu indicates vegetarian.",
+    "shrimpNote": "Shrimp items are cooked w. onions, cilantro & may have mushrooms."
+  },
+
+  "categories": [
+    {
+      "id": "tacos",
+      "name": "Taco",
+      "note": "Corn tortillas — soft or hard shell. Lettuce, tomato, cheese & sour cream.",
+      "priceType": "single",
+      "items": [
+        { "number": "1",  "name": "Ground Beef Taco", "price": 3.50, "vegetarian": false },
+        { "number": "2",  "name": "Chicken Taco", "price": 4.50, "vegetarian": false },
+        { "number": "2F", "name": "Chicken Fajita", "description": "Onion, pepper, pico only", "price": 4.50, "vegetarian": false },
+        { "number": "3",  "name": "Steak Taco", "price": 6.50, "vegetarian": false },
+        { "number": "3F", "name": "Steak Fajita", "nameAsPrinted": "Steak Fajita (Onion, Peper, Pico only)", "description": "Onion, pepper, pico only", "price": 6.50, "vegetarian": false },
+        { "number": "4",  "name": "Black Bean Taco", "price": 3.50, "vegetarian": true },
+        { "number": "5",  "name": "Steamed Veggie Taco w. Bean", "price": 4.50, "vegetarian": true },
+        { "number": "6",  "name": "Shrimp Taco", "description": "Fried shrimp, pico, lettuce & homemade sauce", "price": 5.75, "vegetarian": false },
+        { "number": "7",  "name": "Fish Taco", "description": "Fried fish, pico, lettuce & homemade sauce", "price": 5.75, "vegetarian": false }
+      ]
+    },
+    {
+      "id": "quesadillas",
+      "name": "Quesadillas",
+      "note": "Made with Monterey Jack cheese melted between 2 fresh flour tortillas. Supreme adds lettuce, tomato, guacamole & sour cream.",
+      "priceType": "plainSupreme",
+      "priceColumns": ["Plain", "Supreme"],
+      "items": [
+        { "number": "8",  "name": "Cheese Quesadillas", "prices": { "plain": 5.50, "supreme": 8.00 }, "vegetarian": false },
+        { "number": "9",  "name": "Grilled Chicken Quesadillas", "prices": { "plain": 7.00, "supreme": 9.50 }, "vegetarian": false },
+        { "number": "10", "name": "Grilled Steak Quesadillas", "prices": { "plain": 11.00, "supreme": 13.50 }, "vegetarian": false },
+        { "number": "11", "name": "Chicken & Steak Quesadillas", "prices": { "plain": 9.50, "supreme": 12.00 }, "vegetarian": false },
+        { "number": "12", "name": "Shrimp Quesadillas", "prices": { "plain": 9.50, "supreme": 12.00 }, "vegetarian": false },
+        { "number": "13", "name": "Black Bean Quesadillas", "prices": { "plain": 6.50, "supreme": 9.00 }, "vegetarian": true },
+        { "number": "14", "name": "Steamed Veggie with Bean", "prices": { "plain": 7.50, "supreme": 10.00 }, "vegetarian": true },
+        { "number": "15", "name": "Jalapeño & Pico de Gallo", "prices": { "plain": 7.50, "supreme": 10.00 }, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "nachos",
+      "name": "Nacho",
+      "note": "White corn tortilla chips covered w. melted cheddar & Monterey Jack cheese.",
+      "priceType": "single",
+      "items": [
+        { "number": "N1", "name": "Nacho Supreme", "description": "Ground beef, black bean, guacamole, pico & sour cream", "price": 12.00, "vegetarian": false },
+        { "number": "N2", "name": "Nacho Supreme w. Grilled Chicken", "description": "Black bean, guacamole, pico & sour cream", "price": 13.00, "vegetarian": false },
+        { "number": "N3", "name": "Cheese Nacho", "description": "Chip & cheese only", "price": 7.50, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "burritos",
+      "name": "Burritos",
+      "note": "Large flour tortilla filled with melted cheese, rice, black bean, lettuce, tomato, guacamole & sour cream.",
+      "priceType": "single",
+      "items": [
+        { "number": "16", "name": "Grilled Chicken Burrito", "price": 13.00, "vegetarian": false },
+        { "number": "17", "name": "Grilled Steak Burrito", "price": 18.00, "vegetarian": false },
+        { "number": "18", "name": "Grilled Chicken & Steak Burrito", "price": 15.50, "vegetarian": false },
+        { "number": "19", "name": "Shrimp Burrito", "price": 15.00, "vegetarian": false },
+        { "number": "20", "name": "Chef Burrito", "description": "Shrimp, chicken & steak", "price": 17.00, "vegetarian": false },
+        { "number": "21", "name": "Tex-Mex Chili Burrito", "price": 13.00, "vegetarian": false },
+        { "number": "22", "name": "Black Bean Burrito", "price": 11.00, "vegetarian": true },
+        { "number": "23", "name": "Steamed Veggie Burrito", "nameAsPrinted": "Steamed Veggied Burrito", "price": 13.50, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "rice-platters",
+      "name": "Mexican Rice Platters",
+      "note": "Large platter served with rice, black bean, salad, guacamole, corn chips & fresh flour tortilla.",
+      "priceType": "single",
+      "items": [
+        { "number": "24", "name": "Grilled Chicken Rice Platter", "price": 14.00, "vegetarian": false },
+        { "number": "25", "name": "Grilled Steak Rice Platter", "price": 21.00, "vegetarian": false },
+        { "number": "26", "name": "Grilled Chicken & Steak Rice Platter", "price": 19.00, "vegetarian": false },
+        { "number": "27", "name": "Jumbo Shrimp Rice Platter", "description": "Jumbo shrimp w. mushroom, onion & broccoli", "price": 19.00, "vegetarian": false },
+        { "number": "28", "name": "Jumbo Shrimp & Chicken Rice Platter", "description": "Jumbo shrimp, chicken w. mushroom, onion & broccoli", "price": 20.00, "vegetarian": false },
+        { "number": "29", "name": "Jumbo Shrimp & Steak Rice Platter", "description": "Jumbo shrimp & steak w. zucchini, broccoli, mushroom & onion", "price": 26.00, "vegetarian": false },
+        { "number": "30", "name": "UNO's Special Rice Platter", "description": "Jumbo shrimp, steak & chicken w. mushroom, onion & broccoli", "price": 23.00, "vegetarian": false }
+      ]
+    },
+    {
+      "id": "tostada-salads",
+      "name": "Tostada Salads",
+      "note": "Fresh iceberg lettuce, tomato, cucumber, sliced avocado, cheddar cheese & black bean. Served in your choice of a clear bowl, or a tostada shell for $2 more.",
+      "priceType": "single",
+      "modifiers": [
+        { "name": "Tostada shell instead of clear bowl", "price": 2.00 }
+      ],
+      "items": [
+        { "number": "31", "name": "Grilled Chicken", "price": 12.50, "vegetarian": false },
+        { "number": "32", "name": "Grilled Steak", "price": 18.00, "vegetarian": false },
+        { "number": "33", "name": "Grilled Chicken & Steak", "price": 16.00, "vegetarian": false },
+        { "number": "34", "name": "Tex-Mex Chili", "nameAsPrinted": "Tex-Mex Chill", "price": 12.50, "vegetarian": false, "needsVerification": "Printed as 'Chill' — confirm intended spelling with the restaurant." },
+        { "number": "35", "name": "Jumbo Shrimp", "description": "Jumbo shrimp w. mushroom, onion & broccoli", "price": 17.00, "vegetarian": false },
+        { "number": "36", "name": "Jumbo Shrimp & Chicken", "description": "Jumbo shrimp, chicken w. mushroom, onion & broccoli", "price": 18.00, "vegetarian": false },
+        { "number": "37", "name": "Jumbo Shrimp & Steak", "description": "Jumbo shrimp, steak w. zucchini, broccoli, mushroom & onion", "price": 24.00, "vegetarian": false },
+        { "number": "38", "name": "UNO's Special Salad", "description": "Jumbo shrimp, steak & chicken w. mushroom, onion & broccoli", "price": 21.00, "vegetarian": false },
+        { "number": "39", "name": "Black Bean", "price": 10.00, "vegetarian": true },
+        { "number": "40", "name": "Steamed Veggie", "description": "Mushroom, carrot & broccoli", "price": 12.50, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "fajitas-by-the-pound",
+      "name": "Fajitas by the Pound",
+      "note": "Ten fresh flour tortillas, grilled California green peppers, Spanish onion, black bean, salsa ranchera, with one pound of your choice.",
+      "priceType": "single",
+      "items": [
+        { "number": "41", "name": "Grilled Chicken", "price": 24.00, "vegetarian": false },
+        { "number": "42", "name": "Grilled Steak", "price": 46.00, "vegetarian": false },
+        { "number": "43", "name": "Combination", "description": "Chicken & steak", "price": 36.00, "vegetarian": false },
+        { "number": "44", "name": "Shrimp", "description": "Cooked w. mushroom & cilantro", "price": 36.00, "vegetarian": false }
+      ]
+    },
+    {
+      "id": "kids-meal",
+      "name": "Kids Meal",
+      "priceType": "single",
+      "items": [
+        { "number": "K1", "name": "Cheese & Rice Quesadilla", "price": 7.50, "vegetarian": false },
+        { "number": "K2", "name": "2 Rice & Bean Taco", "description": "With lettuce & cheese", "price": 7.00, "vegetarian": false },
+        { "number": "K3", "name": "2 Beef & Cheese Taco", "description": "Ground beef & cheese", "price": 7.00, "vegetarian": false },
+        { "number": "K4", "name": "2 Chicken & Cheese Taco", "description": "Just chicken & cheese", "price": 9.00, "vegetarian": false },
+        { "number": null, "name": "Apple Juice", "price": 2.25, "vegetarian": false }
+      ]
+    },
+    {
+      "id": "side-orders",
+      "name": "Side Orders",
+      "priceType": "sizes",
+      "priceColumns": ["SM", "4 oz", "8 oz"],
+      "columnCaveat": "On the scan, items 49-61 show a single right-aligned price whose column is ambiguous. Recorded as a flat price with sizeUnclear:true — confirm with the restaurant before publishing.",
+      "items": [
+        { "number": "45", "name": "Sour Cream", "prices": { "sm": 1.00, "oz4": 2.00, "oz8": 4.00 }, "vegetarian": true },
+        { "number": "46", "name": "Guacamole", "prices": { "oz4": 4.00, "oz8": 8.00 }, "vegetarian": true },
+        { "number": "47", "name": "Pico de Gallo", "prices": { "oz4": 2.00, "oz8": 4.00 }, "vegetarian": true },
+        { "number": "48", "name": "Jalapeños", "prices": { "oz4": 1.75, "oz8": 3.50 }, "vegetarian": true },
+        { "number": "49", "name": "Salsa Ranchera", "price": 2.50, "sizeUnclear": true, "vegetarian": true },
+        { "number": "50", "name": "Shredded Cheddar or Jack Cheese", "price": 3.50, "sizeUnclear": true, "vegetarian": true },
+        { "number": "51", "name": "Lettuce, Tomato & Cucumber", "price": 5.50, "sizeUnclear": true, "vegetarian": true },
+        { "number": "52", "name": "Chili Con Carne", "price": 5.00, "sizeUnclear": true, "vegetarian": false },
+        { "number": "53", "name": "Black Bean", "price": 4.00, "sizeUnclear": true, "vegetarian": true },
+        { "number": "54", "name": "Fresh Tortillas", "description": "Per piece", "price": 1.00, "sizeUnclear": true, "vegetarian": true },
+        { "number": "55", "name": "White Corn Tortilla Chips", "price": 3.00, "sizeUnclear": true, "vegetarian": true },
+        { "number": "56", "name": "Mexican Rice", "price": 4.50, "sizeUnclear": true, "vegetarian": true },
+        { "number": "57", "name": "Rice & Black Bean", "price": 6.00, "sizeUnclear": true, "vegetarian": true },
+        { "number": "58", "name": "Mexican Rice & Tex-Mex Chili", "price": 7.50, "sizeUnclear": true, "vegetarian": false },
+        { "number": "59", "name": "Sliced Avocado", "description": "4 pcs.", "price": 5.00, "sizeUnclear": true, "vegetarian": true },
+        { "number": "60", "name": "Chip & Salsa", "price": 5.50, "sizeUnclear": true, "vegetarian": true },
+        { "number": "61", "name": "Chip & Guacamole", "price": 11.00, "sizeUnclear": true, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "note": "Snapple and Pepsi products.",
+      "priceType": "single",
+      "items": [
+        { "number": null, "name": "Can Soda", "price": 2.00, "vegetarian": true },
+        { "number": null, "name": "Snapple", "price": 3.00, "vegetarian": true },
+        { "number": null, "name": "Spring Water", "price": 1.50, "vegetarian": true },
+        { "number": null, "name": "Mexican Soda", "price": 3.00, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "dessert",
+      "name": "Dessert",
+      "priceType": "single",
+      "items": [
+        { "number": null, "name": "Homemade Cheese Cake", "price": 5.50, "vegetarian": true },
+        { "number": null, "name": "Cheese Cake w. Strawberry", "price": 6.00, "vegetarian": true }
+      ]
+    },
+    {
+      "id": "soups",
+      "name": "Soups",
+      "note": "Winter only.",
+      "availability": "seasonal",
+      "season": "winter",
+      "seasonalLabel": "Seasonal — back in winter",
+      "seasonalNote": "Printed on the menu as 'SOUPS (Winter Only)'. ChowBus shows these as 'sold out' when out of season — that is a POS artifact. Never render these as sold out.",
+      "priceType": "single",
+      "items": [
+        { "number": null, "name": "Chicken with Vegetable", "description": "Clear", "price": 7.50, "vegetarian": false },
+        { "number": null, "name": "Steak with Vegetable", "description": "Tomato", "price": 10.50, "vegetarian": false }
+      ]
+    }
+  ],
+
+  "freshnessClaims": {
+    "heading": "Fresh is our #1 Goal",
+    "source": "Printed on page 2 of the menu — real restaurant copy, usable on the About page.",
+    "claims": [
+      "Our flour tortillas are made from scratch directly from our tortilla machine & baked as soon as you order",
+      "Our vegetables are selected fresh every day",
+      "Our chicken and steak are marinated with only natural ingredients and are grilled to order",
+      "We use high quality steak for all steak orders",
+      "We do not use any oil in preparing our sauce, rice & beans",
+      "Healthy eating every day!"
+    ]
+  },
+
+  "contact": {
+    "address": "256-31 Union Turnpike, Glen Oaks, NY 11004",
+    "landmark": "Across from the Post Office, in Glen Oaks Shopping Center",
+    "phone": "718-470-2050",
+    "hours": "Open 7 days a week, Mon–Sun 11:00 am – 9:30 pm (lunch & dinner)",
+    "catering": "Small & large party catering available"
+  }
+}
