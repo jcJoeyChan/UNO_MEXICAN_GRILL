@@ -23,7 +23,7 @@ const root = new URL('..', import.meta.url).pathname;
 const BASELINE = join(root, '.constraints-baseline.json');
 const PORT = Number(process.env.AUDIT_PORT ?? 4322);
 const ORIGIN = process.env.AUDIT_ORIGIN ?? `http://localhost:${PORT}`;
-const PAGES = ['/', '/menu', '/location'];
+const PAGES = ['/', '/menu', '/location', '/contact', '/about', '/catering'];
 const CATEGORIES = ['performance', 'accessibility', 'best-practices', 'seo'];
 const update = process.argv.includes('--update');
 
@@ -47,6 +47,28 @@ const MEASURED_ONLY = [];
 // The scores do not move at all against a production build, but a one-point
 // wobble should not fail a build.
 const TOLERANCE = 2;
+
+/**
+ * Documented exceptions, mirroring the table in CONSTRAINTS.md.
+ *
+ * An exception lives here rather than being absorbed by quietly lowering the
+ * baseline number, because a lowered number looks like a passing gate and this
+ * looks like what it is. Every entry needs a reason and an expiry, and the
+ * script FAILS once an expiry passes — an exception nobody revisits is just a
+ * weakened bar with extra steps.
+ */
+const EXCEPTIONS = [
+  {
+    page: '/location',
+    category: 'best-practices',
+    floor: 96,
+    expires: '2026-12-01',
+    reason:
+      'image-size-responsive: OUTSIDE.jpg is 348x348, too low-res for high-DPI screens. ' +
+      'Shrinking it to pass would make the storefront unrecognisable, which is the whole point of ' +
+      'the photo. The fix is a higher-resolution photo of the storefront, not a code change.',
+  },
+];
 
 function waitForServer(url, timeoutMs = 30_000) {
   const started = Date.now();
@@ -154,6 +176,25 @@ for (const [page, scores] of Object.entries(results)) {
       const delta = score - floor;
       const arrow = delta === 0 ? '=' : delta > 0 ? '+' : '';
       console.log(`  measured  ${page} ${category}: ${score} (${arrow}${delta} vs recorded)`);
+      continue;
+    }
+
+    const exception = EXCEPTIONS.find((e) => e.page === page && e.category === category);
+    if (exception) {
+      const expired = new Date(exception.expires) < new Date();
+      if (expired) {
+        regressions.push(
+          `${page} ${category}: exception EXPIRED on ${exception.expires} — resolve it or renew it deliberately`,
+        );
+      } else if (score < exception.floor - TOLERANCE) {
+        regressions.push(
+          `${page} ${category}: ${score}, exception floor ${exception.floor} (expires ${exception.expires})`,
+        );
+      } else {
+        console.log(
+          `  exception  ${page} ${category}: ${score} allowed until ${exception.expires} — ${exception.reason.slice(0, 80)}...`,
+        );
+      }
       continue;
     }
 

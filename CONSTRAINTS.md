@@ -70,13 +70,18 @@ Run all six: `npm run check:task` — **currently ~5 seconds**, budget 90 second
 
 **Command:** `npm run check:audit` (review/CI tier — ~30s, too slow for task end)
 
-| Page        | Performance | Accessibility | Best practices | SEO |
-| ----------- | ----------- | ------------- | -------------- | --- |
-| `/`         | 100         | 100           | 100            | 100 |
-| `/menu`     | 100         | 100           | 100            | 100 |
-| `/location` | 100         | 100           | 100            | 100 |
+| Page         | Performance | Accessibility | Best practices | SEO |
+| ------------ | ----------- | ------------- | -------------- | --- |
+| `/`          | 98          | 100           | 100            | 100 |
+| `/menu`      | 100         | 100           | 100            | 100 |
+| `/location`  | 100         | 100           | 96 (exception) | 100 |
+| `/contact`   | 100         | 100           | 100            | 100 |
+| `/about`     | 100         | 100           | 100            | 100 |
+| `/catering`  | 100         | 100           | 100            | 100 |
 
-Measured 2026-09-02 against a production build, identical across three consecutive runs. Tolerance ±2.
+Measured 2026-09-02 against a production build. Tolerance ±2. The homepage sits at 98 because the full-bleed mural is the LCP element; that is a deliberate trade, and it leaves no headroom, which is intended — the next regression should fail.
+
+**Exceptions are declared in `scripts/audit.mjs`, not absorbed by lowering a number.** A lowered baseline looks like a passing gate; an exception looks like what it is. Each carries a reason and an expiry, and the script **fails once an expiry passes** — an exception nobody revisits is a weakened bar with extra steps.
 
 > **These floors replaced an earlier, wrong set.** The first baseline recorded performance 58–80 and SEO 91, and performance was marked "measured only" on the reasoning that a 22-point swing between identical runs made it too noisy to gate. The reasoning was fine; the data was not. `astro dev` and `astro preview` both serve port 4321, and the audit script reused whatever was already answering — so it had been profiling an **unminified dev server**. Against a real production preview every category returns 100 and does not move. The script now builds and serves its own preview on port 4322 and refuses to audit a server it did not start.
 >
@@ -108,6 +113,7 @@ Every exception needs an owner and an expiry. An exception with neither is just 
 | 3 | Menu prices unverified                                                    | Transcribed from a printed menu of unknown vintage; 14 items flagged. **Blocks public launch, not development.**       | Joey Chan        | Before launch (Task 15) |
 | 4 | Source photography below hero resolution                                  | Largest photo is 750×600; the direction contract needs ~2000px for a full-bleed hero. **Blocks Task 7.**              | Joey Chan        | 2026-09-16 |
 | 5 | `/tokens` dev page exempt from the meta-description rule                  | `noindex` development reference, removed at Task 15                                                                    | Joey Chan        | 2026-10-01 (Task 15) |
+| 6 | `/location` best-practices floor 96, not 100                              | Lighthouse `image-size-responsive`: the storefront photo is 348×348, too low-res for high-DPI screens. Shrinking it to pass would make the building unrecognisable, which is the photo's entire job. **The fix is a better photo, not a code change** — one phone snapshot would close it. Enforced in `scripts/audit.mjs`, which fails once this date passes. | Joey Chan | 2026-12-01 |
 
 ---
 

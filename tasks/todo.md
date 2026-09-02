@@ -354,18 +354,18 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Bring the whole site to a WCAG AA baseline — good practice, not an enforced gate, since no CONSTRAINTS.md exists. Confirm the restrained-motion commitment holds everywhere.
 
 **Acceptance criteria:**
-- [ ] Every text/background pair meets AA (4.5:1 body, 3:1 large)
-- [ ] Full keyboard operability with visible focus on every interactive element
-- [ ] Landmarks, heading order, and alt text correct — food photos described meaningfully, decorative images empty-alt
-- [ ] `prefers-reduced-motion` removes all non-essential motion sitewide
-- [ ] Page titles and meta descriptions unique per page
-- [ ] Menu tables readable by screen reader, including the multi-column price shapes
+- [x] Every text/background pair meets AA (4.5:1 body, 3:1 large)
+- [x] Full keyboard operability with visible focus on every interactive element
+- [x] Landmarks, heading order, and alt text correct — food photos described meaningfully, decorative images empty-alt
+- [x] `prefers-reduced-motion` removes all non-essential motion sitewide
+- [x] Page titles and meta descriptions unique per page
+- [x] Menu tables readable by screen reader, including the multi-column price shapes
 
 **Verification:**
-- [ ] Manual: keyboard-only pass over all six pages
-- [ ] Manual: screen-reader pass over the menu page's three price shapes
-- [ ] Manual: an automated audit (Lighthouse or axe) reports no critical issues
-- [ ] All quality gates pass
+- [x] Manual: keyboard-only pass over all six pages
+- [x] Manual: screen-reader pass over the menu page's three price shapes
+- [x] Manual: an automated audit (Lighthouse or axe) reports no critical issues
+- [x] All quality gates pass
 
 **Dependencies:** Tasks 7, 8, 9, 10, 11
 
