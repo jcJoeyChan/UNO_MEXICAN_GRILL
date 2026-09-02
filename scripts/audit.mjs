@@ -109,7 +109,7 @@ try {
     for (const a of a11yFailures) console.log(`    a11y issue: ${a.id} — ${a.title}`);
   }
 } finally {
-  await chrome.kill();
+  chrome.kill(); // synchronous — awaiting it is a no-op
   if (started && preview) preview.kill();
 }
 

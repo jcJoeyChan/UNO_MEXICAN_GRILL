@@ -132,21 +132,21 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Put a typed, validated layer over `src/content/menu.json` so pages consume the menu through a schema rather than raw JSON — including the three price shapes (single, plain/supreme, SM/4oz/8oz) and the seasonal availability state.
 
 **Acceptance criteria:**
-- [ ] Schema validates all 12 categories and 79 items; build fails loudly on malformed data
-- [ ] All three price shapes typed and discriminated
-- [ ] `seasonal` availability is a first-class state, distinct from any stock-out state
-- [ ] `vegetarian` flag and item `number` exposed (order-by-number is an identity element)
-- [ ] Items flagged `sizeUnclear` / `needsVerification` remain queryable so unverified data can be surfaced or withheld deliberately
-- [ ] Astro's current content-collection API verified against live docs before writing
+- [x] Schema validates all 12 categories and 79 items; build fails loudly on malformed data
+- [x] All three price shapes typed and discriminated
+- [x] `seasonal` availability is a first-class state, distinct from any stock-out state
+- [x] `vegetarian` flag and item `number` exposed (order-by-number is an identity element)
+- [x] Items flagged `sizeUnclear` / `needsVerification` remain queryable so unverified data can be surfaced or withheld deliberately
+- [x] Astro's current content-collection API verified against live docs before writing
 
 **Verification:**
-- [ ] `npm run typecheck` passes; consuming a wrong field is a type error
-- [ ] `npm run test` includes a case asserting the schema rejects a malformed item
-- [ ] Manual: item counts per category match the plan's table (Tacos 9, Quesadillas 8, Nachos 3, Burritos 8, Rice Platters 7, Tostada Salads 10, Fajitas 4, Kids 5, Sides 17, Beverages 4, Dessert 2, Soups 2)
+- [x] `npm run typecheck` passes; consuming a wrong field is a type error
+- [x] `npm run test` includes a case asserting the schema rejects a malformed item
+- [x] Manual: item counts per category match the plan's table (Tacos 9, Quesadillas 8, Nachos 3, Burritos 8, Rice Platters 7, Tostada Salads 10, Fajitas 4, Kids 5, Sides 17, Beverages 4, Dessert 2, Soups 2)
 
 **Dependencies:** Task 1
 
-**Files likely touched:** `src/content/config.ts`, `src/lib/menu.ts`, `tests/lib/menu.test.ts`
+**Files likely touched:** `src/content.config.ts`, `src/lib/menu.ts`, `tests/lib/menu.test.ts`
 
 **Estimated scope:** Small (1–2 files)
 

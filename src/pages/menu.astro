@@ -1,15 +1,41 @@
 ---
-/** Placeholder — built in Task 6. */
+/**
+ * Placeholder — the full catalog is built in Task 6.
+ *
+ * Reads through the content collection rather than raw JSON so the wiring is
+ * proven end-to-end: loader, schema, and typed helpers.
+ */
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { sortCategories, countItems, isSeasonal, seasonalLabel } from '../lib/menu';
+
+const entries = await getCollection('menu');
+const categories = sortCategories(entries.map((entry) => entry.data));
+const total = countItems(categories);
 ---
 
 <BaseLayout
   title="Menu — UNO Mexican Grill"
-  description="The full UNO Mexican Grill menu with prices."
+  description="The full UNO Mexican Grill menu with prices — tacos, burritos, quesadillas, rice platters, tostada salads and more, in Glen Oaks, NY."
 >
   <div class="wrap">
-    <p class="provisional">Placeholder — this page is built in Task 6.</p>
+    <p class="provisional">Placeholder — the full menu page is built in Task 6.</p>
     <h1>Menu</h1>
+    <p class="lede">
+      {categories.length} categories, {total} items, loaded and validated through the content collection.
+    </p>
+
+    <ul class="cats" role="list">
+      {
+        categories.map((category) => (
+          <li>
+            <span class="cat-name">{category.name}</span>
+            <span class="cat-count">{category.items.length} items</span>
+            {isSeasonal(category) && <span class="seasonal">{seasonalLabel(category)}</span>}
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </BaseLayout>
 
@@ -23,6 +49,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-black);
     letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--space-2);
+  }
+  .lede {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-5);
   }
   .provisional {
     display: inline-block;
@@ -32,6 +63,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--state-seasonal-text);
     border-radius: var(--radius-full);
     font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+  .cats {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cats li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+  .cat-name {
+    font-weight: var(--font-weight-bold);
+  }
+  .cat-count {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+  .seasonal {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--state-seasonal-bg);
+    color: var(--state-seasonal-text);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
   }
 </style>
