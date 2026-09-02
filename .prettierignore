@@ -3,3 +3,9 @@ dist/
 node_modules/
 public/
 package-lock.json
+
+# Prose contracts and transcribed data are authored by hand, across two
+# machines. Prettier reflows tables and swaps emphasis markers, which produces
+# pure diff noise and cross-machine merge friction without improving anything.
+*.md
+src/content/*.json

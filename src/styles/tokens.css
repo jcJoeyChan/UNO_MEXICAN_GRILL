@@ -1,0 +1,164 @@
+/* =============================================================================
+   UNO Mexican Grill — design tokens
+
+   Colors are SAMPLED, not invented:
+   - Brand green/red/white read directly from public/images/Logo.png
+     (#3cab48 at 23.8% of pixels, #d7171f, #ffffff at 42.8%).
+   - Neutrals sampled from the six real food photographs, whose colors sit in a
+     warm band (hue 14-42, wood table / paper tray / foil). A generic grey ramp
+     would fight the photography, so every neutral here is warm.
+
+   Contrast ratios below are measured against WCAG 2.1, not estimated.
+   AA needs 4.5:1 for body text, 3:1 for large text (>=24px, or >=19px bold).
+
+   Per DECISIONS.md, green and red are RESERVED for brand identity and state
+   signaling (open/closed, active nav, primary CTA). They are not general
+   purpose UI colors. Neutrals carry the interface.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     Brand — identity colors, straight from the logo. Do not alter these.
+     --------------------------------------------------------------------- */
+  --brand-green: #3cab48;
+  --brand-red: #d7171f;
+  --brand-white: #ffffff;
+
+  /* ---------------------------------------------------------------------
+     Brand, made accessible.
+
+     The logo green cannot carry white text: #ffffff on #3cab48 measures
+     2.95:1, failing AA. It stays an identity color (large fills, the logo,
+     decorative rules). These deepened variants carry text instead.
+     --------------------------------------------------------------------- */
+  --brand-green-deep: #1f7a2c; /* white on this: 5.41:1  AA pass  — primary buttons */
+  --brand-green-ink: #186226; /* on --surface: 6.98:1  AA pass  — links, active nav */
+  --brand-red-deep: #b01018; /* white on this: 7.16:1  AA pass  — destructive/alert fills */
+  --brand-red-ink: #96131a; /* on --surface: 8.17:1  AA pass  — accent text */
+
+  /* ---------------------------------------------------------------------
+     Warm neutrals — sampled from the food photography.
+     --------------------------------------------------------------------- */
+  --warm-950: #241611; /* deepest; from Spread1 #281711 */
+  --warm-800: #4b372e; /* from Spread1 #4b372e */
+  --warm-600: #6b5546; /* from Burrito #685040 */
+  --warm-400: #a99b7e; /* from Spread1 #a99b7e */
+  --warm-200: #e0d5c4; /* from Tostada #e1d2ba */
+  --warm-100: #f3ede3; /* from Burrito #e1dcd5, lifted */
+  --warm-50: #faf7f2; /* from Burrito #f8f7f4 */
+
+  /* ---------------------------------------------------------------------
+     Semantic surfaces and text.
+     Every pair below is measured; the ratio is the number in the comment.
+     --------------------------------------------------------------------- */
+  --surface: var(--warm-50);
+  --surface-raised: var(--warm-100);
+  --surface-inverse: var(--warm-950);
+  --border: var(--warm-200); /* on --surface: 1.36:1 — non-text, decorative only */
+  --border-strong: var(--warm-400);
+
+  --text: var(--warm-950); /* on --surface: 16.41:1  AAA */
+  --text-on-raised: var(--warm-950); /* on --surface-raised: 15.05:1  AAA */
+  --text-secondary: var(--warm-800); /* on --surface: 10.42:1  AAA */
+  --text-muted: var(--warm-600); /* on --surface:  6.52:1  AA   */
+  --text-inverse: var(--brand-white); /* on --surface-inverse: 17.53:1  AAA */
+
+  /* ---------------------------------------------------------------------
+     State — the live open/closed pill (the memorable moment).
+     Seasonal is deliberately its own state, never styled as sold-out:
+     a winter-only soup is not a kitchen that ran out.
+     --------------------------------------------------------------------- */
+  --state-open-bg: #e4f3e2;
+  --state-open-text: var(--brand-green-ink); /* 6.47:1  AA pass */
+  --state-closed-bg: #f0e7e0;
+  --state-closed-text: var(--warm-800); /* 9.13:1  AAA */
+  --state-seasonal-bg: #fdf1dc;
+  --state-seasonal-text: #7a4a10; /* 6.68:1  AA pass */
+
+  /* ---------------------------------------------------------------------
+     Type. System stack for now — no webfont dependency has been approved
+     (SPEC.md: "Ask first: adding any dependency"). Revisit at Task 7.
+
+     The scale is fluid and deliberately wide at the top: the direction
+     contract keeps "confidently oversized category headings" from the
+     declined futurist-bolted-book challenger, so --font-size-display
+     must be able to shout.
+     --------------------------------------------------------------------- */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: clamp(1.25rem, 0.5vw + 1.1rem, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1vw + 1.25rem, 2rem);
+  --font-size-3xl: clamp(2rem, 2vw + 1.5rem, 3rem);
+  --font-size-display: clamp(2.75rem, 6vw + 1rem, 6rem);
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  --line-height-tight: 1.05;
+  --line-height-snug: 1.25;
+  --line-height-base: 1.6;
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-wide: 0.04em;
+
+  /* ---------------------------------------------------------------------
+     Spacing — 4px base.
+     --------------------------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* ---------------------------------------------------------------------
+     Radius, elevation, layout.
+     --------------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 2px rgb(36 22 17 / 0.08);
+  --shadow-md: 0 4px 12px rgb(36 22 17 / 0.1);
+  --shadow-lg: 0 12px 32px rgb(36 22 17 / 0.14);
+
+  --content-max: 72rem;
+  --content-narrow: 42rem;
+  --rail-height: 4rem;
+
+  /* ---------------------------------------------------------------------
+     Motion. The user's stated constraint is "modern, not excessive", so
+     durations stay short and easing stays calm.
+     --------------------------------------------------------------------- */
+  --duration-fast: 120ms;
+  --duration-base: 240ms;
+  --duration-slow: 480ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --reveal-distance: 12px;
+  --reveal-scale: 1.02;
+}
+
+/* Reduced motion is honoured at the token level, so any component built on
+   these tokens inherits the behaviour without repeating the media query. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+    --reveal-distance: 0px;
+    --reveal-scale: 1;
+  }
+}

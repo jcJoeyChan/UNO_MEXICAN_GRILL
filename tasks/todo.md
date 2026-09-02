@@ -42,18 +42,18 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Define the site's whole visual vocabulary as CSS custom properties: brand palette from the real logo, neutrals sampled from the actual food photography, type scale, spacing, radii, and motion tokens. Per `DECISIONS.md`, green/red are reserved for brand and state signaling — they are not general-purpose UI colors.
 
 **Acceptance criteria:**
-- [ ] `src/styles/tokens.css` defines color, spacing, type-scale, radius, and motion custom properties
-- [ ] Brand green/red/white derived from `public/images/Logo.png`, not invented
-- [ ] Neutrals sampled from the food photography's wood-table/paper-tray world — no generic grey ramp
-- [ ] Separate accessible text-color tokens where saturated brand colors fail contrast
-- [ ] Every token pair used for text/background documented with its measured contrast ratio
-- [ ] Motion tokens include a `prefers-reduced-motion` reduced set
-- [ ] A reset is in place and applied globally
+- [x] `src/styles/tokens.css` defines color, spacing, type-scale, radius, and motion custom properties
+- [x] Brand green/red/white derived from `public/images/Logo.png`, not invented
+- [x] Neutrals sampled from the food photography's wood-table/paper-tray world — no generic grey ramp
+- [x] Separate accessible text-color tokens where saturated brand colors fail contrast
+- [x] Every token pair used for text/background documented with its measured contrast ratio
+- [x] Motion tokens include a `prefers-reduced-motion` reduced set
+- [x] A reset is in place and applied globally
 
 **Verification:**
-- [ ] All body-text token pairs measure ≥ 4.5:1; large-text pairs ≥ 3:1 (record the numbers in a comment)
-- [ ] `npm run build` succeeds
-- [ ] Manual: a scratch page rendering every token swatch looks like one coherent system
+- [x] All body-text token pairs measure ≥ 4.5:1; large-text pairs ≥ 3:1 (record the numbers in a comment)
+- [x] `npm run build` succeeds
+- [x] Manual: a scratch page rendering every token swatch looks like one coherent system
 
 **Dependencies:** Task 1
 

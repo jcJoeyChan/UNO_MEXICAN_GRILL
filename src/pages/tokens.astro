@@ -1,0 +1,357 @@
+---
+/**
+ * Design-token reference page.
+ *
+ * Development aid, not a public page — it renders every token so the system can
+ * be judged as a whole rather than one component at a time. Task 15 removes it
+ * (or excludes it from the production build) before launch.
+ */
+import '../styles/tokens.css';
+import '../styles/reset.css';
+
+const brand = [
+  ['--brand-green', '#3cab48', 'Logo green — identity only, cannot carry white text'],
+  ['--brand-red', '#d7171f', 'Logo red — ring typography'],
+  ['--brand-green-deep', '#1f7a2c', 'White text 5.41:1 — primary buttons'],
+  ['--brand-green-ink', '#186226', 'On surface 6.98:1 — links, active nav'],
+  ['--brand-red-deep', '#b01018', 'White text 7.16:1'],
+  ['--brand-red-ink', '#96131a', 'On surface 8.17:1 — accent text'],
+];
+
+const neutrals = [
+  ['--warm-950', '#241611'],
+  ['--warm-800', '#4b372e'],
+  ['--warm-600', '#6b5546'],
+  ['--warm-400', '#a99b7e'],
+  ['--warm-200', '#e0d5c4'],
+  ['--warm-100', '#f3ede3'],
+  ['--warm-50', '#faf7f2'],
+];
+
+const textPairs = [
+  ['--text', 'Body text', '16.41:1', 'AAA'],
+  ['--text-secondary', 'Secondary text', '10.42:1', 'AAA'],
+  ['--text-muted', 'Muted text', '6.52:1', 'AA'],
+];
+
+const sizes = [
+  ['--font-size-display', 'Display'],
+  ['--font-size-3xl', '3xl'],
+  ['--font-size-2xl', '2xl'],
+  ['--font-size-xl', 'xl'],
+  ['--font-size-lg', 'lg'],
+  ['--font-size-base', 'base'],
+  ['--font-size-sm', 'sm'],
+  ['--font-size-xs', 'xs'],
+];
+
+const spaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Design tokens — UNO Mexican Grill</title>
+  </head>
+  <body>
+    <main>
+      <header class="head">
+        <p class="eyebrow">Development reference</p>
+        <h1>Design tokens</h1>
+        <p class="lede">
+          Every color here is sampled from the real logo or the six real food photographs. Contrast
+          ratios are measured, not estimated.
+        </p>
+      </header>
+
+      <section>
+        <h2>Brand</h2>
+        <div class="grid">
+          {
+            brand.map(([name, hex, note]) => (
+              <div class="swatch">
+                <div class="chip" style={`background:${hex}`} />
+                <code>{name}</code>
+                <span class="hex">{hex}</span>
+                <p class="note">{note}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h2>Warm neutrals</h2>
+        <p class="sub">Sampled from the photography. Deliberately not a grey ramp.</p>
+        <div class="ramp">
+          {
+            neutrals.map(([name, hex]) => (
+              <div class="ramp-step">
+                <div class="ramp-chip" style={`background:${hex}`} />
+                <code>{name}</code>
+                <span class="hex">{hex}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h2>Text on surface</h2>
+        {
+          textPairs.map(([token, label, ratio, level]) => (
+            <p class="text-demo" style={`color:var(${token})`}>
+              {label} — the quick brown fox jumps over the lazy dog.
+              <span class="badge">
+                {ratio} {level}
+              </span>
+            </p>
+          ))
+        }
+      </section>
+
+      <section>
+        <h2>State</h2>
+        <p class="sub">
+          Seasonal is its own state, never styled as sold-out — a winter-only soup is not a kitchen
+          that ran out.
+        </p>
+        <div class="pills">
+          <span class="pill pill-open">Open now — closes 9:30 pm</span>
+          <span class="pill pill-closed">Closed — opens 11:00 am</span>
+          <span class="pill pill-seasonal">Seasonal — back in winter</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Buttons</h2>
+        <div class="pills">
+          <span class="btn btn-primary">Order Now</span>
+          <span class="btn btn-secondary">View Menu</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Type scale</h2>
+        {
+          sizes.map(([token, label]) => (
+            <div class="type-row">
+              <code class="type-label">{label}</code>
+              <span style={`font-size:var(${token});line-height:var(--line-height-tight)`}>
+                Tostada Salads
+              </span>
+            </div>
+          ))
+        }
+      </section>
+
+      <section>
+        <h2>Spacing</h2>
+        <div class="spacing">
+          {
+            spaces.map((n) => (
+              <div class="space-row">
+                <code>--space-{n}</code>
+                <div class="space-bar" style={`width:var(--space-${n})`} />
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h2>Motion</h2>
+        <p class="sub">
+          Hover a card. All motion collapses to 1ms under <code>prefers-reduced-motion</code>,
+          driven by the tokens themselves.
+        </p>
+        <div class="pills">
+          <div class="motion-card">fast — 120ms</div>
+          <div class="motion-card">base — 240ms</div>
+          <div class="motion-card">slow — 480ms</div>
+        </div>
+      </section>
+    </main>
+
+    <style>
+      main {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        padding: var(--space-7) var(--space-5) var(--space-10);
+      }
+      .head {
+        margin-bottom: var(--space-8);
+      }
+      .eyebrow {
+        font-size: var(--font-size-sm);
+        letter-spacing: var(--letter-spacing-wide);
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+      h1 {
+        font-size: var(--font-size-3xl);
+        font-weight: var(--font-weight-black);
+        letter-spacing: var(--letter-spacing-tight);
+        margin-block: var(--space-2);
+      }
+      .lede,
+      .sub {
+        color: var(--text-secondary);
+        max-width: var(--content-narrow);
+      }
+      section {
+        margin-top: var(--space-8);
+        padding-top: var(--space-6);
+        border-top: 1px solid var(--border);
+      }
+      h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--space-3);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        gap: var(--space-5);
+        margin-top: var(--space-5);
+      }
+      .chip {
+        height: 4.5rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        margin-bottom: var(--space-2);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: var(--font-size-sm);
+      }
+      .hex {
+        display: block;
+        font-size: var(--font-size-sm);
+        color: var(--text-muted);
+      }
+      .note {
+        font-size: var(--font-size-sm);
+        color: var(--text-muted);
+        margin-top: var(--space-1);
+      }
+      /* Grid, not flex: with flex-wrap the final step stretched to full width
+         on its own row, which read as a design inconsistency rather than a
+         ramp. Equal tracks keep every step the same size. */
+      .ramp {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+        gap: var(--space-3);
+        margin-top: var(--space-5);
+      }
+      .ramp-chip {
+        height: 5rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        margin-bottom: var(--space-2);
+      }
+      .text-demo {
+        font-size: var(--font-size-lg);
+        margin-top: var(--space-3);
+      }
+      .badge {
+        display: inline-block;
+        margin-left: var(--space-3);
+        padding: 0 var(--space-2);
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-full);
+      }
+      .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+      }
+      .pill {
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+      }
+      .pill-open {
+        background: var(--state-open-bg);
+        color: var(--state-open-text);
+      }
+      .pill-closed {
+        background: var(--state-closed-bg);
+        color: var(--state-closed-text);
+      }
+      .pill-seasonal {
+        background: var(--state-seasonal-bg);
+        color: var(--state-seasonal-text);
+      }
+      .btn {
+        padding: var(--space-3) var(--space-5);
+        border-radius: var(--radius-full);
+        font-weight: var(--font-weight-bold);
+      }
+      .btn-primary {
+        background: var(--brand-green-deep);
+        color: var(--brand-white);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border: 2px solid var(--border-strong);
+      }
+      .type-row {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-4);
+        margin-top: var(--space-4);
+        border-bottom: 1px dashed var(--border);
+        padding-bottom: var(--space-3);
+      }
+      .type-label {
+        flex: 0 0 5rem;
+        color: var(--text-muted);
+      }
+      .spacing {
+        margin-top: var(--space-4);
+      }
+      .space-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        margin-bottom: var(--space-2);
+      }
+      .space-row code {
+        flex: 0 0 7rem;
+        color: var(--text-muted);
+      }
+      .space-bar {
+        height: 1rem;
+        background: var(--brand-green);
+        border-radius: var(--radius-sm);
+      }
+      .motion-card {
+        padding: var(--space-4) var(--space-5);
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-sm);
+      }
+      .motion-card:nth-child(1) {
+        transition: transform var(--duration-fast) var(--ease-out);
+      }
+      .motion-card:nth-child(2) {
+        transition: transform var(--duration-base) var(--ease-out);
+      }
+      .motion-card:nth-child(3) {
+        transition: transform var(--duration-slow) var(--ease-out);
+      }
+      .motion-card:hover {
+        transform: translateY(calc(-1 * var(--reveal-distance))) scale(var(--reveal-scale));
+      }
+    </style>
+  </body>
+</html>
