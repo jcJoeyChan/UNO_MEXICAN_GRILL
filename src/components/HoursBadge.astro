@@ -1,0 +1,96 @@
+---
+/**
+ * Live open/closed pill — the site's memorable moment.
+ *
+ * This is a static site, so anything computed at build time is frozen at build
+ * time. A server-rendered "Open now" would keep claiming the restaurant is open
+ * until the next deploy, which is worse than saying nothing.
+ *
+ * So the server renders the *hours* — always true — and a client script upgrades
+ * it to live state on load. A visitor without JavaScript sees "Open 7 days,
+ * 11 am – 9:30 pm" rather than a confident lie.
+ */
+import restaurant from '../content/restaurant.json';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const { summary } = restaurant.hours;
+---
+
+<span class:list={['pill', className]} data-hours-pill data-state="static">
+  <span class="dot" aria-hidden="true"></span>
+  <span data-hours-text aria-live="polite">{summary}</span>
+</span>
+
+<script>
+  import { isOpenNow, type DayHours } from '../lib/hours';
+  import restaurant from '../content/restaurant.json';
+
+  const week = restaurant.hours.week as DayHours[];
+
+  function render() {
+    const pills = document.querySelectorAll<HTMLElement>('[data-hours-pill]');
+    if (pills.length === 0) return;
+
+    const status = isOpenNow(week);
+
+    for (const pill of pills) {
+      const text = pill.querySelector<HTMLElement>('[data-hours-text]');
+      if (text) text.textContent = status.label;
+      pill.dataset.state = status.isOpen ? 'open' : 'closed';
+    }
+
+    // Re-render when the state actually flips, capped at an hour so a long
+    // closed stretch still refreshes, and floored so we never busy-loop.
+    const untilChange = status.nextChange.getTime() - Date.now();
+    const delay = Math.min(Math.max(untilChange + 1000, 15_000), 60 * 60 * 1000);
+    window.setTimeout(render, delay);
+  }
+
+  render();
+</script>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    transition: background-color var(--duration-base) var(--ease-out);
+  }
+
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--border-strong);
+    flex: none;
+  }
+
+  .pill[data-state='open'] {
+    background: var(--state-open-bg);
+    color: var(--state-open-text);
+  }
+
+  .pill[data-state='open'] .dot {
+    background: var(--brand-green-deep);
+  }
+
+  .pill[data-state='closed'] {
+    background: var(--state-closed-bg);
+    color: var(--state-closed-text);
+  }
+
+  .pill[data-state='closed'] .dot {
+    background: var(--text-muted);
+  }
+</style>

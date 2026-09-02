@@ -1,55 +1,52 @@
 ---
 /**
- * Placeholder homepage.
- *
- * Task 7 replaces this with the order-rail hero from
- * .impeccable/surfaces/homepage.md. It exists now only so the styles are
- * applied globally and the build has a route; Task 4 moves these imports into
- * BaseLayout.astro, where every page will inherit them.
+ * Placeholder homepage. Task 7 replaces this with the order-rail hero from
+ * .impeccable/surfaces/homepage.md.
  */
-import '../styles/tokens.css';
-import '../styles/reset.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import restaurant from '../content/restaurant.json';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>UNO Mexican Grill — Glen Oaks, NY</title>
-    <meta
-      name="description"
-      content="Casual Mexican takeout and dine-in on Union Turnpike in Glen Oaks, Queens. Open 7 days, 11am to 9:30pm."
-    />
-  </head>
-  <body>
-    <main>
-      <p class="provisional">Placeholder — the homepage is built in Task 7.</p>
-      <h1>UNO Mexican Grill</h1>
-      <p>Design tokens are in place. <a href="/tokens">View the token reference</a>.</p>
-    </main>
+<BaseLayout
+  title="UNO Mexican Grill — Casual Mexican takeout & dine-in in Glen Oaks, NY"
+  description="Casual Mexican takeout and dine-in on Union Turnpike in Glen Oaks, Queens. Open 7 days, 11 am to 9:30 pm. Order pickup or delivery."
+>
+  <div class="wrap">
+    <p class="provisional">Placeholder — the homepage is built in Task 7.</p>
+    <h1>{restaurant.name}</h1>
+    <p class="lede">{restaurant.tagline}</p>
+    <p>
+      The shared shell is in place: sticky order rail, live open/closed pill, and every ordering
+      channel two taps away from any page. See the <a href="/tokens">token reference</a>.
+    </p>
+  </div>
+</BaseLayout>
 
-    <style>
-      main {
-        max-width: var(--content-narrow);
-        margin: 0 auto;
-        padding: var(--space-9) var(--space-5);
-      }
-      h1 {
-        font-size: var(--font-size-3xl);
-        font-weight: var(--font-weight-black);
-        letter-spacing: var(--letter-spacing-tight);
-        margin-bottom: var(--space-4);
-      }
-      .provisional {
-        display: inline-block;
-        margin-bottom: var(--space-5);
-        padding: var(--space-2) var(--space-4);
-        background: var(--state-seasonal-bg);
-        color: var(--state-seasonal-text);
-        border-radius: var(--radius-full);
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-medium);
-      }
-    </style>
-  </body>
-</html>
+<style>
+  .wrap {
+    max-width: var(--content-narrow);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+  }
+  h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-bottom: var(--space-2);
+  }
+  .lede {
+    font-size: var(--font-size-xl);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-5);
+  }
+  .provisional {
+    display: inline-block;
+    margin-bottom: var(--space-5);
+    padding: var(--space-2) var(--space-4);
+    background: var(--state-seasonal-bg);
+    color: var(--state-seasonal-text);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

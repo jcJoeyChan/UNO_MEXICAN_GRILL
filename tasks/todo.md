@@ -93,19 +93,19 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Build the shell all six pages share: the sticky top bar (logo · Menu · Location · Order▾), the live open/closed pill, the expanding order menu covering all four channels plus phone and walk-in, and the footer. This is the persistent-ordering thesis made real — "order now" stays one tap away at every scroll position.
 
 **Acceptance criteria:**
-- [ ] `BaseLayout.astro` provides the page shell with per-page title/description slots
-- [ ] Sticky bar stays fixed through scroll and does not obscure content or focus targets
-- [ ] `HoursBadge` renders live state from Task 3
-- [ ] `OrderingLinks` expands to ChowBus, UberEats, DoorDash, Grubhub + phone + walk-in note, using the canonical URLs in `PRODUCT.md` (no tracking parameters)
-- [ ] External links carry `rel="noopener noreferrer"` and are marked as leaving the site
-- [ ] Mobile: bar collapses to logo + hamburger + Order button
-- [ ] Keyboard operable — the Order menu opens, traps focus appropriately, and closes on Escape
-- [ ] Uses tokens only; no hardcoded colors or spacing
+- [x] `BaseLayout.astro` provides the page shell with per-page title/description slots
+- [x] Sticky bar stays fixed through scroll and does not obscure content or focus targets
+- [x] `HoursBadge` renders live state from Task 3
+- [x] `OrderingLinks` expands to ChowBus, UberEats, DoorDash, Grubhub + phone + walk-in note, using the canonical URLs in `PRODUCT.md` (no tracking parameters)
+- [x] External links carry `rel="noopener noreferrer"` and are marked as leaving the site
+- [x] Mobile: bar collapses to logo + hamburger + Order button
+- [x] Keyboard operable — the Order menu opens, traps focus appropriately, and closes on Escape
+- [x] Uses tokens only; no hardcoded colors or spacing
 
 **Verification:**
-- [ ] `npm run build` succeeds; `npm run lint` and `npm run typecheck` pass
-- [ ] Manual: keyboard-only walkthrough of the bar and Order menu at desktop and 375 px widths
-- [ ] Manual: all six ordering destinations open the correct page
+- [x] `npm run build` succeeds; `npm run lint` and `npm run typecheck` pass
+- [x] Manual: keyboard-only walkthrough of the bar and Order menu at desktop and 375 px widths
+- [x] Manual: all six ordering destinations open the correct page
 
 **Dependencies:** Tasks 2, 3
 

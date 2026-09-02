@@ -1,0 +1,60 @@
+---
+/**
+ * The shell every page shares — rail, main, footer. Styles are imported here
+ * once so no page has to remember to do it.
+ */
+import '../styles/tokens.css';
+import '../styles/reset.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/images/Logo.png" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style is:global>
+      /* The rail is sticky, so anchor targets must clear it — otherwise
+         jumping to a section hides its heading behind the bar. */
+      html {
+        scroll-padding-top: calc(var(--rail-height) + var(--space-4));
+      }
+
+      .skip-link {
+        position: absolute;
+        top: var(--space-2);
+        left: var(--space-2);
+        z-index: 100;
+        padding: var(--space-2) var(--space-4);
+        background: var(--surface);
+        border: 2px solid var(--brand-green-deep);
+        border-radius: var(--radius-md);
+        font-weight: var(--font-weight-bold);
+        transform: translateY(-200%);
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+    </style>
+  </body>
+</html>

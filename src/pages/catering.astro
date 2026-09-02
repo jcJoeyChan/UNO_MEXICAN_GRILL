@@ -1,0 +1,37 @@
+---
+/** Placeholder — built in Task 11. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Catering — UNO Mexican Grill"
+  description="Small and large party catering from UNO Mexican Grill."
+>
+  <div class="wrap">
+    <p class="provisional">Placeholder — this page is built in Task 11.</p>
+    <h1>Catering</h1>
+  </div>
+</BaseLayout>
+
+<style>
+  .wrap {
+    max-width: var(--content-narrow);
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4);
+  }
+  h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+  }
+  .provisional {
+    display: inline-block;
+    margin-bottom: var(--space-5);
+    padding: var(--space-2) var(--space-4);
+    background: var(--state-seasonal-bg);
+    color: var(--state-seasonal-text);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

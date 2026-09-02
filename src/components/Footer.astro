@@ -1,0 +1,123 @@
+---
+import OrderingLinks from './OrderingLinks.astro';
+import HoursBadge from './HoursBadge.astro';
+import restaurant from '../content/restaurant.json';
+
+const { contact, hours, catering } = restaurant;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="col">
+      <h2>Find us</h2>
+      <address>
+        {contact.addressLine}<br />
+        {`${contact.locality}, ${contact.region} ${contact.postalCode}`}
+      </address>
+      <p class="landmark">{contact.landmark}</p>
+      <p><a href={contact.phoneHref}>{contact.phone}</a></p>
+    </div>
+
+    <div class="col">
+      <h2>Hours</h2>
+      <p>{hours.summary}</p>
+      <HoursBadge />
+      <p class="note">{hours.holidayNote}</p>
+      {catering.available && <p class="note">{catering.summary}</p>}
+    </div>
+
+    <div class="col col-wide">
+      <h2>Order</h2>
+      <OrderingLinks variant="block" />
+    </div>
+  </div>
+
+  <div class="legal">
+    <p>&copy; {year} {restaurant.name}</p>
+    <nav aria-label="Footer">
+      <ul role="list">
+        <li><a href="/menu">Menu</a></li>
+        <li><a href="/location">Location &amp; Hours</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/catering">Catering</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-9);
+    padding: var(--space-8) var(--space-4) var(--space-5);
+    background: var(--surface-raised);
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-6);
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  .col-wide {
+    grid-column: span 1;
+  }
+
+  @media (min-width: 60rem) {
+    .col-wide {
+      grid-column: span 2;
+    }
+  }
+
+  h2 {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  address {
+    font-style: normal;
+    line-height: var(--line-height-snug);
+  }
+
+  .landmark,
+  .note {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-2);
+  }
+
+  .col > p {
+    margin-top: var(--space-2);
+  }
+
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    max-width: var(--content-max);
+    margin: var(--space-7) auto 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .legal ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

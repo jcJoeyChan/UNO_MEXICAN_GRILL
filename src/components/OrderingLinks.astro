@@ -1,0 +1,128 @@
+---
+/**
+ * Every way to order, in one place.
+ *
+ * PRODUCT.md is explicit that ordering happens off-site — this component's only
+ * job is to route clearly. ChowBus is marked primary because it is the
+ * restaurant's own channel; the delivery apps take a cut.
+ */
+import restaurant from '../content/restaurant.json';
+
+interface Props {
+  /** 'menu' inside the rail dropdown, 'block' for in-page use (footer, pages). */
+  variant?: 'menu' | 'block';
+}
+
+const { variant = 'menu' } = Astro.props;
+const { channels, direct } = restaurant.ordering;
+const { phone, phoneHref } = restaurant.contact;
+---
+
+<div class:list={['ordering', `is-${variant}`]}>
+  <ul class="channels" role="list">
+    {
+      channels.map((channel) => (
+        <li>
+          <a
+            class:list={['channel', channel.primary && 'is-primary']}
+            href={channel.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="channel-name">
+              {channel.name}
+              <span class="external" aria-hidden="true">
+                ↗
+              </span>
+              <span class="visually-hidden">opens in a new tab</span>
+            </span>
+            <span class="channel-detail">{channel.detail}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="direct">
+    <a class="channel is-phone" href={phoneHref}>
+      <span class="channel-name">{phone}</span>
+      <span class="channel-detail">{direct.phoneLabel}</span>
+    </a>
+    <p class="walk-in">{direct.walkInLabel}</p>
+  </div>
+</div>
+
+<style>
+  .ordering {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .channels {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .is-block .channels {
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+
+  .channel {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .channel:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+  }
+
+  .channel.is-primary {
+    border-color: var(--brand-green-deep);
+    border-width: 2px;
+  }
+
+  .channel-name {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .channel-detail {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .external {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    margin-left: 0.15em;
+  }
+
+  .direct {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+  }
+
+  .is-phone .channel-name {
+    color: var(--brand-green-ink);
+  }
+
+  .walk-in {
+    margin-top: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+</style>

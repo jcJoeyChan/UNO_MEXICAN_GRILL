@@ -1,0 +1,78 @@
+{
+  "_provenance": {
+    "source": "PRODUCT.md (ordering channels, address, phone, hours) and the printed menu transcription in menu.json (landmark, catering).",
+    "note": "This is the canonical runtime source for hours, contact details, and ordering channels. menu.json also carries a contact block, but that is a record of what the printed menu says — a transcription artifact. Components read from here.",
+    "verifyBeforeLaunch": "Re-confirm hours and phone with the restaurant along with the menu price check."
+  },
+
+  "name": "UNO Mexican Grill",
+  "tagline": "Casual Mexican takeout & dine-in",
+
+  "contact": {
+    "addressLine": "256-31 Union Turnpike",
+    "locality": "Glen Oaks",
+    "region": "NY",
+    "postalCode": "11004",
+    "landmark": "Across from the Post Office, in Glen Oaks Shopping Center",
+    "phone": "(718) 470-2050",
+    "phoneHref": "tel:+17184702050"
+  },
+
+  "hours": {
+    "timeZone": "America/New_York",
+    "summary": "Open 7 days, 11 am – 9:30 pm",
+    "holidayNote": "Holiday hours may differ — call ahead.",
+    "week": [
+      { "day": "sunday", "open": "11:00", "close": "21:30" },
+      { "day": "monday", "open": "11:00", "close": "21:30" },
+      { "day": "tuesday", "open": "11:00", "close": "21:30" },
+      { "day": "wednesday", "open": "11:00", "close": "21:30" },
+      { "day": "thursday", "open": "11:00", "close": "21:30" },
+      { "day": "friday", "open": "11:00", "close": "21:30" },
+      { "day": "saturday", "open": "11:00", "close": "21:30" }
+    ]
+  },
+
+  "ordering": {
+    "note": "Ordering happens on these channels, never on this site. URLs are canonical store links — Google search tracking parameters (rwg_token, utm_*) were stripped deliberately; they are tied to a single search click and do not belong in permanent markup.",
+    "channels": [
+      {
+        "id": "chowbus",
+        "name": "ChowBus",
+        "detail": "Pickup — the restaurant's own ordering",
+        "url": "https://pos.chowbus.com/online-ordering/store/UNO-Mexican-Grill/15192",
+        "primary": true
+      },
+      {
+        "id": "ubereats",
+        "name": "Uber Eats",
+        "detail": "Delivery",
+        "url": "https://www.ubereats.com/store/uno-mexican-grill/iiEbxQepXvSSxOIxUKzY2Q",
+        "primary": false
+      },
+      {
+        "id": "doordash",
+        "name": "DoorDash",
+        "detail": "Delivery",
+        "url": "https://www.doordash.com/store/uno-mexican-grill-glen-oaks-29086681/37519563/",
+        "primary": false
+      },
+      {
+        "id": "grubhub",
+        "name": "Grubhub",
+        "detail": "Delivery",
+        "url": "https://www.grubhub.com/restaurant/uno-mexican-grill-25631-union-tpke-queens/8361416",
+        "primary": false
+      }
+    ],
+    "direct": {
+      "phoneLabel": "Call to order pickup",
+      "walkInLabel": "Or walk in — dine-in and takeout both welcome"
+    }
+  },
+
+  "catering": {
+    "available": true,
+    "summary": "Small & large party catering available"
+  }
+}

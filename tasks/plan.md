@@ -97,6 +97,8 @@ Blocking launch (not blocking the build):
 
 Blocking specific tasks:
 
+- **Source photography is too small for a full-bleed hero (T7, T12).** Measured: `Spread2.jpg` 750x600 is the largest; `OUTSIDE.jpg` 348x348; `Spread1.jpg`, `Nacho_supreme.jpg`, `Logo.png` 225x225; `Tostada_Salad.jpg` 289x174; `Burrito.jpg` 251x201. The direction contract's FIRST VIEWPORT calls for a full-bleed real photograph, which needs roughly 2000px wide to hold up on a desktop display and 1500px on a modern phone. At current sizes the hero would be visibly soft — which would read as a cheap site and undercut the "real food, not stock" thesis. Need the originals (phone camera files, or whatever was uploaded to ChowBus) before T7. If no larger files exist, the hero form has to change — a tiled/collage treatment tolerates small sources where one full-bleed image does not.
+
 - **About story copy (T10).** The "Fresh is our #1 Goal" claims from the printed menu are real and usable, but there is no origin story. Build with those claims plus clearly-provisional placeholder for the story.
 - **Catering details (T11).** Only "Small & Large Party Catering Available" is confirmed. No offerings, pricing, or minimums. Page routes to phone; everything else stays provisional.
 - **Contact page form (T9).** Netlify Forms is available, but `PRODUCT.md` says the site routes to existing channels rather than building its own. Default: no form, phone/channels only. Confirm before building.
