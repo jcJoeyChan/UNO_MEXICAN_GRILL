@@ -1,37 +1,281 @@
 ---
-/** Placeholder — built in Task 8. */
+/**
+ * Location & Hours — the page a returning customer opens on their phone in the
+ * car. Address, directions and tap-to-call come first; everything else follows.
+ *
+ * No map iframe. A Google Maps embed is a third-party script on every visit,
+ * costs the performance floor, and tells Google who looked at this page. The
+ * real storefront photo plus a directions link does the same job: you can
+ * recognise the building, and the link opens whichever maps app you actually
+ * use.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HoursBadge from '../components/HoursBadge.astro';
+import OrderingLinks from '../components/OrderingLinks.astro';
+import Serape from '../components/Serape.astro';
+import restaurant from '../content/restaurant.json';
+
+const { contact, hours } = restaurant;
+const fullAddress = `${contact.addressLine}, ${contact.locality}, ${contact.region} ${contact.postalCode}`;
+const mapsQuery = encodeURIComponent(`UNO Mexican Grill, ${fullAddress}`);
+
+const dayNames: Record<string, string> = {
+  monday: 'Monday',
+  tuesday: 'Tuesday',
+  wednesday: 'Wednesday',
+  thursday: 'Thursday',
+  friday: 'Friday',
+  saturday: 'Saturday',
+  sunday: 'Sunday',
+};
+const weekOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const week = weekOrder
+  .map((day) => hours.week.find((entry) => entry.day === day))
+  .filter((entry): entry is (typeof hours.week)[number] => entry !== undefined);
+
+function to12h(clock: string) {
+  const [h, m] = clock.split(':').map(Number);
+  const period = h < 12 ? 'am' : 'pm';
+  const hour = h % 12 === 0 ? 12 : h % 12;
+  return `${hour}:${String(m).padStart(2, '0')} ${period}`;
+}
 ---
 
 <BaseLayout
-  title="Location & Hours — UNO Mexican Grill"
-  description="Find UNO Mexican Grill at 256-31 Union Turnpike, Glen Oaks, NY."
+  title="Location & Hours — UNO Mexican Grill, Glen Oaks NY"
+  description="UNO Mexican Grill is at 256-31 Union Turnpike, Glen Oaks NY 11004, across from the Post Office in Glen Oaks Shopping Center. Open 7 days, 11 am to 9:30 pm."
 >
   <div class="wrap">
-    <p class="provisional">Placeholder — this page is built in Task 8.</p>
-    <h1>Location & Hours</h1>
+    <header class="page-head">
+      <h1>Location &amp; hours</h1>
+      <p class="lede">{contact.landmark}.</p>
+    </header>
+
+    <Serape weight="rule" class="page-rule" />
+
+    <div class="grid">
+      <section class="card find" aria-labelledby="find-heading">
+        <h2 id="find-heading">Find us</h2>
+        <address>
+          {contact.addressLine}<br />
+          {`${contact.locality}, ${contact.region} ${contact.postalCode}`}
+        </address>
+        <p class="landmark">{contact.landmark}</p>
+
+        <div class="cta-row">
+          <a
+            class="btn btn-primary"
+            href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get directions
+            <span class="external" aria-hidden="true">↗</span>
+            <span class="visually-hidden">opens in a new tab</span>
+          </a>
+          <a class="btn btn-secondary" href={contact.phoneHref}>Call {contact.phone}</a>
+        </div>
+      </section>
+
+      <figure class="storefront">
+        <img
+          src="/images/OUTSIDE.jpg"
+          width="348"
+          height="348"
+          alt="The UNO Mexican Grill storefront in Glen Oaks Shopping Center, with signage above the windows"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>Look for the green sign in the shopping center.</figcaption>
+      </figure>
+    </div>
+
+    <section class="hours-section" aria-labelledby="hours-heading">
+      <h2 id="hours-heading">Hours</h2>
+      <p class="hours-now"><HoursBadge /></p>
+
+      <table>
+        <caption class="visually-hidden">Opening hours by day</caption>
+        <tbody>
+          {
+            week.map((entry) => (
+              <tr>
+                <th scope="row">{dayNames[entry.day]}</th>
+                <td>
+                  {to12h(entry.open)} – {to12h(entry.close)}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      <p class="note">{hours.holidayNote}</p>
+    </section>
+
+    <section class="order-block" aria-labelledby="order-heading">
+      <h2 id="order-heading">Or order without coming in</h2>
+      <OrderingLinks variant="block" />
+    </section>
   </div>
 </BaseLayout>
 
 <style>
   .wrap {
-    max-width: var(--content-narrow);
+    max-width: var(--content-max);
     margin: 0 auto;
-    padding: var(--space-8) var(--space-4);
+    padding: var(--space-7) var(--space-4) var(--space-8);
   }
+
   h1 {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-black);
+    font-family: var(--font-display);
+    font-size: var(--font-size-display);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    max-width: var(--content-narrow);
+  }
+
+  .page-rule {
+    margin-top: var(--space-6);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
     letter-spacing: var(--letter-spacing-tight);
   }
-  .provisional {
-    display: inline-block;
-    margin-bottom: var(--space-5);
-    padding: var(--space-2) var(--space-4);
-    background: var(--state-seasonal-bg);
-    color: var(--state-seasonal-text);
+
+  .grid {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-7);
+  }
+
+  @media (min-width: 52rem) {
+    .grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .card {
+    padding: var(--space-6);
+    background: var(--mural-sand);
+    border-radius: var(--radius-lg);
+  }
+
+  address {
+    margin-top: var(--space-4);
+    font-style: normal;
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-snug);
+  }
+
+  .landmark {
+    margin-top: var(--space-2);
+    color: var(--warm-600);
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-full);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+  }
+
+  .btn-secondary {
+    border: 2px solid var(--warm-400);
+    color: var(--text);
+  }
+
+  .external {
+    font-size: 0.8em;
+  }
+
+  .storefront {
+    margin: 0;
+  }
+
+  .storefront img {
+    width: 100%;
+    max-width: 348px;
+    border-radius: var(--radius-lg);
+  }
+
+  figcaption {
+    margin-top: var(--space-2);
     font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .hours-section {
+    margin-top: var(--space-8);
+  }
+
+  .hours-now {
+    margin-top: var(--space-4);
+  }
+
+  table {
+    width: 100%;
+    max-width: 26rem;
+    margin-top: var(--space-4);
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: var(--space-3) 0;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
     font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+  }
+
+  td {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .order-block {
+    margin-top: var(--space-9);
+    padding: var(--space-6);
+    background: var(--mural-sky-wash);
+    border-radius: var(--radius-lg);
+  }
+
+  .order-block :global(.ordering) {
+    margin-top: var(--space-4);
   }
 </style>

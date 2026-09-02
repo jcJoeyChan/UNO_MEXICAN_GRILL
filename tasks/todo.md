@@ -226,16 +226,16 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Address, landmark, hours, and directions — the page the returning customer opens on their phone in the car.
 
 **Acceptance criteria:**
-- [ ] Address, landmark ("across from the Post Office, in Glen Oaks Shopping Center"), and phone shown
-- [ ] Full weekly hours (Mon–Sun 11:00 am – 9:30 pm) plus the live pill and the holiday-hours caveat
-- [ ] Tap-to-call and tap-for-directions work on mobile
-- [ ] Map embed is lazy-loaded, or replaced by a static image linking out, to avoid third-party cost on load
-- [ ] Storefront photo (`OUTSIDE.jpg`) used so visitors recognize the building
+- [x] Address, landmark ("across from the Post Office, in Glen Oaks Shopping Center"), and phone shown
+- [x] Full weekly hours (Mon–Sun 11:00 am – 9:30 pm) plus the live pill and the holiday-hours caveat
+- [x] Tap-to-call and tap-for-directions work on mobile
+- [x] Map embed is lazy-loaded, or replaced by a static image linking out, to avoid third-party cost on load
+- [x] Storefront photo (`OUTSIDE.jpg`) used so visitors recognize the building
 
 **Verification:**
-- [ ] Build, lint, typecheck pass
-- [ ] Manual: on a phone, tap-to-call dials and directions open a maps app
-- [ ] Manual: no third-party script blocks first paint
+- [x] Build, lint, typecheck pass
+- [x] Manual: on a phone, tap-to-call dials and directions open a maps app
+- [x] Manual: no third-party script blocks first paint
 
 **Dependencies:** Task 4
 
