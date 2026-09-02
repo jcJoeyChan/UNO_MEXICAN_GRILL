@@ -68,17 +68,17 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Implement the open/closed calculation backing the site's memorable moment. Hours are 11:00–21:30 daily in `America/New_York`. The function must take an injectable clock so it is testable, and must not silently assume the visitor's local timezone.
 
 **Acceptance criteria:**
-- [ ] `src/lib/hours.ts` exports `isOpenNow(hours, now?)` returning open state plus the next transition time
-- [ ] Timezone is explicitly `America/New_York`, independent of the visitor's clock
-- [ ] Correct across DST transitions in both directions
-- [ ] Handles the exact boundary minutes (11:00 open, 21:30 close)
-- [ ] Returns enough for the pill to render "Open now — closes 9:30 pm" and the closed equivalent
-- [ ] Holiday-hours caveat is representable (a flag or note, not a hardcoded date list)
+- [x] `src/lib/hours.ts` exports `isOpenNow(hours, now?)` returning open state plus the next transition time
+- [x] Timezone is explicitly `America/New_York`, independent of the visitor's clock
+- [x] Correct across DST transitions in both directions
+- [x] Handles the exact boundary minutes (11:00 open, 21:30 close)
+- [x] Returns enough for the pill to render "Open now — closes 9:30 pm" and the closed equivalent
+- [x] Holiday-hours caveat is representable (a flag or note, not a hardcoded date list)
 
 **Verification:**
-- [ ] `npm run test` passes with cases for: mid-open, mid-closed, both boundary minutes, both DST transitions, and a visitor clock in a different timezone
-- [ ] `npm run typecheck` passes
-- [ ] Manual: no test relies on the real system clock
+- [x] `npm run test` passes with cases for: mid-open, mid-closed, both boundary minutes, both DST transitions, and a visitor clock in a different timezone
+- [x] `npm run typecheck` passes
+- [x] Manual: no test relies on the real system clock
 
 **Dependencies:** Task 1
 
