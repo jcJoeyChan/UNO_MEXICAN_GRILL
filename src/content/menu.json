@@ -3,7 +3,7 @@
     "source": "public/menu.pdf \u2014 the restaurant's own printed take-out menu (scanned, 2 pages, image-only)",
     "transcribed": "2026-09-02",
     "authority": "This file supersedes the ChowBus store page for item names, prices, and availability. ChowBus flags out-of-season items as 'sold out'; the printed menu states seasonality directly.",
-    "verifyBeforeLaunch": "Partially done 2026-09-02 \u2014 see verifiedWithRestaurant. Still outstanding: confirm the remaining 65 prices are current before the site goes public.",
+    "verifyBeforeLaunch": "Done 2026-09-02 \u2014 see verifiedWithRestaurant. All 79 prices cross-checked against an independent transcription and matched exactly. Re-verify only if the printed menu changes.",
     "knownSourceTypos": [
       "'Peper' (item 3F) \u2014 printed as-is; corrected to 'Pepper' in the display name, original kept in nameAsPrinted",
       "'Steamed Veggied Burrito' (item 23) \u2014 printed as-is",
@@ -16,16 +16,20 @@
         "Item 34 is \"Tex-Mex Chili\" \u2014 the printed \"Chill\" is a typo.",
         "Item 49 Salsa Ranchera $2.50 is the 8 oz price.",
         "Items 50-61 are single prices; sizes vary per item and are not stated.",
-        "Spread3 photograph is the restaurant\u2019s own."
+        "Spread3 photograph is the restaurant\u2019s own.",
+        "Full menu cross-checked against a second independent transcription supplied by the user (uno_mexican_grill_menu_ai_readable.txt) on 2026-09-02: all 79 items and every price matched exactly, including both quesadilla columns and all side-order tiers.",
+        "Vegetarian marking corrected to the 25 asterisked items. Six flags on drinks and desserts had been inferred rather than transcribed, and were removed.",
+        "Item 23 displays as \"Steamed Veggie Burrito\"; the printed \"Veggied\" is kept in nameAsPrinted.",
+        "Jalape\u00f1o keeps its tilde on items 15 and 48, a deliberate correction to the print."
       ],
-      "stillOpen": "Whether the remaining 65 prices are all current has not been confirmed."
+      "stillOpen": "Nothing outstanding on prices: all 79 were confirmed against a second transcription on 2026-09-02. Re-check if the restaurant reprints its menu."
     }
   },
   "conventions": {
     "orderByNumber": true,
     "orderByNumberNote": "The printed menu says PLEASE ORDER BY NUMBER. Item numbers are a real part of how this restaurant operates and should be visible on the site.",
     "vegetarianMarker": "*",
-    "vegetarianNote": "An asterisk on the printed menu indicates vegetarian.",
+    "vegetarianNote": "An asterisk on the printed menu indicates vegetarian. The site marks exactly the 25 items the menu asterisks and no others. Drinks and desserts carry no asterisk on the menu, so they carry no marking here \u2014 inferring one would be asserting something the restaurant does not.",
     "shrimpNote": "Shrimp items are cooked w. onions, cilantro & may have mushrooms."
   },
   "categories": [
@@ -616,25 +620,25 @@
           "number": null,
           "name": "Can Soda",
           "price": 2.0,
-          "vegetarian": true
+          "vegetarian": false
         },
         {
           "number": null,
           "name": "Snapple",
           "price": 3.0,
-          "vegetarian": true
+          "vegetarian": false
         },
         {
           "number": null,
           "name": "Spring Water",
           "price": 1.5,
-          "vegetarian": true
+          "vegetarian": false
         },
         {
           "number": null,
           "name": "Mexican Soda",
           "price": 3.0,
-          "vegetarian": true
+          "vegetarian": false
         }
       ]
     },
@@ -647,13 +651,13 @@
           "number": null,
           "name": "Homemade Cheese Cake",
           "price": 5.5,
-          "vegetarian": true
+          "vegetarian": false
         },
         {
           "number": null,
           "name": "Cheese Cake w. Strawberry",
           "price": 6.0,
-          "vegetarian": true
+          "vegetarian": false
         }
       ]
     },

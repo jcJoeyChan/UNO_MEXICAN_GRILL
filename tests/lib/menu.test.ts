@@ -70,8 +70,20 @@ describe('the real menu data', () => {
     expect(raw._provenance.verifiedWithRestaurant.confirmed.length).toBeGreaterThan(0);
   });
 
-  it('marks 31 items vegetarian, from the menu’s own asterisk convention', () => {
-    expect(vegetarianItems(categories)).toHaveLength(31);
+  it('marks exactly the 25 items the printed menu asterisks — no inferred flags', () => {
+    // Was 31: four drinks and two cheesecakes had been marked vegetarian by
+    // inference rather than transcription. A second independent transcription of
+    // the menu confirmed the printed asterisks number 25. Inferring a flag the
+    // restaurant did not print is asserting something on its behalf, and
+    // cheesecake can contain gelatin.
+    expect(vegetarianItems(categories)).toHaveLength(25);
+  });
+
+  it('marks nothing vegetarian in drinks or desserts, which carry no asterisk', () => {
+    for (const id of ['beverages', 'dessert']) {
+      const category = categories.find((c) => c.id === id)!;
+      expect(category.items.every((i) => i.vegetarian === false)).toBe(true);
+    }
   });
 });
 

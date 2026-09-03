@@ -58,6 +58,21 @@ const flagged = menu.categories.flatMap((c) =>
 );
 note(`${flagged.length} menu items still flagged for verification with the restaurant`);
 
+// The printed menu asterisks exactly 25 items. Marking more means asserting a
+// dietary claim the restaurant did not make — which for cheesecake may simply
+// be untrue. Confirmed against a second independent transcription 2026-09-02.
+const EXPECTED_VEGETARIAN = 25;
+const vegCount = menu.categories.reduce(
+  (n, c) => n + c.items.filter((i) => i.vegetarian).length,
+  0,
+);
+if (vegCount !== EXPECTED_VEGETARIAN) {
+  fail(
+    'vegetarian-marking',
+    `${vegCount} items marked vegetarian, expected ${EXPECTED_VEGETARIAN}. The site marks exactly what the printed menu asterisks — never an inferred flag.`,
+  );
+}
+
 const verified = menu._provenance?.verifiedWithRestaurant;
 if (flagged.length === 0 && !verified?.date) {
   fail(

@@ -169,7 +169,7 @@ From `PRODUCT.md`, enforced by `npm run check:content`:
 
 ## Known gaps
 
-1. **Menu prices partly verified.** All 14 flagged items were confirmed with the user on 2026-09-02: item 34 is "Tex-Mex Chili", item 49's $2.50 is the 8 oz price, and items 50–61 are single prices whose sizes vary and are deliberately unstated. **Still outstanding: whether the remaining 65 prices are current. Blocks launch.**
+1. ~~**Menu prices unverified.**~~ **Closed 2026-09-02.** All 79 prices were cross-checked against a second, independent transcription of the printed menu and matched exactly — both quesadilla columns and every side-order tier included. The 14 flagged items were resolved with the user. That cross-check also caught a fabrication of mine: six drinks and desserts had been marked vegetarian by inference rather than transcription. The site now marks exactly the 25 items the menu asterisks, enforced by `check:content`.
 2. **Storefront photo too low-res** — one phone snapshot closes it. The user will retake it in better weather. Expires 2026-12-01.
 3. **Older food photography is small** — 750×600 at best, which is why the strip sits on dark at 168px tiles. The newer photos (grill, Spread3, catering trays) are full-resolution phone originals and have no such limit.
 4. **No origin story** — About stays visibly incomplete until someone tells it.
