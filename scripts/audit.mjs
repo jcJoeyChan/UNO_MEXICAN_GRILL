@@ -28,7 +28,7 @@ const useShell = process.platform === 'win32';
 const BASELINE = join(root, '.constraints-baseline.json');
 const PORT = Number(process.env.AUDIT_PORT ?? 4322);
 const ORIGIN = process.env.AUDIT_ORIGIN ?? `http://localhost:${PORT}`;
-const PAGES = ['/', '/menu', '/location', '/contact', '/about', '/catering'];
+const PAGES = ['/', '/menu', '/location', '/contact', '/about', '/catering', '/news'];
 const CATEGORIES = ['performance', 'accessibility', 'best-practices', 'seo'];
 const update = process.argv.includes('--update');
 

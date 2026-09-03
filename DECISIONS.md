@@ -215,3 +215,32 @@ Three spreads were offered (signature only / signature + categories / everywhere
 ### Cost
 
 ~38KB across two subsets, against Archivo Black's ~16KB. **Archivo Black was deleted** — both `.woff2` files, the `@font-face` rules and the `<link rel="preload">` in `BaseLayout.astro`, which pointed at a file nothing would have used. Net +22KB, and the preload now points at the face actually in use.
+---
+
+## /news: a Markdown-backed post section (2026-09-02)
+
+The user asked for a page to post promotions, deals, new items and "about us". Built as **/news** with tags rather than /blog: this is a restaurant announcing specials, not a journal, and `/about` already exists as a standing page so it was left alone.
+
+**Authoring is Markdown files in `src/content/posts/`**, at the user's direction, with a CMS explicitly deferred. The tradeoff was put plainly first: a Markdown blog needs git to post, so if counter staff ever need to post from a phone this becomes the wrong answer. A git-based CMS reads these same files, so that switch costs no rework.
+
+`_template.md` sits in the directory as an authoring reference. The glob pattern is `**/[^_]*.md`, so underscore files never become posts.
+
+### Expired offers are the real problem a deals page has
+
+"Half off tacos this weekend" still reading as current in March misinforms customers exactly the way an invented menu item would. Three layers, so it cannot happen by neglect:
+
+1. **Schema** — `promotion` and `deal` posts must set `expires`. A time-limited offer with no end date is rejected at build time.
+2. **Pages** — the index lists only unexpired, non-draft posts. Expired posts keep their permalink (shared links should not 404) and their page carries a plain "This offer ended on ..." banner.
+3. **`check:content`** — fails if an expired post's title reaches the built index, and if a deal has no `expires`. Both were verified by deliberately breaking them, not assumed.
+
+### Expiry is a calendar day in Glen Oaks, not an instant
+
+The first implementation used `setHours()` on a date parsed from `expires`. Date-only values parse as **UTC midnight** while `setHours` is **local**, so an offer expiring on the 30th died several hours early — during business hours on its own last day. The tests caught it.
+
+It now compares calendar days in `RESTAURANT_TIMEZONE`, the same principle `hours.ts` sets out: the restaurant's clock is the only clock that matters. A test pins the case where UTC has rolled over to the next day while Glen Oaks is still open and serving.
+
+### No posts shipped
+
+`PRODUCT.md` forbids invented content, so the section ships empty with an honest empty state pointing at the menu and the phone number, rather than a fabricated special. The rendering paths were proven with temporary posts that were deleted before commit.
+
+`/news` was added to `scripts/audit.mjs` and given its own floor in `.constraints-baseline.json` (100/100/100/100). Worth noting: the audit treats a **missing** baseline entry as no floor at all, so a new page is measured but unenforced until it is added by hand. `--update` was deliberately not used, since it rewrites every floor with today's scores and could lower one silently.

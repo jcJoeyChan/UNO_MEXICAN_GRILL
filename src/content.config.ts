@@ -11,8 +11,9 @@
  * has an `id`, which is what the loader keys entries by.
  */
 import { defineCollection } from 'astro:content';
-import { file } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { menuCategorySchema } from './lib/menu-schema';
+import { postSchema } from './lib/posts';
 
 const menu = defineCollection({
   loader: file('src/content/menu.json', {
@@ -21,4 +22,16 @@ const menu = defineCollection({
   schema: menuCategorySchema,
 });
 
-export const collections = { menu };
+/**
+ * News posts: promotions, deals, new items and announcements.
+ *
+ * The glob pattern skips files starting with an underscore, which is how
+ * _template.md stays in the directory as an authoring reference without ever
+ * becoming a published post.
+ */
+const posts = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/posts' }),
+  schema: postSchema,
+});
+
+export const collections = { menu, posts };

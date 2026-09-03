@@ -1,0 +1,148 @@
+---
+/**
+ * A single news post.
+ *
+ * Expired offers keep their permalink — a link someone already shared should
+ * not 404 — but the page says plainly that the offer has ended. Silently
+ * serving a finished discount as though it were live is exactly the kind of
+ * false-as-factual content PRODUCT.md rules out.
+ *
+ * Drafts are excluded from getStaticPaths, so they never build at all.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Serape from '../../components/Serape.astro';
+import { isExpired, formatPostDate, TAG_LABELS, sortPosts } from '../../lib/posts';
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('posts');
+  return sortPosts(entries.filter((entry) => !entry.data.draft)).map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const expired = isExpired(entry.data);
+---
+
+<BaseLayout title={`${entry.data.title} — UNO Mexican Grill`} description={entry.data.description}>
+  <article>
+    <section class="intro">
+      <div class="section-inner">
+        <p class="meta">
+          <span class="tag">{TAG_LABELS[entry.data.tag]}</span>
+          <time datetime={entry.data.date.toISOString()}>{formatPostDate(entry.data.date)}</time>
+        </p>
+        <h1>{entry.data.title}</h1>
+      </div>
+    </section>
+
+    <Serape weight="band" />
+
+    <section class="body">
+      <div class="section-inner">
+        {
+          expired && entry.data.expires && (
+            <p class="ended" role="status">
+              This offer ended on {formatPostDate(entry.data.expires)}. It is kept here for
+              reference and is no longer available.
+            </p>
+          )
+        }
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <p class="back"><a href="/news">← All news</a></p>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .intro {
+    background: var(--surface);
+    padding: var(--space-8) 0 var(--space-6);
+  }
+
+  .section-inner {
+    max-width: var(--content-narrow);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .tag {
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--brand-green-deep);
+    color: var(--text-inverse);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-tight);
+    margin: 0;
+  }
+
+  .body {
+    background: var(--surface);
+    padding: var(--space-7) 0 var(--space-9);
+  }
+
+  .ended {
+    margin: 0 0 var(--space-6);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--state-closed-bg);
+    color: var(--state-closed-text);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .prose :global(p) {
+    margin: 0 0 var(--space-4);
+    line-height: var(--line-height-base);
+  }
+
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-5);
+  }
+
+  .prose :global(a) {
+    color: var(--brand-green-ink);
+  }
+
+  .back {
+    margin: var(--space-7) 0 0;
+  }
+
+  .back a {
+    color: var(--brand-green-ink);
+    font-weight: var(--font-weight-bold);
+  }
+</style>

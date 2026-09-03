@@ -112,6 +112,69 @@ if (restaurant.ordering.channels.length !== 4) {
   );
 }
 
+// --------------------------------------------------------------- news posts
+//
+// A promotion that has ended must not still be advertised. The pages already
+// filter expired posts out, so this guards the guard: if an expired offer's
+// title ever reaches the built index, something upstream broke silently.
+const postsDir = join(root, 'src/content/posts');
+if (existsSync(postsDir)) {
+  const DATED_TAGS = ['promotion', 'deal'];
+  const posts = [];
+
+  for (const name of readdirSync(postsDir)) {
+    // Underscore files are authoring templates; the collection skips them too.
+    if (name.startsWith('_') || !name.endsWith('.md')) continue;
+    const raw = readFileSync(join(postsDir, name), 'utf8');
+    const front = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw);
+    if (!front) {
+      fail('news', `${name} has no frontmatter block`);
+      continue;
+    }
+    const field = (key) => {
+      const m = new RegExp(`^${key}:[ \t]*['"]?(.*?)['"]?[ \t]*$`, 'm').exec(front[1]);
+      return m ? m[1] : null;
+    };
+    posts.push({
+      name,
+      title: field('title'),
+      tag: field('tag'),
+      expires: field('expires'),
+      draft: field('draft') === 'true',
+    });
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  for (const post of posts) {
+    if (DATED_TAGS.includes(post.tag) && !post.expires) {
+      fail(
+        'news',
+        `${post.name} is a "${post.tag}" with no expires date — it would read as current forever`,
+      );
+    }
+  }
+
+  const expired = posts.filter((post) => {
+    if (!post.expires) return false;
+    const end = new Date(`${post.expires}T23:59:59`);
+    return !Number.isNaN(end.getTime()) && end < today;
+  });
+
+  const indexHtml = join(root, 'dist/news/index.html');
+  if (existsSync(indexHtml)) {
+    const html = readFileSync(indexHtml, 'utf8');
+    for (const post of expired) {
+      if (post.title && html.includes(post.title)) {
+        fail('news', `/news still lists "${post.title}", whose offer expired ${post.expires}`);
+      }
+    }
+  }
+
+  note(`checked ${posts.length} news post(s), ${expired.length} expired`);
+}
+
 // ------------------------------------------------------------- built output
 const dist = join(root, 'dist');
 if (!existsSync(dist)) {

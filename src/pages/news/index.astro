@@ -1,0 +1,164 @@
+---
+/**
+ * News — promotions, deals, new items and announcements.
+ *
+ * PRODUCT.md forbids inventing content, so this ships with no posts: the
+ * empty state says so plainly rather than filling the page with a fake
+ * special. Posts are Markdown files in src/content/posts (see _template.md).
+ *
+ * Expired promotions are filtered out here, not hidden with CSS — an offer
+ * that has ended must not reach the page at all.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Serape from '../../components/Serape.astro';
+import { listPosts, formatPostDate, TAG_LABELS } from '../../lib/posts';
+
+const entries = await getCollection('posts');
+const posts = listPosts(entries);
+---
+
+<BaseLayout
+  title="News — UNO Mexican Grill, Glen Oaks NY"
+  description="Specials, new menu items and announcements from UNO Mexican Grill in Glen Oaks, Queens."
+>
+  <section class="intro">
+    <div class="section-inner">
+      <h1>What's new</h1>
+      <p class="lede">Specials, new items and announcements from the counter.</p>
+    </div>
+  </section>
+
+  <Serape weight="band" />
+
+  <section class="feed" aria-labelledby="feed-heading">
+    <div class="section-inner">
+      <h2 id="feed-heading" class="visually-hidden">Posts</h2>
+
+      {
+        posts.length === 0 ? (
+          <p class="empty">
+            Nothing posted yet. For today's menu and prices, see the{' '}
+            <a href="/menu">full menu</a> — or call us on{' '}
+            <a href="tel:+17184702050">(718) 470-2050</a>.
+          </p>
+        ) : (
+          <ul class="posts" role="list">
+            {posts.map((post) => (
+              <li>
+                <article class="card">
+                  <p class="meta">
+                    <span class="tag">{TAG_LABELS[post.data.tag]}</span>
+                    <time datetime={post.data.date.toISOString()}>
+                      {formatPostDate(post.data.date)}
+                    </time>
+                  </p>
+                  <h3>
+                    <a href={`/news/${post.id}`}>{post.data.title}</a>
+                  </h3>
+                  <p class="excerpt">{post.data.description}</p>
+                </article>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    background: var(--surface);
+    padding: var(--space-8) 0 var(--space-6);
+  }
+
+  .section-inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-display);
+    line-height: var(--line-height-tight);
+    margin: 0;
+  }
+
+  .lede {
+    margin: var(--space-4) 0 0;
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    max-width: var(--content-narrow);
+  }
+
+  .feed {
+    background: var(--surface);
+    padding: var(--space-7) 0 var(--space-9);
+  }
+
+  .empty {
+    margin: 0;
+    max-width: var(--content-narrow);
+    color: var(--text-secondary);
+  }
+
+  .posts {
+    display: grid;
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  }
+
+  .card {
+    height: 100%;
+    padding: var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .tag {
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-full);
+    background: var(--brand-green-deep);
+    color: var(--text-inverse);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-wide);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+  }
+
+  .card h3 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-snug);
+    margin: 0;
+  }
+
+  .card h3 a {
+    color: var(--text-on-raised);
+    text-decoration: none;
+  }
+
+  .card h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .excerpt {
+    margin: var(--space-3) 0 0;
+    color: var(--text-secondary);
+  }
+</style>
