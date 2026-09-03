@@ -345,4 +345,6 @@ Open Graph was **entirely absent** before this: sharing any page gave a blank gr
 
 ### Still open before going live
 
-The domain, the Netlify site itself, merging to `main`, and a real-device check. **`unomexicangrill.com` is already registered** — parked at Namecheap with email forwarding configured, which suggests an owner who set it up deliberately rather than a squatter.
+The Netlify site itself, merging to `main`, and a real-device check.
+
+**Domain: `unomexicangrillny.com`.** The first choice, `unomexicangrill.com`, is already registered — parked at Namecheap with email forwarding configured, which suggests an owner who set it up deliberately rather than a squatter, and it may even be the restaurant's own from years ago. Worth asking the owner before assuming it is lost. `unomexicangrillny.com` was confirmed unregistered against the .com registry over RDAP (404, and no DNS), and the NY suffix is honest for a Queens restaurant. It still has to be bought — nothing reserves it until then.

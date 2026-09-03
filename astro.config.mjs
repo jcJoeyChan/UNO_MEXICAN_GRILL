@@ -8,5 +8,5 @@ export default defineConfig({
    * canonical tags, Open Graph URLs, the sitemap and robots.txt — so moving the
    * site to another domain is a one-line change here plus a redeploy.
    */
-  site: 'https://unomexicangrill.com',
+  site: 'https://unomexicangrillny.com',
 });
