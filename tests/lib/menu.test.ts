@@ -61,8 +61,13 @@ describe('the real menu data', () => {
     expect(new Set(categories.map((c) => c.id))).toEqual(new Set(CATEGORY_ORDER));
   });
 
-  it('keeps 14 items flagged for verification with the restaurant', () => {
-    expect(flaggedItems(categories)).toHaveLength(14);
+  it('has no unverified items left — all 14 were confirmed on 2026-09-02', () => {
+    expect(flaggedItems(categories)).toHaveLength(0);
+  });
+
+  it('records what was confirmed, so flags cannot be cleared silently', () => {
+    expect(raw._provenance.verifiedWithRestaurant.date).toBe('2026-09-02');
+    expect(raw._provenance.verifiedWithRestaurant.confirmed.length).toBeGreaterThan(0);
   });
 
   it('marks 31 items vegetarian, from the menu’s own asterisk convention', () => {
@@ -193,16 +198,29 @@ describe('price shapes', () => {
 });
 
 describe('verification flags', () => {
-  it('flags the ambiguous Tex-Mex Chill spelling', () => {
+  it('resolves item 34 to Tex-Mex Chili, the confirmed spelling', () => {
     const salads = categories.find((c) => c.id === 'tostada-salads')!;
     const item = salads.items.find((i) => i.number === '34')!;
-    expect(needsVerification(item)).toBe(true);
-    expect(item.nameAsPrinted).toBe('Tex-Mex Chill');
+    expect(item.name).toBe('Tex-Mex Chili');
+    expect(item.nameAsPrinted).toBeUndefined();
+    expect(needsVerification(item)).toBe(false);
   });
 
-  it('flags side orders whose size column is unclear in the scan', () => {
+  it('records item 49 as the 8 oz price, as confirmed', () => {
     const sides = categories.find((c) => c.id === 'side-orders')!;
-    expect(sides.items.filter((i) => i.sizeUnclear)).toHaveLength(13);
+    const salsa = sides.items.find((i) => i.number === '49')!;
+    expect(salsa.prices).toEqual({ oz8: 2.5 });
+    expect(priceTiers(salsa)).toEqual([{ label: '8 oz', value: '$2.50' }]);
+  });
+
+  it('leaves side orders 50-61 as single prices with no invented size label', () => {
+    const sides = categories.find((c) => c.id === 'side-orders')!;
+    const rest = sides.items.filter((i) => Number(i.number) >= 50);
+    expect(rest).toHaveLength(12);
+    for (const item of rest) {
+      expect(item.price).toBeTypeOf('number');
+      expect(priceTiers(item)[0].label).toBeUndefined();
+    }
   });
 
   it('does not flag an item transcribed cleanly', () => {

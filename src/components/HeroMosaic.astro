@@ -61,11 +61,18 @@ const tiles: Tile[] = [
     alt: 'Tacos and sides in paper trays on a wood table',
   },
   {
-    src: '/images/grill-900.jpg',
-    width: 900,
-    height: 675,
+    src: '/images/grill-450.jpg',
+    width: 450,
+    height: 338,
     maxRendered: 168,
     alt: 'Chicken and steak on the flat-top grill, marked from the bars',
+  },
+  {
+    src: '/images/Spread3-450.jpg',
+    width: 450,
+    height: 360,
+    maxRendered: 168,
+    alt: 'An overhead spread — tacos, a quesadilla, nachos, guacamole, shrimp and a burrito on a wood table',
   },
 ];
 
@@ -121,7 +128,7 @@ for (const tile of tiles) {
      slots in a six-column grid, which wrapped and left an empty cell. */
   .mosaic {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: var(--space-3);
     max-width: var(--content-max);
     margin: 0 auto;

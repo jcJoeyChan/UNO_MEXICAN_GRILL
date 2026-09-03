@@ -48,17 +48,27 @@ else {
   if (soups.season !== 'winter') fail('seasonal', 'soups must be season:"winter"');
 }
 
-// Unverified data must stay flagged until someone actually verifies it.
+// Flags may only be cleared by actually verifying, and the verification has to
+// be recorded. The original rule was "at least one item stays flagged", which
+// was a proxy for this while everything was unverified. On 2026-09-02 the user
+// confirmed the flagged items, so the proxy would now fail on correct data —
+// it is replaced by the thing it was standing in for.
 const flagged = menu.categories.flatMap((c) =>
   c.items.filter((i) => i.needsVerification || i.sizeUnclear),
 );
-if (flagged.length === 0) {
+note(`${flagged.length} menu items still flagged for verification with the restaurant`);
+
+const verified = menu._provenance?.verifiedWithRestaurant;
+if (flagged.length === 0 && !verified?.date) {
   fail(
     'provenance',
-    'no items flagged needsVerification/sizeUnclear. 14 were flagged at transcription; clearing them requires confirming prices with the restaurant and updating _provenance.',
+    'every verification flag was cleared but _provenance.verifiedWithRestaurant records no date. ' +
+      'Flags are cleared by confirming with the restaurant, not by deleting them.',
   );
 }
-note(`${flagged.length} menu items still flagged for verification with the restaurant`);
+if (verified && !Array.isArray(verified.confirmed)) {
+  fail('provenance', '_provenance.verifiedWithRestaurant must list what was confirmed');
+}
 
 if (!menu._provenance?.verifyBeforeLaunch) {
   fail('provenance', 'menu.json lost its verifyBeforeLaunch note');

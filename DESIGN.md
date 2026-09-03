@@ -15,7 +15,7 @@ Audited 2026-09-02 against the direction contract, by behaviour rather than by i
 | Clause | Holds | Evidence |
 | --- | --- | --- |
 | THESIS — order rail persists everywhere | Yes | Order button present in all six public pages |
-| THESIS — real photography carries the page | Yes | Mural in the first viewport, six real food photos below |
+| THESIS — real photography carries the page | Yes | Mural in the first viewport, seven real food photos below |
 | STORY — live open/closed state | Yes | Pill computed client-side from real hours |
 | STORY — ordering reachable immediately | Yes | Four channels plus phone and walk-in, two taps from anywhere |
 | MEMORABLE — oversized category headings | Yes | 48px display face on the menu |
@@ -131,7 +131,7 @@ Restrained by instruction — "modern, not excessive".
 | `Nav` | Sticky at every scroll position. Collapses to logo + hamburger + Order at ≤48rem. Escape closes the Order menu and returns focus to the button. |
 | `HoursBadge` | Server-renders the *hours*, then upgrades to live state client-side. A static build must never ship a frozen "Open now". |
 | `MuralHero` | Copy in a dark left column; scrim clears by 66% so the painting shows. Text contrast measured by compositing real pixels. |
-| `HeroMosaic` | Six equal tiles on a **dark** ground. Build-time guard: no photo renders above its native pixels on either axis. |
+| `HeroMosaic` | Seven equal tiles on a **dark** ground. Build-time guard: no photo renders above its native pixels on either axis. |
 | `Serape` | Decorative, `aria-hidden`. Rule or band. |
 | `MenuItem` | Number as a green chip — "order by number" is how the counter works. Single prices stay inline on mobile; only multi-tier stack. |
 | `OrderingLinks` | ChowBus marked primary — it is the restaurant's own channel. All external links `rel="noopener noreferrer"` with a visually-hidden "opens in a new tab". |
@@ -146,6 +146,9 @@ Every shipping raster, its source and why it is the size it is.
 | --- | --- | --- | --- |
 | `Logo.png` | Supplied | 225×225 | Rail at 2.25rem, favicon |
 | `Spread1/2`, `Burrito`, `Nacho_supreme`, `Tostada_Salad` | Supplied, already compressed by ChowBus | 225×225 – 750×600 | Food strip, capped at 168px so none upscales. **WebP tried and rejected — 11% larger** on these already-compressed sources. |
+| `grill-900/1400/2000` | `source-assets/GrilledMeats-original.jpg`, 4032×3024 phone original | up to 2000×1500 | Food strip. Chicken and steak on the flat-top. |
+| `Spread3-450/900` | `source-assets/Spread3-original.png`, an iOS screenshot | 900×721 | Food strip. The screenshot chrome (status bar, toolbar) was detected and cropped off automatically. Confirmed by the user as the restaurant's own photograph. |
+| `catering1–3 -450/700/1100` | `source-assets/catering{n}-original.jpg`, 3024×4032 phone originals | up to 1100×1467 | Catering trays. Converted from HEIC. |
 | `OUTSIDE.jpg` | Supplied | 348×348 | Storefront. Too low-res for high-DPI; documented exception, expires 2026-12-01. |
 | `mural-1200/1800/2400 .jpg/.webp` | `source-assets/MURAL.JPG`, 5712×4284 phone original | up to 2400×1072 | Cropped to the painted area. WebP saves 49% — it comes from an uncompressed original. |
 | `menu.pdf` | `source-assets/menu-original.pdf`, 7.9MB scan | 2 pages | Rebuilt at JPEG q78 → 832KB. Legibility verified on a rendered crop, not assumed. |
@@ -166,8 +169,8 @@ From `PRODUCT.md`, enforced by `npm run check:content`:
 
 ## Known gaps
 
-1. **Menu prices unverified** — transcribed from a printed menu of unknown vintage; 14 items flagged. **Blocks launch.**
-2. **Storefront photo too low-res** — one phone snapshot closes it. Expires 2026-12-01.
-3. **Food photography is small** — 750×600 at best, which is why the mosaic became a strip on dark rather than a hero.
+1. **Menu prices partly verified.** All 14 flagged items were confirmed with the user on 2026-09-02: item 34 is "Tex-Mex Chili", item 49's $2.50 is the 8 oz price, and items 50–61 are single prices whose sizes vary and are deliberately unstated. **Still outstanding: whether the remaining 65 prices are current. Blocks launch.**
+2. **Storefront photo too low-res** — one phone snapshot closes it. The user will retake it in better weather. Expires 2026-12-01.
+3. **Older food photography is small** — 750×600 at best, which is why the strip sits on dark at 168px tiles. The newer photos (grill, Spread3, catering trays) are full-resolution phone originals and have no such limit.
 4. **No origin story** — About stays visibly incomplete until someone tells it.
 5. **Homepage performance at 98** with no headroom — deliberate, so the next regression fails.
