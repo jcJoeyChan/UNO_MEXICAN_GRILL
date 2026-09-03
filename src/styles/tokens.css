@@ -37,6 +37,28 @@
   --brand-red-ink: #96131a; /* on --surface: 8.17:1  AA pass  — accent text */
 
   /* ---------------------------------------------------------------------
+     Ordering partners.
+
+     PRODUCT.md routes every order to one of these four, so each card carries
+     its partner’s own colour. These are the published brand colours
+     unmodified, used the way this file already permits brand colour to be
+     used — as a large fill, never as text.
+
+     The card text is --text (warm-950) on top, which clears AA on all four:
+     ChowBus 6.11:1 · Uber Eats 7.37:1 · DoorDash 4.74:1 · Grubhub 4.58:1.
+     White would not: it measures 2.87 / 2.38 / 3.70 / 3.83 and would have
+     forced the backgrounds to be darkened away from the real brand colour.
+
+     Trademarks belong to their owners. These identify a link to that
+     partner; they are not an endorsement and must not be restyled into
+     anything logo-shaped.
+     --------------------------------------------------------------------- */
+  --partner-chowbus-bg: #ff6a13; /* --text on this: 6.11:1  AA pass */
+  --partner-ubereats-bg: #06c167; /* --text on this: 7.37:1  AA pass */
+  --partner-doordash-bg: #ff3008; /* --text on this: 4.74:1  AA pass */
+  --partner-grubhub-bg: #f63440; /* --text on this: 4.58:1  AA pass */
+
+  /* ---------------------------------------------------------------------
      Warm neutrals — sampled from the food photography.
      --------------------------------------------------------------------- */
   --warm-950: #241611; /* deepest; from Spread1 #281711 */

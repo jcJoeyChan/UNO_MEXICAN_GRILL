@@ -270,3 +270,38 @@ Guessing either way would have put a wrong ingredient in front of someone with a
 ### Plain/Supreme is data, not markup
 
 The columns are headed "Plain" and "Supreme", which say nothing on their own — two prices with no explanation is the commonest way a menu confuses people at the counter. Rather than bolding words inside a prose string, the meanings became a structured `columnLegend` the schema validates, so emphasis is the renderer's job and the content stays plain text.
+
+---
+
+## Ordering partner cards carry their own brand colour (2026-09-03)
+
+The user first asked for the four partners' **logos** wherever they are cited, then for the brand names **tinted**, and finally for the card ground itself to be the brand colour. Only the last was built.
+
+**No logos.** They are third-party trademarks and no official asset was on hand. Drawing approximations would have been fabricated brand content, forbidden by `PRODUCT.md` for the same reason invented menu items are — it reaches real customers, and it goes stale the moment a platform rebrands. Real assets from each merchant portal can be wired in whenever the restaurant pulls them.
+
+### Every published brand colour fails AA as text
+
+Measured on `--surface`, not assumed:
+
+| Partner | Published | As text | As a ground, with `--text` on top |
+|---|---|---|---|
+| ChowBus | `#ff6a13` | 2.68:1 fail | **6.11:1 pass** |
+| Uber Eats | `#06c167` | 2.23:1 fail | **7.37:1 pass** |
+| DoorDash | `#ff3008` | 3.46:1 fail | **4.74:1 pass** |
+| Grubhub | `#f63440` | 3.58:1 fail | **4.58:1 pass** |
+
+The channel name is bold 16px — not "large text", so 4.5:1 is the bar either way.
+
+This is why the final answer is better than the two before it. **Tinting the text** required darkening each hue until it carried type, which made DoorDash and Grubhub converge into near-identical reds that also sat close to the site's own `--brand-red` — three of four cards read as "warm red-orange", and the colour bought almost no differentiation. **Using the colour as a ground** needs no darkening at all: the published values are used unmodified, which is how this file already permits brand colour to be used — as a large fill, never as text.
+
+White would not have worked as the foreground: 2.87 / 2.38 / 3.70 / 3.83, all failing, and chasing it would have forced the backgrounds darker and away from the real brand colour — the opposite of the point.
+
+`--text-muted` is measured against `--surface` only and drops below AA on a saturated ground, so partner cards use full-strength ink for the detail line and take their hierarchy from size instead of lightness.
+
+### Implementation
+
+The colour rides on a `--partner-bg` custom property set inline per channel rather than a `is-${channel.id}` class, so the mapping stays in one typed object and an unknown id falls back to the normal card surface. `OrderingLinks.astro` renders in 8 places — nav dropdown, footer and six pages — so this was one component change, not eight.
+
+### A note on the dev server
+
+Astro's dev server did not pick up style edits on this Windows machine — it served CSS one edit behind, including rules already deleted from source. Verify style changes against `npm run build` plus `npm run preview`, not `npm run dev`.

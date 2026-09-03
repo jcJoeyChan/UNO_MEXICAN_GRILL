@@ -14,6 +14,23 @@ interface Props {
 }
 
 const { variant = 'menu' } = Astro.props;
+/**
+ * Each partner card carries that partner’s own brand colour as its ground.
+ *
+ * The colour rides on a custom property rather than a per-channel class so the
+ * mapping stays in one typed object; an id with no entry simply gets the
+ * default card surface instead of failing silently in CSS.
+ *
+ * Text stays --text on top: tokens.css records the measured ratio for each,
+ * and white would fail on three of the four.
+ */
+const PARTNER_BG: Record<string, string> = {
+  chowbus: 'var(--partner-chowbus-bg)',
+  ubereats: 'var(--partner-ubereats-bg)',
+  doordash: 'var(--partner-doordash-bg)',
+  grubhub: 'var(--partner-grubhub-bg)',
+};
+
 const { channels, direct } = restaurant.ordering;
 const { phone, phoneHref } = restaurant.contact;
 ---
@@ -25,6 +42,7 @@ const { phone, phoneHref } = restaurant.contact;
         <li>
           <a
             class:list={['channel', channel.primary && 'is-primary']}
+            style={PARTNER_BG[channel.id] && `--partner-bg: ${PARTNER_BG[channel.id]}`}
             href={channel.url}
             target="_blank"
             rel="noopener noreferrer"
@@ -78,7 +96,7 @@ const { phone, phoneHref } = restaurant.contact;
     padding: var(--space-3);
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
-    background: var(--surface);
+    background: var(--partner-bg, var(--surface));
     color: var(--text);
     text-decoration: none;
     transition:
@@ -103,6 +121,14 @@ const { phone, phoneHref } = restaurant.contact;
   .channel-detail {
     font-size: var(--font-size-sm);
     color: var(--text-muted);
+  }
+
+  /* --text-muted is measured against --surface only. On a saturated brand
+     ground it drops below AA, so partner cards carry full-strength ink and
+     rely on size for hierarchy instead of lightness. */
+  .channel[style] .channel-detail,
+  .channel[style] .external {
+    color: var(--text);
   }
 
   .external {
