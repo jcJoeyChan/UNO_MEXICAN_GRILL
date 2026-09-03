@@ -35,6 +35,16 @@ const year = new Date().getFullYear();
 
   <div class="legal">
     <p>&copy; {year} {restaurant.name}</p>
+    <p class="credit">
+      Menu section icons by{
+      }<a href="https://github.com/jdecked/twemoji" rel="noopener noreferrer" target="_blank">
+        Twemoji
+      </a>{
+      }, licensed{
+      }<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">
+        CC-BY 4.0
+      </a>.
+    </p>
     <nav aria-label="Footer">
       <ul role="list">
         <li><a href="/menu">Menu</a></li>
@@ -96,6 +106,16 @@ const year = new Date().getFullYear();
 
   .col > p {
     margin-top: var(--space-2);
+  }
+
+  /* CC-BY 4.0 requires attribution for the Twemoji artwork; this is it. */
+  .credit {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+  }
+
+  .credit a {
+    color: inherit;
   }
 
   .legal {

@@ -305,3 +305,22 @@ The colour rides on a `--partner-bg` custom property set inline per channel rath
 ### A note on the dev server
 
 Astro's dev server did not pick up style edits on this Windows machine — it served CSS one edit behind, including rules already deleted from source. Verify style changes against `npm run build` plus `npm run preview`, not `npm run dev`.
+
+---
+
+## Menu section icons: Twemoji, self-hosted (2026-09-03)
+
+Twelve Twemoji SVGs (~28KB total), CC-BY 4.0, self-hosted alongside the fonts.
+
+**Native emoji were rejected** because they render differently on iPhone, Android, Windows and Mac — the restaurant would not control how its own menu looks. **Custom line icons were rejected** because a recognisable taco or quesadilla at 24px is genuinely hard, and mediocre custom icons look worse than none. There is no taco or burrito glyph in the usual open icon sets (Lucide, Feather), which ruled out the easy route.
+
+Icons are decorative: `alt=""`, because the heading already names the section and announcing it twice is noise for a screen reader. Sized in `em` so they track the display heading without needing their own clamp. **The attribution in the footer is not optional — CC-BY requires it.**
+
+Mapping was chosen against what each section actually contains rather than by name: Side Orders is condiments, so it takes a bowl rather than fries; Nacho is white corn tortilla chips, so it takes corn rather than a second cheese.
+
+`/menu` holds performance 100 with all twelve.
+
+### Two things that cost time
+
+- **`img { display: block }` in `reset.css`** put every icon on its own line above its heading. Any inline icon in this codebase must set `display: inline-block` explicitly.
+- **The browser pane lays out at zero width while hidden.** Every element in the subtree then reports `width: 0` from `getBoundingClientRect`, which sent an investigation chasing a CSS bug that did not exist — and also explains a phantom "clipped heading" reported earlier on `/about`. Verify layout from screenshots or from the built CSS, never from in-pane measurement.

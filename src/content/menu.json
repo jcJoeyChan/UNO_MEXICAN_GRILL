@@ -40,6 +40,7 @@
   "categories": [
     {
       "id": "tacos",
+      "icon": "1f32e",
       "name": "Tacos",
       "note": "Soft: flour or corn tortillas. Hard shell: corn only. Lettuce, tomato, cheese & sour cream.",
       "priceType": "single",
@@ -108,6 +109,7 @@
     },
     {
       "id": "quesadillas",
+      "icon": "1f9c0",
       "name": "Quesadillas",
       "note": "Made with Monterey Jack cheese melted between 2 fresh flour tortillas.",
       "priceType": "plainSupreme",
@@ -200,6 +202,7 @@
     },
     {
       "id": "nachos",
+      "icon": "1f33d",
       "name": "Nacho",
       "note": "White corn tortilla chips covered w. melted cheddar & Monterey Jack cheese.",
       "priceType": "single",
@@ -229,6 +232,7 @@
     },
     {
       "id": "burritos",
+      "icon": "1f32f",
       "name": "Burritos",
       "note": "Large flour tortilla filled with melted cheese, rice, black bean, lettuce, tomato, guacamole & sour cream.",
       "priceType": "single",
@@ -288,6 +292,7 @@
     },
     {
       "id": "rice-platters",
+      "icon": "1f35a",
       "name": "Mexican Rice Platters",
       "note": "Large platter served with rice, black bean, salad, guacamole, corn chips & fresh flour tortilla.",
       "priceType": "single",
@@ -342,6 +347,7 @@
     },
     {
       "id": "tostada-salads",
+      "icon": "1f957",
       "name": "Tostada Salads",
       "note": "Fresh iceberg lettuce, tomato, cucumber, sliced avocado, cheddar cheese & black bean. Served in your choice of a clear bowl, or a tostada shell for $2 more.",
       "priceType": "single",
@@ -421,6 +427,7 @@
     },
     {
       "id": "fajitas-by-the-pound",
+      "icon": "1f958",
       "name": "Fajitas by the Pound",
       "note": "Ten fresh flour tortillas, grilled California green peppers, Spanish onion, black bean, salsa ranchera, with one pound of your choice.",
       "priceType": "single",
@@ -455,6 +462,7 @@
     },
     {
       "id": "kids-meal",
+      "icon": "1f9d2",
       "name": "Kids Meal",
       "priceType": "single",
       "items": [
@@ -495,6 +503,7 @@
     },
     {
       "id": "side-orders",
+      "icon": "1f963",
       "name": "Side Orders",
       "priceType": "sizes",
       "priceColumns": [
@@ -627,6 +636,7 @@
     },
     {
       "id": "beverages",
+      "icon": "1f964",
       "name": "Beverages",
       "note": "Snapple and Pepsi products.",
       "priceType": "single",
@@ -659,6 +669,7 @@
     },
     {
       "id": "dessert",
+      "icon": "1f370",
       "name": "Dessert",
       "priceType": "single",
       "items": [
@@ -678,6 +689,7 @@
     },
     {
       "id": "soups",
+      "icon": "1f372",
       "name": "Soups",
       "note": "Winter only.",
       "availability": "seasonal",

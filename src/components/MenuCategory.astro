@@ -33,7 +33,21 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 >
   <div class="inner">
     <header class="head">
-      <h2 class="title" id={`${category.id}-heading`}>{category.name}</h2>
+      <h2 class="title" id={`${category.id}-heading`}>
+        {
+          category.icon && (
+            <img
+              class="icon"
+              src={`/images/emoji/${category.icon}.svg`}
+              alt=""
+              width="40"
+              height="40"
+              loading="lazy"
+              decoding="async"
+            />
+          )
+        }{category.name}
+      </h2>
 
       {
         seasonal && (
@@ -76,6 +90,18 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 </section>
 
 <style>
+  /* Sized in em so it tracks the display heading at every breakpoint rather
+     than needing its own clamp. Decorative: the heading text already says
+     what the section is. */
+  .icon {
+    /* reset.css sets img { display: block }, which would push the icon onto
+       its own line above the heading. */
+    display: inline-block;
+    width: 0.75em;
+    height: 0.75em;
+    margin-right: 0.18em;
+    vertical-align: -0.04em;
+  }
   /* What each price column buys. "Plain" and "Supreme" are meaningless on
      their own — two prices with no explanation is the commonest way a menu
      confuses people at the counter. */

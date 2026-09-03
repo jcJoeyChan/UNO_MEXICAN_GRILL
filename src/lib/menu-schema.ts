@@ -62,6 +62,15 @@ export const menuCategorySchema = z
     name: z.string().min(1),
     note: z.string().min(1).optional(),
 
+    /**
+     * Twemoji codepoint for the section icon, e.g. "1f32e" for the taco. The
+     * file lives at /images/emoji/<icon>.svg. Purely decorative — the heading
+     * already names the category — so it renders with an empty alt.
+     */
+    icon: z
+      .string()
+      .regex(/^[0-9a-f]+(-[0-9a-f]+)*$/, "a Twemoji codepoint, lowercase hex")
+      .optional(),
 
     /** Which price shape this category's items use. */
     priceType: z.enum(['single', 'plainSupreme', 'sizes']),
