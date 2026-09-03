@@ -1,0 +1,35 @@
+# Netlify build configuration.
+#
+# Astro 7 hard-refuses to start below Node 22.12.0, and Netlify's default is
+# older than that, so NODE_VERSION is not optional here.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22.12.0"
+
+# Fingerprinted assets: the filename changes when the content does, so these
+# can be cached indefinitely. Fonts are not fingerprinted but never change
+# under the same name.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

@@ -404,13 +404,13 @@ Plan document: `tasks/plan.md`. Tasks are in dependency order.
 **Description:** Ship it. **Gated on menu price verification — do not publish publicly until prices are confirmed with the restaurant.**
 
 **Acceptance criteria:**
-- [ ] `netlify.toml` with correct build command and publish directory
+- [x] `netlify.toml` with correct build command and publish directory
 - [ ] Production build deploys successfully
-- [ ] 404 page exists and uses the site shell
-- [ ] Favicon from the real logo
-- [ ] Open Graph / social preview per page using real photography
-- [ ] `robots.txt` and a sitemap
-- [ ] **Menu prices verified with the restaurant** — all 14 flagged items resolved, `menu.json` provenance updated
+- [x] 404 page exists and uses the site shell
+- [x] Favicon from the real logo
+- [x] Open Graph / social preview per page using real photography
+- [x] `robots.txt` and a sitemap
+- [x] **Menu prices verified with the restaurant** — all 14 flagged items resolved, `menu.json` provenance updated
 - [ ] Deploy preview reviewed on a real phone before going live
 
 **Verification:**

@@ -324,3 +324,25 @@ Mapping was chosen against what each section actually contains rather than by na
 
 - **`img { display: block }` in `reset.css`** put every icon on its own line above its heading. Any inline icon in this codebase must set `display: inline-block` explicitly.
 - **The browser pane lays out at zero width while hidden.** Every element in the subtree then reports `width: 0` from `getBoundingClientRect`, which sent an investigation chasing a CSS bug that did not exist — and also explains a phantom "clipped heading" reported earlier on `/about`. Verify layout from screenshots or from the built CSS, never from in-pane measurement.
+
+---
+
+## Task 15: deploy configuration (2026-09-03)
+
+`netlify.toml` (build command, publish dir, and `NODE_VERSION = 22.12.0` — not optional, since Astro 7 refuses to start below it and Netlify's default is older), immutable cache headers for fingerprinted assets and fonts, `nosniff` and a referrer policy.
+
+A `404.astro` in the normal shell, so someone who mistypes a URL still gets the order rail, the hours pill and the phone number.
+
+**`/tokens` is deleted.** With it went its entry in the `check:tokens` exempt list and exception 5 in `CONSTRAINTS.md`, now closed. An exemption left behind for a file that no longer exists is exactly the rot these files exist to prevent — nothing is exempt from the description rule any more.
+
+### Absolute URLs come from one place
+
+`site` in `astro.config.mjs` is the single source for canonical tags, Open Graph URLs, the sitemap and robots.txt. Moving domains is a one-line change plus a redeploy.
+
+`robots.txt` and `sitemap.xml` are generated endpoints rather than static files in `public/`, so the sitemap URL cannot drift from `site`. **The sitemap is hand-rolled rather than `@astrojs/sitemap`**: `SPEC.md` requires approval before adding a dependency, and for seven routes plus one collection the integration earns nothing thirty lines do not. Routes are derived from the pages directory rather than listed by hand, so a new page cannot be silently omitted — the commonest way a sitemap rots. `/404` and `/contact-thanks` are excluded deliberately.
+
+Open Graph was **entirely absent** before this: sharing any page gave a blank grey box, which matters for a restaurant, since sharing is how people pass it around. Each page now carries canonical, `og:*` and `twitter:*` tags with an absolute image, explicit dimensions (crawlers do not fetch the image to learn them, and a missing size is the usual cause of a thumbnail-sized preview) and alt text. The mural is the default; `/menu` uses the grill and `/catering` its own tray photo.
+
+### Still open before going live
+
+The domain, the Netlify site itself, merging to `main`, and a real-device check. **`unomexicangrill.com` is already registered** — parked at Namecheap with email forwarding configured, which suggests an owner who set it up deliberately rather than a squatter.

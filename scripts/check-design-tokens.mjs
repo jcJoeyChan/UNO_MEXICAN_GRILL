@@ -27,7 +27,6 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const EXEMPT = new Map([
   ['src/styles/tokens.css', 'defines the tokens'],
   ['src/styles/fonts.css', '@font-face declarations, no colours'],
-  ['src/pages/tokens.astro', 'dev-only swatch page; must show literal values. Removed at Task 15'],
 ]);
 
 const COLOUR = /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\(\s*[\d.]/g;

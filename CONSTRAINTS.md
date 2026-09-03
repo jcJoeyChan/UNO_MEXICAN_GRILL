@@ -42,7 +42,7 @@ Run all six: `npm run check:task` — **currently ~5 seconds**, budget 90 second
 | Ordering URLs are clean and https      | 4 channels, no `rwg_token`/`utm_*`         | `DECISIONS.md` records these were stripped deliberately — they are tied to one search click.                                  |
 | Structural a11y floor                  | `lang`, `<title>`, `<main>`, exactly one `<h1>`, every `<img>` has `alt` | Cheap, zero false positives, catches the regressions that actually happen. |
 | External links safe                    | Every `target="_blank"` has `rel="noopener"` | Tabnabbing, and it is free to prevent.                                                                                       |
-| Indexed pages have descriptions        | ≥20 chars, `noindex` pages exempt          | The dev-only `/tokens` page is exempt by design; a rule that page had to route around would be a rule nobody respects.        |
+| Indexed pages have descriptions        | ≥20 chars, `noindex` pages exempt          | `noindex` pages are exempt; none currently exist. |
 
 ---
 
@@ -57,7 +57,7 @@ Run all six: `npm run check:task` — **currently ~5 seconds**, budget 90 second
 | No literal colours in component styles | Zero hex / `rgb()` / `hsl()` outside `tokens.css` | The palette is sampled from the real logo, photography and mural. A one-off colour is not part of that system. Use `color-mix(in srgb, var(--token) N%, transparent)` when alpha is needed. |
 | No absolute font sizes | Zero `px`/`rem`/`pt` on `font-size` without `var()` | The type scale is fluid and deliberate. `em` and `%` are allowed — they are relative, not magic. |
 
-**Exempt, by design:** `src/styles/tokens.css` (defines them), `src/styles/fonts.css` (`@font-face` only), `src/pages/tokens.astro` (dev-only swatch page that must show literal values; removed at Task 15).
+**Exempt, by design:** `src/styles/tokens.css` (defines them), `src/styles/fonts.css` (`@font-face` only).
 
 **Spacing is deliberately not checked.** Padding and margin have too many legitimate literal values — hairline borders, 1px focus rings, 999px pills, structural heights. A check that cries wolf is one people learn to skip, and that lesson already cost us once when performance was gated on a number measured against the wrong server.
 
@@ -119,7 +119,7 @@ Every exception needs an owner and an expiry. An exception with neither is just 
 | 2 | `eslint-plugin-jsx-a11y` not installed                                    | Does not support ESLint 10; it is a `peerOptional` of `eslint-plugin-astro`. Forcing it needs `--legacy-peer-deps`. Lighthouse covers a11y in the meantime. | Joey Chan | 2026-12-01 |
 | 3 | ~~Menu prices unverified~~ **Closed 2026-09-02**                          | All 79 prices cross-checked against a second independent transcription and matched exactly; the 14 flagged items were resolved with the user. Re-verify only if the menu is reprinted. | Joey Chan | Closed |
 | 4 | Source photography below hero resolution                                  | Largest photo is 750×600; the direction contract needs ~2000px for a full-bleed hero. **Blocks Task 7.**              | Joey Chan        | 2026-09-16 |
-| 5 | `/tokens` dev page exempt from the meta-description rule                  | `noindex` development reference, removed at Task 15                                                                    | Joey Chan        | 2026-10-01 (Task 15) |
+| 5 | ~~`/tokens` dev page exempt from the meta-description rule~~ **Closed 2026-09-03** | The page was deleted at Task 15, along with its entry in the `check:tokens` exempt list. Nothing is exempt from the description rule any more. | Joey Chan | Closed |
 | 6 | `/location` best-practices floor 96, not 100                              | Lighthouse `image-size-responsive`: the storefront photo is 348×348, too low-res for high-DPI screens. Shrinking it to pass would make the building unrecognisable, which is the photo's entire job. **The fix is a better photo, not a code change** — one phone snapshot would close it. Enforced in `scripts/audit.mjs`, which fails once this date passes. | Joey Chan | 2026-12-01 |
 
 ---
