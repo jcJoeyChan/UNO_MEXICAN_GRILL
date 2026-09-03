@@ -178,3 +178,15 @@ Not project decisions, but they cost time to work out and will matter on a fresh
 - Plugins used here: `impeccable@impeccable` (marketplace `pbakaus/impeccable`) and `agent-skills@addy-agent-skills` (marketplace `addyosmani/agent-skills`).
 - On macOS, plugin installs defaulted to SSH GitHub URLs and failed without an SSH key. Fixed with `git config --global url."https://github.com/".insteadOf "git@github.com:"` (plus `ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts` for the host-key prompt).
 - The official marketplace (`claude-plugins-official`) is only auto-registered on first *interactive* launch of `claude`, not by `claude plugin ...` subcommands.
+
+---
+
+## The check scripts were POSIX-only (2026-09-02)
+
+Setting the project up on the Windows desktop, `npm run check:task` and `npm run check:audit` both failed. Not on content — on the scripts themselves. Three bugs of the same family:
+
+- All three scripts derived the project root with `new URL('..', import.meta.url).pathname`, which on Windows yields `/C:/Users/.../CLAUDE%20PROJECTS/...` — a leading slash and a percent-encoded space. `check:content` crashed opening `C:\C:\...`. Now `fileURLToPath`, which is the portable form and behaves identically on macOS.
+- `check:tokens` matched its exempt list against `path.relative()` output, which is `src\styles	okens.css` on Windows and never matched the `src/styles/tokens.css` keys — so it flagged `tokens.css` for defining the very tokens it exists to define. Separators are normalised before the lookup.
+- `audit.mjs` spawned `npm`/`npx` directly. On Windows those are `.cmd` shims that need a shell to resolve via PATHEXT, and Node >= 20 refuses to spawn a `.cmd` without one. Fixed with a platform-conditional `shell`.
+
+These are portability fixes, not a weakened bar: no threshold, exemption or assertion changed. The macOS behaviour is unaffected — `fileURLToPath` is what that code should always have used.

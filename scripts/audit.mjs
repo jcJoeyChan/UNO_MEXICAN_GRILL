@@ -16,10 +16,15 @@
 import { spawn, execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 
-const root = new URL('..', import.meta.url).pathname;
+const root = fileURLToPath(new URL('..', import.meta.url));
+
+// On Windows npm/npx are .cmd shims: they need a shell to resolve via PATHEXT,
+// and Node >=20 refuses to spawn .cmd directly without one.
+const useShell = process.platform === 'win32';
 const BASELINE = join(root, '.constraints-baseline.json');
 const PORT = Number(process.env.AUDIT_PORT ?? 4322);
 const ORIGIN = process.env.AUDIT_ORIGIN ?? `http://localhost:${PORT}`;
@@ -104,7 +109,7 @@ function waitForServer(url, timeoutMs = 30_000) {
  */
 function stopPreview() {
   try {
-    execFileSync('npx', ['astro', 'preview', 'stop'], { cwd: root, stdio: 'ignore' });
+    execFileSync('npx', ['astro', 'preview', 'stop'], { cwd: root, stdio: 'ignore', shell: useShell });
   } catch {
     /* nothing running */
   }
@@ -113,7 +118,11 @@ function stopPreview() {
 async function startPreview() {
   stopPreview();
   console.log(`serving a production preview at ${ORIGIN} ...`);
-  spawn('npm', ['run', 'preview', '--', '--port', String(PORT)], { cwd: root, stdio: 'ignore' });
+  spawn('npm', ['run', 'preview', '--', '--port', String(PORT)], {
+    cwd: root,
+    stdio: 'ignore',
+    shell: useShell,
+  });
   await waitForServer(ORIGIN);
 }
 

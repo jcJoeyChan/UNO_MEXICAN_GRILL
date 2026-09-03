@@ -18,9 +18,10 @@
  * the wrong server.
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('..', import.meta.url).pathname;
+const root = fileURLToPath(new URL('..', import.meta.url));
 
 /** Files allowed to contain literal values, with the reason. */
 const EXEMPT = new Map([
@@ -66,7 +67,8 @@ const failures = [];
 let scanned = 0;
 
 for (const file of files.sort()) {
-  const rel = relative(root, file);
+  // Normalise to POSIX separators so EXEMPT keys match on Windows too.
+  const rel = relative(root, file).split(sep).join('/');
   if (EXEMPT.has(rel)) continue;
   scanned += 1;
 
