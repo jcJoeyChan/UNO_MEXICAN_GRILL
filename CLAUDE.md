@@ -34,8 +34,22 @@ These come from `PRODUCT.md` and are not negotiable:
 ## Working notes
 
 - `src/content/restaurant.json` is the canonical runtime source for hours, contact details and ordering channels. Do not hardcode a phone number or URL in a component.
-- `src/content/menu.json` is the transcribed printed menu. 14 items are flagged for verification — leave the flags until prices are confirmed with the restaurant.
+- `src/content/menu.json` is the transcribed printed menu. **All 79 prices are verified** — cross-checked against a second independent transcription on 2026-09-02 and matched exactly. Clearing a verification flag requires recording it in `_provenance.verifiedWithRestaurant`; `check:content` fails otherwise. The site marks exactly the 25 items the menu asterisks — never infer a vegetarian flag.
 - Prettier ignores `*.md` and `src/content/*.json` deliberately; it was reflowing prose contracts and exploding the menu data.
 - All colours and font sizes come from `src/styles/tokens.css`. `npm run check:tokens` fails the build on a literal hex, `rgb()` or absolute `font-size` in a component. If a value belongs in the system, add it as a token — do not exempt the file.
-- The visual language (display face, serape stripe, mural band, number chips) is recorded in `.impeccable/surfaces/homepage.md` and `DECISIONS.md`. Reuse the existing components rather than restyling per page.
+- The visual language (Archivo Black display face, serape stripe, full-bleed mural hero, green number chips, alternating section grounds) is recorded in `.impeccable/surfaces/homepage.md` and `DECISIONS.md`. Reuse the existing components rather than restyling per page.
 - Astro's current major is 7. Verify framework APIs against live docs rather than memory — especially content collections.
+
+## Working across two machines
+
+This project is worked on from a MacBook and a Windows desktop. **Claude Code conversations are stored per-machine and do not sync** — the repository is the handoff. Everything needed to continue is committed: `CONSTRAINTS.md`, `PRODUCT.md`, `SPEC.md`, `DECISIONS.md`, `DESIGN.md`, the direction contract, and `tasks/todo.md` for current state.
+
+**Before doing anything on a fresh machine:**
+
+1. **Work on `build/site-foundation`, not `main`.** All 25 commits of real work are on that branch; `main` still holds the initial three. Checking out `main` shows a repo that looks half-finished.
+2. **Node must be ≥ 22.12.0.** Astro 7 hard-refuses to start below it with a clear error. `node --version` first; upgrade before debugging anything else.
+3. **`npm install`.** `node_modules/` and `dist/` are gitignored, so a fresh clone has neither.
+4. **Plugins are per-machine, not per-account.** This project uses `impeccable@impeccable` (marketplace `pbakaus/impeccable`) and `agent-skills@addy-agent-skills` (marketplace `addyosmani/agent-skills`). Both marketplaces must be re-added and the plugins reinstalled on each machine.
+5. **Check you are in the right clone.** There is more than one copy of this project on the Windows machine; the one with the work is the clone tracking `build/site-foundation`. `git log --oneline -1` should show recent work, not "Initial commit".
+
+`source-assets/` holds the full-resolution masters (~32 MB: mural, grill, catering trays, the original menu PDF). They are committed deliberately so both machines have them — never ship them, always derive resized copies into `public/images/`.
