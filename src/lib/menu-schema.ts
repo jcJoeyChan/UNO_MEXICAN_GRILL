@@ -62,10 +62,21 @@ export const menuCategorySchema = z
     name: z.string().min(1),
     note: z.string().min(1).optional(),
 
+
     /** Which price shape this category's items use. */
     priceType: z.enum(['single', 'plainSupreme', 'sizes']),
     priceColumns: z.array(z.string()).optional(),
     columnCaveat: z.string().optional(),
+
+    /**
+     * What each price column actually gets you. The quesadilla columns are
+     * headed 'Plain' and 'Supreme', which say nothing on their own — a
+     * customer reading two prices cannot tell what the difference buys. The
+     * restaurant confirmed both on 2026-09-02.
+     */
+    columnLegend: z
+      .array(z.object({ name: z.string().min(1), means: z.string().min(1) }))
+      .optional(),
 
     /**
      * Seasonal is a first-class availability state, deliberately NOT a

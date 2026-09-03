@@ -45,6 +45,18 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
       }
 
       {category.note && <p class="note">{category.note}</p>}
+      {
+        category.columnLegend && (
+          <dl class="legend">
+            {category.columnLegend.map((column) => (
+              <div class="legend-row">
+                <dt>{column.name}</dt>
+                <dd>{column.means}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
       {shrimpNote && <p class="note note-quiet">{shrimpNote}</p>}
 
       {
@@ -64,6 +76,32 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 </section>
 
 <style>
+  /* What each price column buys. "Plain" and "Supreme" are meaningless on
+     their own — two prices with no explanation is the commonest way a menu
+     confuses people at the counter. */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin: var(--space-3) 0 0;
+  }
+
+  .legend-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .legend dt {
+    font-weight: var(--font-weight-bold);
+    color: var(--text);
+  }
+
+  .legend dd {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
   .category {
     padding: var(--space-8) var(--space-4);
     scroll-margin-top: var(--rail-height);

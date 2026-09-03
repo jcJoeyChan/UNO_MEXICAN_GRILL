@@ -20,7 +20,12 @@
         "Full menu cross-checked against a second independent transcription supplied by the user (uno_mexican_grill_menu_ai_readable.txt) on 2026-09-02: all 79 items and every price matched exactly, including both quesadilla columns and all side-order tiers.",
         "Vegetarian marking corrected to the 25 asterisked items. Six flags on drinks and desserts had been inferred rather than transcribed, and were removed.",
         "Item 23 displays as \"Steamed Veggie Burrito\"; the printed \"Veggied\" is kept in nameAsPrinted.",
-        "Jalape\u00f1o keeps its tilde on items 15 and 48, a deliberate correction to the print."
+        "Jalape\u00f1o keeps its tilde on items 15 and 48, a deliberate correction to the print.",
+      "Category renamed \"Taco\" to \"Tacos\" (2026-09-02, restaurant): the printed singular reads as a typo on the site.",
+      "Tortillas (2026-09-02, restaurant): soft tacos come with flour OR corn tortillas; hard shell is corn only. The printed menu says only \"Corn tortillas — soft or hard shell\", which understated the flour option.",
+      "Steamed veggie dishes (2026-09-02, restaurant): all come with broccoli, carrot & mushroom. Items 5, 14 and 23 carried no description on the printed menu; item 40 already listed them.",
+      "Quesadilla columns (2026-09-02, restaurant): \"Plain\" is cheese only; \"Supreme\" adds lettuce, tomato, guacamole & sour cream. Now shown as an explicit legend rather than buried in the category note.",
+      "Shrimp preparation (2026-09-02, restaurant): shrimp is cooked w. onions & cilantro. Mushrooms are NOT included in the quesadillas or burritos sections. The previous note said shrimp \"may have mushrooms\" everywhere, which was wrong for those two sections."
       ],
       "stillOpen": "Nothing outstanding on prices: all 79 were confirmed against a second transcription on 2026-09-02. Re-check if the restaurant reprints its menu."
     }
@@ -30,13 +35,13 @@
     "orderByNumberNote": "The printed menu says PLEASE ORDER BY NUMBER. Item numbers are a real part of how this restaurant operates and should be visible on the site.",
     "vegetarianMarker": "*",
     "vegetarianNote": "An asterisk on the printed menu indicates vegetarian. The site marks exactly the 25 items the menu asterisks and no others. Drinks and desserts carry no asterisk on the menu, so they carry no marking here \u2014 inferring one would be asserting something the restaurant does not.",
-    "shrimpNote": "Shrimp items are cooked w. onions, cilantro & may have mushrooms."
+    "shrimpNote": "Shrimp items are cooked w. onions & cilantro."
   },
   "categories": [
     {
       "id": "tacos",
-      "name": "Taco",
-      "note": "Corn tortillas \u2014 soft or hard shell. Lettuce, tomato, cheese & sour cream.",
+      "name": "Tacos",
+      "note": "Soft: flour or corn tortillas. Hard shell: corn only. Lettuce, tomato, cheese & sour cream.",
       "priceType": "single",
       "items": [
         {
@@ -81,6 +86,7 @@
         {
           "number": "5",
           "name": "Steamed Veggie Taco w. Bean",
+          "description": "Broccoli, carrot & mushroom",
           "price": 4.5,
           "vegetarian": true
         },
@@ -103,11 +109,18 @@
     {
       "id": "quesadillas",
       "name": "Quesadillas",
-      "note": "Made with Monterey Jack cheese melted between 2 fresh flour tortillas. Supreme adds lettuce, tomato, guacamole & sour cream.",
+      "note": "Made with Monterey Jack cheese melted between 2 fresh flour tortillas.",
       "priceType": "plainSupreme",
       "priceColumns": [
         "Plain",
         "Supreme"
+      ],
+      "columnLegend": [
+        { "name": "Plain", "means": "Cheese only" },
+        {
+          "name": "Supreme",
+          "means": "Adds lettuce, tomato, guacamole & sour cream"
+        }
       ],
       "items": [
         {
@@ -167,6 +180,7 @@
         {
           "number": "14",
           "name": "Steamed Veggie with Bean",
+          "description": "Broccoli, carrot & mushroom",
           "prices": {
             "plain": 7.5,
             "supreme": 10.0
@@ -265,6 +279,7 @@
         {
           "number": "23",
           "name": "Steamed Veggie Burrito",
+          "description": "Broccoli, carrot & mushroom",
           "nameAsPrinted": "Steamed Veggied Burrito",
           "price": 13.5,
           "vegetarian": true

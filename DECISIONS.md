@@ -244,3 +244,29 @@ It now compares calendar days in `RESTAURANT_TIMEZONE`, the same principle `hour
 `PRODUCT.md` forbids invented content, so the section ships empty with an honest empty state pointing at the menu and the phone number, rather than a fabricated special. The rendering paths were proven with temporary posts that were deleted before commit.
 
 `/news` was added to `scripts/audit.mjs` and given its own floor in `.constraints-baseline.json` (100/100/100/100). Worth noting: the audit treats a **missing** baseline entry as no floor at all, so a new page is measured but unenforced until it is added by hand. `--update` was deliberately not used, since it rewrites every floor with today's scores and could lower one silently.
+
+---
+
+## Menu corrections from the restaurant (2026-09-03)
+
+Five corrections, all recorded in `_provenance.verifiedWithRestaurant.confirmed`, which is how this project keeps `menu.json` honest:
+
+| Was | Now |
+|---|---|
+| Category "Taco" | "Tacos" |
+| "Corn tortillas — soft or hard shell" | "Soft: flour or corn tortillas. Hard shell: corn only." |
+| Items 5, 14, 23 had no description | "Broccoli, carrot & mushroom" |
+| "Supreme adds ..." buried in the category note | explicit legend: **Plain** = cheese only, **Supreme** = adds lettuce, tomato, guacamole & sour cream |
+| "Shrimp ... may have mushrooms" | "Shrimp items are cooked w. onions & cilantro." |
+
+The old shrimp note asserted mushrooms **everywhere** shrimp appeared, which is wrong for Quesadillas and Burritos. Mushrooms are now stated only where they are true; the Rice Platter and Tostada Salad items already name them individually.
+
+### One conflict was surfaced, not resolved silently
+
+Item 44 (Shrimp, Fajitas by the Pound) is transcribed from the printed menu as "Cooked w. mushroom & cilantro", which contradicts "shrimp only comes with mushroom in Rice Platters and Tostada Salads". The user confirmed the printed menu is right and the rule was about Quesadillas and Burritos, so **item 44 is unchanged**.
+
+Guessing either way would have put a wrong ingredient in front of someone with an allergy. That is the whole reason `PRODUCT.md` forbids inferring menu facts.
+
+### Plain/Supreme is data, not markup
+
+The columns are headed "Plain" and "Supreme", which say nothing on their own — two prices with no explanation is the commonest way a menu confuses people at the counter. Rather than bolding words inside a prose string, the meanings became a structured `columnLegend` the schema validates, so emphasis is the renderer's job and the content stays plain text.
