@@ -190,3 +190,28 @@ Setting the project up on the Windows desktop, `npm run check:task` and `npm run
 - `audit.mjs` spawned `npm`/`npx` directly. On Windows those are `.cmd` shims that need a shell to resolve via PATHEXT, and Node >= 20 refuses to spawn a `.cmd` without one. Fixed with a platform-conditional `shell`.
 
 These are portability fixes, not a weakened bar: no threshold, exemption or assertion changed. The macOS behaviour is unaffected — `fileURLToPath` is what that code should always have used.
+---
+
+## Display face: Alfa Slab One, applied to every heading (2026-09-02)
+
+The user asked for a more Mexican display face, with three reference images: an ornate Victorian/Western chromatic "TEQUILA" logotype, the "Brellos" fiesta typeface, and the folk-art "Mexican Vibes".
+
+**All three references are commercial fonts and none was used.** `DECISIONS.md` already commits this site to self-hosted SIL OFL faces — works offline, no visitor data to a third party, no extra DNS hop — and buying a licence was not on the table. Four open faces were offered as matches for the register: **Rye** (Victorian wood type, structurally closest to the TEQUILA reference), **Chicle** (Latin vernacular display, closest to Brellos/Mexican Vibes), **Bungee Shade** (true chromatic layer fonts, the closest thing to the layered orange-on-blue effect), and **Alfa Slab One** (circus-poster slab — the most legible, the least ornate).
+
+**Chosen: Alfa Slab One, at every heading**, at the user's direction. It is the least like the references and the most legible of the four, and that pairing is deliberate rather than a compromise: the spread is what makes it safe.
+
+### The spread was the real decision, not the face
+
+The references are all logotypes — one word, huge, hand-ornamented. `--font-display` sets 18 sites across 8 pages, including all twelve menu category titles. The failure mode is the one this project already named for the serape stripe: repeated often enough, a signature becomes wallpaper. An ornate face fails that way harder than a plain one.
+
+Three spreads were offered (signature only / signature + categories / everywhere). The user chose everywhere. With Rye or Bungee that would have been a legibility problem; with Alfa Slab One it is not, because **the body stack is untouched**. Item names, prices, item numbers and descriptions all stay on `--font-sans`. The decorative face never touches the text a customer scans while ordering.
+
+### Verified, not assumed
+
+- All 12 category titles and the long ones (`Fajitas by the Pound`, `Mexican Rice Platters`) measured for overflow at 800px and 375px — none overflows, no horizontal document scroll. Alfa Slab One is materially wider than Archivo Black, so this was a real risk, not a formality.
+- `document.fonts.check` confirms the face actually loads rather than silently falling back to the system stack.
+- Lighthouse floors all hold: a11y **100** on all six pages, perf 96–100.
+
+### Cost
+
+~38KB across two subsets, against Archivo Black's ~16KB. **Archivo Black was deleted** — both `.woff2` files, the `@font-face` rules and the `<link rel="preload">` in `BaseLayout.astro`, which pointed at a file nothing would have used. Net +22KB, and the preload now points at the face actually in use.

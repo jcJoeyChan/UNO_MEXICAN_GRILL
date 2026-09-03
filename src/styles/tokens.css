@@ -128,10 +128,11 @@
      --------------------------------------------------------------------- */
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  /* Display face only — headlines and category titles. Body stays on the system
-     stack: one ~10KB font file, no CDN, and the page stays restrained rather
-     than shouty. Archivo Black, SIL Open Font License 1.1, self-hosted. */
-  --font-display: 'Archivo Black', var(--font-sans);
+  /* Display face — every heading on the site. Body, prices and item numbers stay
+     on the system stack, which is what keeps an ornamented face safe here.
+     Alfa Slab One, SIL Open Font License 1.1, self-hosted: two subsets, ~38KB,
+     no CDN. Chosen 2026-09-02 over Rye, Chicle and Bungee Shade — see DECISIONS.md. */
+  --font-display: 'Alfa Slab One', var(--font-sans);
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;

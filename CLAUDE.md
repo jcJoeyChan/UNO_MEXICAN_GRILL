@@ -37,7 +37,7 @@ These come from `PRODUCT.md` and are not negotiable:
 - `src/content/menu.json` is the transcribed printed menu. **All 79 prices are verified** — cross-checked against a second independent transcription on 2026-09-02 and matched exactly. Clearing a verification flag requires recording it in `_provenance.verifiedWithRestaurant`; `check:content` fails otherwise. The site marks exactly the 25 items the menu asterisks — never infer a vegetarian flag.
 - Prettier ignores `*.md` and `src/content/*.json` deliberately; it was reflowing prose contracts and exploding the menu data.
 - All colours and font sizes come from `src/styles/tokens.css`. `npm run check:tokens` fails the build on a literal hex, `rgb()` or absolute `font-size` in a component. If a value belongs in the system, add it as a token — do not exempt the file.
-- The visual language (Archivo Black display face, serape stripe, full-bleed mural hero, green number chips, alternating section grounds) is recorded in `.impeccable/surfaces/homepage.md` and `DECISIONS.md`. Reuse the existing components rather than restyling per page.
+- The visual language (Alfa Slab One display face, serape stripe, full-bleed mural hero, green number chips, alternating section grounds) is recorded in `.impeccable/surfaces/homepage.md` and `DECISIONS.md`. Reuse the existing components rather than restyling per page.
 - Astro's current major is 7. Verify framework APIs against live docs rather than memory — especially content collections.
 
 ## Working across two machines

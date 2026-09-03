@@ -31,7 +31,7 @@ Build path: code-led (no image generation tool available in this environment —
 
 ## Visual language (added 2026-09-02)
 
-- Display type: Archivo Black, self-hosted, headlines and category titles only. Body stays on the system stack.
+- Display type: Alfa Slab One, self-hosted, every heading. Body, prices and item numbers stay on the system stack — the split that keeps a heavy slab legible.
 - Ornament: the serape stripe sampled from the printed menu's woven bands. A rule between sections, never a background for text — repeating it above all twelve menu categories would turn a signature into wallpaper.
 - Place: the mural is the hero backdrop. Copy sits in a dark left column; text contrast over the painting is measured by compositing the real pixels with the scrim, because no automated audit checks text over an image.
 - Grounds: sections alternate — mural, dark (food), sand (ordering), sky wash (menu preview). All sampled from the mural.

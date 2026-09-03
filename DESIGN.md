@@ -91,10 +91,10 @@ Seasonal is deliberately its own state and must never share styling with an out-
 
 | | |
 | --- | --- |
-| Display | **Archivo Black**, self-hosted, SIL OFL 1.1, ~16KB across two subsets |
+| Display | **Alfa Slab One**, self-hosted, SIL OFL 1.1, ~38KB across two subsets |
 | Body | System stack — `system-ui, -apple-system, 'Segoe UI', Roboto…` |
 
-The display face is used only for headlines, section headings and category titles. Body stays on the system stack: one font file, no CDN, and the page reads restrained rather than shouty.
+The display face is used for every heading — headlines, section headings and category titles. Body, prices and item numbers stay on the system stack: no CDN, and the ornamented face never reaches the text people scan when they are ordering. That split is what makes a heavy slab safe at this spread.
 
 Scale is fluid: `--font-size-display` `clamp(2.75rem, 6vw + 1rem, 6rem)` · `--font-size-hero` `clamp(2.5rem, 3.2vw + 1rem, 4.25rem)` · `3xl` `clamp(2rem, 2vw + 1.5rem, 3rem)` · then `2xl`, `xl`, `lg`, `base`, `sm`, `xs`.
 
