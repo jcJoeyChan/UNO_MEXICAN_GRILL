@@ -33,6 +33,7 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 >
   <div class="inner">
     <header class="head">
+      <div class="head-text">
       <h2 class="title" id={`${category.id}-heading`}>
         {
           category.icon && (
@@ -60,19 +61,6 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 
       {category.note && <p class="note">{category.note}</p>}
       {
-        category.photo && (
-          <img
-            class="photo"
-            src={`/images/${category.photo.file}`}
-            alt=""
-            width={category.photo.width}
-            height={category.photo.height}
-            loading="lazy"
-            decoding="async"
-          />
-        )
-      }
-      {
         category.columnLegend && (
           <dl class="legend">
             {category.columnLegend.map((column) => (
@@ -94,6 +82,21 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
           </p>
         ))
       }
+      </div>
+
+      {
+        category.photo && (
+          <img
+            class="photo"
+            src={`/images/${category.photo.file}`}
+            alt=""
+            width={category.photo.width}
+            height={category.photo.height}
+            loading="lazy"
+            decoding="async"
+          />
+        )
+      }
     </header>
 
     <ul class="items" role="list">
@@ -107,15 +110,17 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
      this has to look deliberate when absent rather than like a gap: it floats
      beside the heading block and the text simply reflows without it. */
   .photo {
-    float: right;
-    width: clamp(5rem, 18vw, 9rem);
+    flex: 0 0 auto;
+    /* Kept close to the heading block’s own height so the two columns read as
+       one band rather than the photo dictating the header’s size. */
+    width: clamp(4rem, 13vw, 6.5rem);
     /* The source photos are three different shapes. Cropping them to one
        square frame keeps the sections looking like a set rather than a
        scrapbook, and the fixed ratio means no layout shift as they load. */
     aspect-ratio: 1 / 1;
     height: auto;
     object-fit: cover;
-    margin: 0 0 var(--space-4) var(--space-5);
+    margin: 0;
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
   }
@@ -171,12 +176,20 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
     margin: 0 auto;
   }
 
+  /* Two columns: the heading block, and the section photo beside it. The
+     photo used to float, which pushed the rule below the header far past the
+     text and left a band of whitespace. As a flex item it can no longer be
+     taller than the row needs to be. */
   .head {
-    /* Contains the floated section photo. Without a block formatting context
-       the float escapes the header and overlaps the item list below it, which
-       hides menu rows on every section that has a photo. */
-    display: flow-root;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
     margin-bottom: var(--space-3);
+  }
+
+  .head-text {
+    min-width: 0;
   }
 
   /* Confidently oversized, per the direction contract. */
