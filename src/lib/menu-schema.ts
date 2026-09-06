@@ -73,11 +73,21 @@ export const menuCategorySchema = z
       .regex(/^[a-z0-9-]+\.png$/, "a filename in public/images/logos")
       .optional(),
 
-    /** Section photograph, resolved against /images/. Optional: most
-     *  categories have no photo yet, and a missing one must not look broken. */
+    /**
+     * Section photograph, resolved against /images/. Optional: most categories
+     * have no photo yet, and a missing one must not look broken.
+     *
+     * Dimensions are required rather than assumed. The supplied photos are not
+     * a common shape (225x225, 289x174, 251x201), so a hardcoded size would
+     * distort them; these feed the width/height attributes while CSS crops
+     * them to one consistent frame.
+     */
     photo: z
-      .string()
-      .regex(/^[a-z0-9-]+\.(jpg|png|webp)$/, "a filename in public/images")
+      .object({
+        file: z.string().regex(/^[A-Za-z0-9_-]+\.(jpg|png|webp)$/, "a filename in public/images"),
+        width: z.number().int().positive(),
+        height: z.number().int().positive(),
+      })
       .optional(),
 
     /** Which price shape this category's items use. */

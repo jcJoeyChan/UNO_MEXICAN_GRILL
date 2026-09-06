@@ -202,6 +202,7 @@
     },
     {
       "id": "nachos",
+      "photo": { "file": "Nacho_supreme.jpg", "width": 225, "height": 225 },
       "icon": "nachos.png",
       "name": "Nacho",
       "note": "White corn tortilla chips covered w. melted cheddar & Monterey Jack cheese.",
@@ -232,6 +233,7 @@
     },
     {
       "id": "burritos",
+      "photo": { "file": "Burrito.jpg", "width": 251, "height": 201 },
       "icon": "burrito.png",
       "name": "Burritos",
       "note": "Large flour tortilla filled with melted cheese, rice, black bean, lettuce, tomato, guacamole & sour cream.",
@@ -293,7 +295,7 @@
     {
       "id": "rice-platters",
       "icon": "rice.png",
-      "photo": "rice-platters.jpg",
+      "photo": { "file": "rice-platters.jpg", "width": 300, "height": 300 },
       "name": "Mexican Rice Platters",
       "note": "Large platter served with rice, black bean, salad, guacamole, corn chips & fresh flour tortilla.",
       "priceType": "single",
@@ -348,6 +350,7 @@
     },
     {
       "id": "tostada-salads",
+      "photo": { "file": "Tostada_Salad.jpg", "width": 289, "height": 174 },
       "icon": "salad.png",
       "name": "Tostada Salads",
       "note": "Fresh iceberg lettuce, tomato, cucumber, sliced avocado, cheddar cheese & black bean. Served in your choice of a clear bowl, or a tostada shell for $2 more.",

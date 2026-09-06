@@ -63,10 +63,10 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
         category.photo && (
           <img
             class="photo"
-            src={`/images/${category.photo}`}
+            src={`/images/${category.photo.file}`}
             alt=""
-            width="300"
-            height="300"
+            width={category.photo.width}
+            height={category.photo.height}
             loading="lazy"
             decoding="async"
           />
@@ -109,7 +109,12 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
   .photo {
     float: right;
     width: clamp(5rem, 18vw, 9rem);
+    /* The source photos are three different shapes. Cropping them to one
+       square frame keeps the sections looking like a set rather than a
+       scrapbook, and the fixed ratio means no layout shift as they load. */
+    aspect-ratio: 1 / 1;
     height: auto;
+    object-fit: cover;
     margin: 0 0 var(--space-4) var(--space-5);
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
