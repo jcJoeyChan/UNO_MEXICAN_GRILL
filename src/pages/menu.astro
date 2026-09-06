@@ -12,11 +12,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import MenuCategory from '../components/MenuCategory.astro';
 import OrderingLinks from '../components/OrderingLinks.astro';
 import Serape from '../components/Serape.astro';
-import { sortCategories, countItems, isSeasonal } from '../lib/menu';
+import { sortCategories, isSeasonal } from '../lib/menu';
 
 const entries = await getCollection('menu');
 const categories = sortCategories(entries.map((entry) => entry.data));
-const total = countItems(categories);
 
 // Read the real file size at build time so the download label can never drift
 // from the file it describes.
@@ -42,8 +41,7 @@ const pdfSize = `${(pdfBytes / 1024 / 1024).toFixed(1)} MB`;
     <div class="head-inner">
       <h1>Menu</h1>
       <p class="lede">
-        {total} items across {categories.length} categories. Order for pickup or delivery, call ahead,
-        or walk in.
+        Order for pickup or delivery, call ahead, or walk in.
       </p>
 
       <p class="convention">
