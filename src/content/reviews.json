@@ -1,0 +1,41 @@
+{
+  "_provenance": {
+    "source": "Google Maps reviews for UNO Mexican Grill, Glen Oaks NY",
+    "pulled": "2026-09-06",
+    "note": "Real customer reviews, transcribed verbatim from the public Google listing on the date above. Nothing here is written, edited or paraphrased by us. Quotes are a contiguous run of sentences from the original; where a review continues past the quote it is marked truncated and ends with an ellipsis. Every card links to the full review on Google so any visitor can check it against the source.",
+    "rules": "Never add a review that is not on the public listing. Never reword one. Never trim in a way that changes what the reviewer meant - two of these reviews contain mild criticism (one bathroom; prices not the cheapest) and both reviewers still rated the restaurant 5 and 4-5 stars and recommended it. If that ever stops being true of a quoted review, remove the review.",
+    "datesOmitted": "Google shows relative dates ('2 months ago'). Those would silently become wrong on a static page, so no date is displayed. The pull date above is the record."
+  },
+  "reviews": [
+    {
+      "author": "Santia Gillette",
+      "quote": "The taco salad is one of the best I've ever had and it's enough food for two meals, to share, or if you haven't eaten in a long time. Their soft tacos were great and quesadilla delicious.",
+      "truncated": true,
+      "url": "https://maps.app.goo.gl/mbTsNmc7TkcXGx9U7"
+    },
+    {
+      "author": "S. Yang",
+      "quote": "Came here two days in a row. Place is clean and food is delicious. You can taste the fresh veggies and meat. Can't go wrong with value menu that comes with can of soda and if you dine in, free chips!",
+      "truncated": true,
+      "url": "https://maps.app.goo.gl/avCcsf4jiowvVZ9U7"
+    },
+    {
+      "author": "J J",
+      "quote": "Food came out one by one and you could immediately tell the quality of the vegetables, meats, and seafood were 100%. Steak was tender unlike most places, everything was flavorful!!",
+      "truncated": true,
+      "url": "https://maps.app.goo.gl/uEvFZRVHbFTxbPCU7"
+    },
+    {
+      "author": "Mercedes V. Delgado",
+      "quote": "Food was good, very fresh and well cooked - great for a local tex-mex style spot. Great service, the cashier served every table and was super friendly.",
+      "truncated": true,
+      "url": "https://maps.app.goo.gl/eRt3C5tYxuHho2Lg9"
+    },
+    {
+      "author": "Ladyin NY",
+      "quote": "The double shell chicken taco taste fresh. The shells are freshly made. The lettuce is fresh. The chicken meat is tasty.",
+      "truncated": true,
+      "url": "https://maps.app.goo.gl/ygvoCquVj7ZCJn1n9"
+    }
+  ]
+}

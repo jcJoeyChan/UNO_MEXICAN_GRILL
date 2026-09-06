@@ -17,6 +17,7 @@ import HeroMosaic from '../components/HeroMosaic.astro';
 import MenuPreview from '../components/MenuPreview.astro';
 import OrderingLinks from '../components/OrderingLinks.astro';
 import Serape from '../components/Serape.astro';
+import Reviews from '../components/Reviews.astro';
 import restaurant from '../content/restaurant.json';
 import { sortCategories, countItems } from '../lib/menu';
 
@@ -55,6 +56,8 @@ const { contact, hours } = restaurant;
       </div>
     </div>
   </section>
+
+  <Reviews />
 
   <section class="order" id="order" aria-labelledby="order-heading">
     <div class="section-inner">

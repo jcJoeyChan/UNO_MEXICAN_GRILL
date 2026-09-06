@@ -348,3 +348,29 @@ Open Graph was **entirely absent** before this: sharing any page gave a blank gr
 The Netlify site itself, merging to `main`, and a real-device check.
 
 **Domain: `unomexicangrillny.com`.** The first choice, `unomexicangrill.com`, is already registered — parked at Namecheap with email forwarding configured, which suggests an owner who set it up deliberately rather than a squatter, and it may even be the restaurant's own from years ago. Worth asking the owner before assuming it is lost. `unomexicangrillny.com` was confirmed unregistered against the .com registry over RDAP (404, and no DNS), and the NY suffix is honest for a Queens restaurant. It still has to be bought — nothing reserves it until then.
+
+---
+
+## Google reviews on the homepage (2026-09-06)
+
+Five real reviews from the public Google listing, transcribed verbatim on 2026-09-06 and recorded in `src/content/reviews.json` with their provenance.
+
+**Placed on the homepage, immediately before the ordering section.** Social proof works hardest directly in front of the decision: read the food, read the reviews, hit Order. A dedicated `/reviews` page would look correct and get no traffic.
+
+### How much of each review is shown, and why
+
+Quotes are **verbatim** and never reworded. Each is a **contiguous run of sentences** from the original — cherry-picking clauses from across a review can invert its meaning. Where the review continues past the quote it ends with an ellipsis and is flagged `truncated`, and **every card links to the full review on Google** so a visitor can check the quote against its source. Length lands at 120–200 characters: enough to say something, short enough to scan in a scroller.
+
+Two of the five contain mild criticism (one bathroom; "the price is not the cheapest"). Both reviewers still rated the restaurant highly and recommended it, so quoting their praise is fair rather than misleading — but the rule written into `reviews.json` is that if that ever stops being true of a quoted review, the review comes out.
+
+**No dates are displayed.** Google shows relative dates ("2 months ago") which would silently become wrong on a static page. The pull date lives in provenance instead.
+
+### The strip
+
+Horizontal scroll via CSS scroll-snap, with prev/next buttons that disable at each end so the control never lies about what it will do. It **does not auto-advance** — a carousel that moves on its own steals reading time from anyone slower than its timer, and there is no good timer value. The scroll container carries `tabindex="0"`, which is required rather than decorative: a scrollable region unreachable by keyboard fails WCAG 2.1.1.
+
+### It broke the performance floor, and the floor won
+
+Adding the section dropped the homepage from 97 to **93** against a floor of 97 — confirmed real, not variance, across three runs (96/93/93). The section sits far below the fold, so `content-visibility: auto` with a `contain-intrinsic-size` skips its layout and paint until it is scrolled near. That took LCP from 3.2s back to 2.6s and the score to 96/97/97, with CLS still 0.
+
+The floor was not touched. This is what the gate is for.
