@@ -172,6 +172,10 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
   }
 
   .head {
+    /* Contains the floated section photo. Without a block formatting context
+       the float escapes the header and overlaps the item list below it, which
+       hides menu rows on every section that has a photo. */
+    display: flow-root;
     margin-bottom: var(--space-3);
   }
 
