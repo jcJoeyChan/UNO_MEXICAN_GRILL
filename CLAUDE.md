@@ -9,7 +9,7 @@ Public marketing site for a real restaurant in Glen Oaks, Queens. Astro static +
 | `CONSTRAINTS.md`                  | **The quality bar. Read before changing anything.**                   |
 | `PRODUCT.md`                      | Product truth — users, positioning, confirmed facts, brand commitments |
 | `SPEC.md`                         | Technical contract — stack, structure, conventions, boundaries         |
-| `DECISIONS.md`                    | Why, and what was chosen against                                       |
+| `DECISIONS.md`                    | Why, and what was chosen against — **local only, not in the repo**     |
 | `DESIGN.md`                       | The design system as shipped, plus the finish-review verdict            |
 | `.impeccable/surfaces/homepage.md`| The homepage direction contract                                        |
 | `tasks/plan.md`, `tasks/todo.md`  | The 15-task build plan and its current state                           |
@@ -42,7 +42,9 @@ These come from `PRODUCT.md` and are not negotiable:
 
 ## Working across two machines
 
-This project is worked on from a MacBook and a Windows desktop. **Claude Code conversations are stored per-machine and do not sync** — the repository is the handoff. Everything needed to continue is committed: `CONSTRAINTS.md`, `PRODUCT.md`, `SPEC.md`, `DECISIONS.md`, `DESIGN.md`, the direction contract, and `tasks/todo.md` for current state.
+This project is worked on from a MacBook and a Windows desktop. **Claude Code conversations are stored per-machine and do not sync** — the repository is the handoff. Everything needed to continue is committed: `CONSTRAINTS.md`, `PRODUCT.md`, `SPEC.md`, `DESIGN.md`, the direction contract, and `tasks/todo.md` for current state.
+
+**`DECISIONS.md` is deliberately NOT committed** (gitignored, 2026-09-06, at the owner's request). It is a local working record on the Windows desktop only. It will not appear on the MacBook, and any decision written there is lost to the other machine — so anything another machine must know belongs in one of the committed files above, not in `DECISIONS.md`.
 
 **Before doing anything on a fresh machine:**
 

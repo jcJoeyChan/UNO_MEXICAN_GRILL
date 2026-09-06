@@ -26,3 +26,6 @@ pnpm-debug.log*
 # constraints baseline is committed (it is the recorded floor)
 # lighthouse temp files
 .lighthouseci/
+
+# Local working record, kept off the repo at the owner’s request (2026-09-06).
+DECISIONS.md
