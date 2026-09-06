@@ -32,12 +32,15 @@ describe('the real menu data', () => {
     }
   });
 
-  it('has the transcribed shape: 12 categories, 79 items', () => {
+  it('has the transcribed shape: 12 categories, 78 items', () => {
     expect(categories).toHaveLength(12);
-    expect(countItems(categories)).toBe(79);
+    expect(countItems(categories)).toBe(78);
   });
 
-  it('matches the printed per-category counts', () => {
+  // Counts are a tripwire for accidental data loss, not a target. Kids Meal
+  // went 5 -> 4 on 2026-09-06 when the restaurant confirmed Apple Juice is no
+  // longer served; see menu.json provenance.
+  it('matches the confirmed per-category counts', () => {
     const expected: Record<string, number> = {
       tacos: 9,
       quesadillas: 8,
@@ -46,7 +49,7 @@ describe('the real menu data', () => {
       'rice-platters': 7,
       'tostada-salads': 10,
       'fajitas-by-the-pound': 4,
-      'kids-meal': 5,
+      'kids-meal': 4,
       'side-orders': 17,
       beverages: 4,
       dessert: 2,

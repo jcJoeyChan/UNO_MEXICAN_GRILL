@@ -26,7 +26,8 @@
       "Steamed veggie dishes (2026-09-02, restaurant): all come with broccoli, carrot & mushroom. Items 5, 14 and 23 carried no description on the printed menu; item 40 already listed them.",
       "Quesadilla columns (2026-09-02, restaurant): \"Plain\" is cheese only; \"Supreme\" adds lettuce, tomato, guacamole & sour cream. Now shown as an explicit legend rather than buried in the category note.",
       "Shrimp preparation (2026-09-02, restaurant): shrimp is cooked w. onions & cilantro. Mushrooms are NOT included in the quesadillas or burritos sections. The previous note said shrimp \"may have mushrooms\" everywhere, which was wrong for those two sections.",
-      "Steak cut (2026-09-06, restaurant): the steak is outside skirt steak. The printed menu said \"high quality steak\" and the dining-room banner says \"skirt steak\"; the owner confirmed the cut, which is more specific than either source. freshnessClaims updated to match."
+      "Steak cut (2026-09-06, restaurant): the steak is outside skirt steak. The printed menu said \"high quality steak\" and the dining-room banner says \"skirt steak\"; the owner confirmed the cut, which is more specific than either source. freshnessClaims updated to match.",
+      "Beverages and kids meal (2026-09-06, restaurant): Apple Juice is no longer served and is removed from Kids Meal, taking the item count from 79 to 78. The category note claimed \"Snapple and Pepsi products\" - they do not carry Pepsi, so the brand claim is dropped rather than swapped for another. Can Soda is Brisk, ginger ale, Coke and Diet Coke. \"Mexican Soda\" is Jarritos, in guava, pineapple, lime and mandarin."
       ],
       "stillOpen": "Nothing outstanding on prices: all 79 were confirmed against a second transcription on 2026-09-02. Re-check if the restaurant reprints its menu."
     }
@@ -495,12 +496,6 @@
           "description": "Just chicken & cheese",
           "price": 9.0,
           "vegetarian": false
-        },
-        {
-          "number": null,
-          "name": "Apple Juice",
-          "price": 2.25,
-          "vegetarian": false
         }
       ]
     },
@@ -640,12 +635,12 @@
       "id": "beverages",
       "icon": "soft-drink.png",
       "name": "Beverages",
-      "note": "Snapple and Pepsi products.",
       "priceType": "single",
       "items": [
         {
           "number": null,
           "name": "Can Soda",
+          "description": "Brisk, ginger ale, Coke & Diet Coke",
           "price": 2.0,
           "vegetarian": false
         },
@@ -663,7 +658,8 @@
         },
         {
           "number": null,
-          "name": "Mexican Soda",
+          "name": "Jarritos",
+          "description": "Guava, pineapple, lime & mandarin",
           "price": 3.0,
           "vegetarian": false
         }

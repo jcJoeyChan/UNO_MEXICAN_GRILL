@@ -10,12 +10,12 @@ describe('menu.json', () => {
     expect(menu.categories).toHaveLength(12);
   });
 
-  it('has 79 items in total', () => {
+  it('has 78 items in total', () => {
     const total = menu.categories.reduce(
       (n: number, c: { items: unknown[] }) => n + c.items.length,
       0,
     );
-    expect(total).toBe(79);
+    expect(total).toBe(78);
   });
 
   it('marks soups as seasonal, never as sold out', () => {

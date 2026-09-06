@@ -24,7 +24,11 @@ const note = (text) => notes.push(text);
 const menu = JSON.parse(readFileSync(join(root, 'src/content/menu.json'), 'utf8'));
 
 const EXPECTED_CATEGORIES = 12;
-const EXPECTED_ITEMS = 79;
+// 78 since 2026-09-06: Apple Juice was withdrawn from Kids Meal, confirmed by
+// the restaurant and recorded in menu.json provenance. This number is a
+// tripwire for accidental data loss, not a target - it moves only when the
+// real menu does.
+const EXPECTED_ITEMS = 78;
 
 if (menu.categories.length !== EXPECTED_CATEGORIES) {
   fail(
