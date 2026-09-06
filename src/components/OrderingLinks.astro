@@ -15,20 +15,19 @@ interface Props {
 
 const { variant = 'menu' } = Astro.props;
 /**
- * Each partner card carries that partner’s own brand colour as its ground.
+ * Each partner card rests on a neutral ground and takes that partner’s own
+ * colours on hover and keyboard focus.
  *
- * The colour rides on a custom property rather than a per-channel class so the
- * mapping stays in one typed object; an id with no entry simply gets the
- * default card surface instead of failing silently in CSS.
- *
- * Text stays --text on top: tokens.css records the measured ratio for each,
- * and white would fail on three of the four.
+ * Both colours ride on custom properties set inline, so the mapping stays in
+ * one typed object and an id with no entry simply keeps the neutral card.
+ * The measured contrast for each pair is recorded in tokens.css — Grubhub’s
+ * published orange could not be used as given.
  */
-const PARTNER_BG: Record<string, string> = {
-  chowbus: 'var(--partner-chowbus-bg)',
-  ubereats: 'var(--partner-ubereats-bg)',
-  doordash: 'var(--partner-doordash-bg)',
-  grubhub: 'var(--partner-grubhub-bg)',
+const PARTNER_THEME: Record<string, string> = {
+  chowbus: '--partner-chowbus',
+  ubereats: '--partner-ubereats',
+  doordash: '--partner-doordash',
+  grubhub: '--partner-grubhub',
 };
 
 const { channels, direct } = restaurant.ordering;
@@ -42,7 +41,8 @@ const { phone, phoneHref } = restaurant.contact;
         <li>
           <a
             class:list={['channel', channel.primary && 'is-primary']}
-            style={PARTNER_BG[channel.id] && `--partner-bg: ${PARTNER_BG[channel.id]}`}
+            style={PARTNER_THEME[channel.id] &&
+              `--partner-bg: var(${PARTNER_THEME[channel.id]}-bg); --partner-fg: var(${PARTNER_THEME[channel.id]}-fg)`}
             href={channel.url}
             target="_blank"
             rel="noopener noreferrer"
@@ -96,7 +96,7 @@ const { phone, phoneHref } = restaurant.contact;
     padding: var(--space-3);
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
-    background: var(--partner-bg, var(--surface));
+    background: var(--partner-rest-bg, var(--surface));
     color: var(--text);
     text-decoration: none;
     transition:
@@ -104,9 +104,28 @@ const { phone, phoneHref } = restaurant.contact;
       transform var(--duration-fast) var(--ease-out);
   }
 
-  .channel:hover {
+  /* Hover AND focus-visible: a state reachable only by mouse would leave
+     keyboard users without it. */
+  .channel:hover,
+  .channel:focus-visible {
     border-color: var(--border-strong);
     transform: translateY(-1px);
+  }
+
+  .channel[style]:hover,
+  .channel[style]:focus-visible {
+    background: var(--partner-bg);
+    color: var(--partner-fg);
+    /* Grubhub’s ground is white, nearly the card’s resting colour, so the
+       border carries the state change that the background cannot. */
+    border-color: var(--partner-fg);
+  }
+
+  .channel[style]:hover .channel-detail,
+  .channel[style]:focus-visible .channel-detail,
+  .channel[style]:hover .external,
+  .channel[style]:focus-visible .external {
+    color: var(--partner-fg);
   }
 
   .channel.is-primary {
@@ -115,7 +134,9 @@ const { phone, phoneHref } = restaurant.contact;
   }
 
   .channel-name {
+    font-family: var(--font-bubbly);
     font-weight: var(--font-weight-bold);
+    letter-spacing: 0.01em;
   }
 
   .channel-detail {
@@ -123,13 +144,7 @@ const { phone, phoneHref } = restaurant.contact;
     color: var(--text-muted);
   }
 
-  /* --text-muted is measured against --surface only. On a saturated brand
-     ground it drops below AA, so partner cards carry full-strength ink and
-     rely on size for hierarchy instead of lightness. */
-  .channel[style] .channel-detail,
-  .channel[style] .external {
-    color: var(--text);
-  }
+
 
   .external {
     font-size: 0.8em;

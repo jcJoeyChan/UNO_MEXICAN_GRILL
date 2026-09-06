@@ -38,7 +38,7 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
           category.icon && (
             <img
               class="icon"
-              src={`/images/emoji/${category.icon}.svg`}
+              src={`/images/logos/${category.icon}`}
               alt=""
               width="40"
               height="40"
@@ -59,6 +59,19 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
       }
 
       {category.note && <p class="note">{category.note}</p>}
+      {
+        category.photo && (
+          <img
+            class="photo"
+            src={`/images/${category.photo}`}
+            alt=""
+            width="300"
+            height="300"
+            loading="lazy"
+            decoding="async"
+          />
+        )
+      }
       {
         category.columnLegend && (
           <dl class="legend">
@@ -90,6 +103,17 @@ const shrimpNote = hasShrimp ? menuData.conventions.shrimpNote : undefined;
 </section>
 
 <style>
+  /* A section photograph, where one exists. Most categories have none yet, so
+     this has to look deliberate when absent rather than like a gap: it floats
+     beside the heading block and the text simply reflows without it. */
+  .photo {
+    float: right;
+    width: clamp(5rem, 18vw, 9rem);
+    height: auto;
+    margin: 0 0 var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+  }
   /* Sized in em so it tracks the display heading at every breakpoint rather
      than needing its own clamp. Decorative: the heading text already says
      what the section is. */

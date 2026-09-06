@@ -123,19 +123,6 @@ const { contact, catering } = restaurant;
     )
   }
 
-  <section class="unknowns" aria-labelledby="unknowns-heading">
-    <div class="section-inner narrow">
-      <p class="provisional">Placeholder — not yet confirmed</p>
-      <h2 id="unknowns-heading">What we still need to tell you</h2>
-      <p class="note">
-        Party sizes, deposits, delivery and set-up are not written down yet, so they are not on this
-        page. Rather than guess, we would rather you called and got a straight answer.
-      </p>
-      <p class="note">
-        <a href={contact.phoneHref}>{contact.phone}</a> — {restaurant.hours.summary.toLowerCase()}.
-      </p>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
@@ -322,18 +309,5 @@ const { contact, catering } = restaurant;
     color: var(--mural-sky);
   }
 
-  .unknowns {
-    background: var(--mural-sky-wash);
-  }
 
-  .provisional {
-    display: inline-block;
-    margin-bottom: var(--space-4);
-    padding: var(--space-2) var(--space-4);
-    background: var(--state-seasonal-bg);
-    color: var(--state-seasonal-text);
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-  }
 </style>

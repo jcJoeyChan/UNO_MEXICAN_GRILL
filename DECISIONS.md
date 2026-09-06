@@ -374,3 +374,42 @@ Horizontal scroll via CSS scroll-snap, with prev/next buttons that disable at ea
 Adding the section dropped the homepage from 97 to **93** against a floor of 97 — confirmed real, not variance, across three runs (96/93/93). The section sits far below the fold, so `content-visibility: auto` with a `contain-intrinsic-size` skips its layout and paint until it is scrolled near. That took LCP from 3.2s back to 2.6s and the score to 96/97/97, with CLS still 0.
 
 The floor was not touched. This is what the gate is for.
+
+---
+
+## Restaurant-supplied icons, section photos, and partner hover states (2026-09-06)
+
+### Menu section icons
+
+The Twemoji set is replaced by the restaurant's own black line icons in `public/images/logos/`, which suit the design system far better than flat colour emoji did. Twemoji, its `@font-face`-style attribution in the footer and the whole `public/images/emoji/` directory are deleted — CC-BY attribution for artwork no longer used is just clutter.
+
+`drink.png` is a **steaming soup bowl**, not a drink, despite the filename; it is mapped to Soups, and `soft-drink.png` (bottles and a can) to Beverages. Mapping by filename alone would have put a soup bowl on the drinks section.
+
+**Three categories have no icon yet** — Quesadillas, Fajitas by the Pound, Side Orders. They render without one rather than falling back to a Twemoji, because mixing flat colour emoji into a set of black line icons looks like a mistake rather than a gap.
+
+### Section photographs
+
+`photo` is optional on a category. Only Rice Platters has one so far, so it floats beside the heading and the text reflows without it — a missing photo has to read as deliberate, not broken, while eleven are still outstanding.
+
+### The banner photo, and a discrepancy it surfaced
+
+`fresh-goal.png` is a photograph of the "Fresh is our #1 Goal" banner in the dining room. It went into the room photo row, **not** beside the claims list, because the two sources do not agree:
+
+| | Printed menu (what the site says) | Dining-room banner (the photo) |
+|---|---|---|
+| Claim 1 | "…from scratch **directly from our tortilla machine** & baked…" | "…made from scratch & baked…" |
+| Claim 4 | "We use **high quality** steak" | "We use **skirt** steak" |
+
+Both are the restaurant's own words from different artifacts. Nothing was silently changed — `menu.json` is verified data and its source is the printed menu. Printing the list next to a photograph that contradicts it would have been the worst of both, so the photo sits with the room shots until the owner says which wording is current. "Skirt steak" is the more specific claim and is probably the truer one.
+
+### Provisional sections removed
+
+The "Our story" section on `/about` and the "what we still need to tell you" section on `/catering` are gone, along with their now-dead CSS and an unused import the removal exposed. A section announcing its own emptiness is worse than no section. "Try it" became "Try us!", and the "The room" caption was dropped — its heading survives as a visually-hidden label so the section keeps its accessible name.
+
+### Ordering partners: neutral at rest, brand on hover
+
+Cards now rest on a neutral ground and take the partner's colours only on hover **and `:focus-visible`** — a state reachable only by mouse would leave keyboard users without it. Names are set in Fredoka (SIL OFL, self-hosted, 16KB, `font-display: swap`, never in the first viewport so it cannot delay LCP).
+
+Three of the four colour pairs the restaurant chose were used exactly as given. **Grubhub's could not be:** `#ff8000` on white measures **2.52:1**, far under the 4.5:1 floor. The white ground and the orange hue are kept, darkened until the text carries — `#b75c00`, 4.62:1. The same move `--brand-green-ink` already makes for the logo green.
+
+Measured live in the browser, not just computed: ChowBus 5.32:1, Uber Eats 8.83:1, DoorDash 4.51:1 (only just), Grubhub 4.62:1. Grubhub's white hover ground is nearly the card's resting colour, so the border carries the state change the background cannot.

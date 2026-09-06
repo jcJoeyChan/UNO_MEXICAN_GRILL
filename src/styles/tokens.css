@@ -39,24 +39,30 @@
   /* ---------------------------------------------------------------------
      Ordering partners.
 
-     PRODUCT.md routes every order to one of these four, so each card carries
-     its partner’s own colour. These are the published brand colours
-     unmodified, used the way this file already permits brand colour to be
-     used — as a large fill, never as text.
+     Cards rest on a neutral ground and take the partner’s colours only on
+     hover/focus, so four saturated brands do not shout at once.
 
-     The card text is --text (warm-950) on top, which clears AA on all four:
-     ChowBus 6.11:1 · Uber Eats 7.37:1 · DoorDash 4.74:1 · Grubhub 4.58:1.
-     White would not: it measures 2.87 / 2.38 / 3.70 / 3.83 and would have
-     forced the backgrounds to be darkened away from the real brand colour.
+     Each hover pair is measured. The restaurant chose these; three were used
+     as given, one could not be:
+       ChowBus   #fefefe on #cc2543  5.32:1  AA pass
+       Uber Eats #000000 on #06c167  8.83:1  AA pass
+       DoorDash  #ffffff on #eb1700  4.51:1  AA pass (only just)
+       Grubhub   #ff8000 on #ffffff  2.52:1  FAIL — far under the 4.5 floor.
+     Grubhub keeps the white ground and the orange hue, darkened until the text
+     carries: #b75c00 measures 4.62:1. Same move as --brand-green-ink.
 
-     Trademarks belong to their owners. These identify a link to that
-     partner; they are not an endorsement and must not be restyled into
-     anything logo-shaped.
+     Trademarks belong to their owners.
      --------------------------------------------------------------------- */
-  --partner-chowbus-bg: #ff6a13; /* --text on this: 6.11:1  AA pass */
-  --partner-ubereats-bg: #06c167; /* --text on this: 7.37:1  AA pass */
-  --partner-doordash-bg: #ff3008; /* --text on this: 4.74:1  AA pass */
-  --partner-grubhub-bg: #f63440; /* --text on this: 4.58:1  AA pass */
+  --partner-rest-bg: var(--warm-100); /* the shared neutral resting ground */
+
+  --partner-chowbus-bg: #cc2543;
+  --partner-chowbus-fg: #fefefe; /* 5.32:1  AA pass */
+  --partner-ubereats-bg: #06c167;
+  --partner-ubereats-fg: #000000; /* 8.83:1  AA pass */
+  --partner-doordash-bg: #eb1700;
+  --partner-doordash-fg: #ffffff; /* 4.51:1  AA pass */
+  --partner-grubhub-bg: #ffffff;
+  --partner-grubhub-fg: #b75c00; /* 4.62:1  AA pass; #ff8000 measures 2.52:1 */
 
   /* ---------------------------------------------------------------------
      Warm neutrals — sampled from the food photography.
@@ -155,6 +161,10 @@
      Alfa Slab One, SIL Open Font License 1.1, self-hosted: two subsets, ~38KB,
      no CDN. Chosen 2026-09-02 over Rye, Chicle and Bungee Shade — see DECISIONS.md. */
   --font-display: 'Alfa Slab One', var(--font-sans);
+
+  /* Rounded face, used only for the four ordering-partner names. Loaded with
+     font-display: swap and never in the first viewport, so it cannot delay LCP. */
+  --font-bubbly: 'Fredoka', var(--font-sans);
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
