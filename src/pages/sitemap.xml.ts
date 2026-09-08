@@ -12,6 +12,11 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { listPosts } from '../lib/posts';
 
+/*
+ * Every URL here carries a trailing slash, because that is what the host
+ * serves. Astro builds directory routes, so /menu 301s to /menu/ - and a
+ * sitemap of redirects tells a crawler the canonical page is not the page.
+ */
 /** Pages deliberately kept out: an error page and a form-completion page. */
 const EXCLUDED = new Set(['/404', '/contact-thanks']);
 
@@ -42,7 +47,7 @@ export const GET: APIRoute = async ({ site }) => {
 ${urls
   .map(
     ({ path, lastmod }) =>
-      `  <url>\n    <loc>${origin}${path === '/' ? '/' : path}</loc>${
+      `  <url>\n    <loc>${origin}${path === '/' ? '/' : `${path}/`}</loc>${
         lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''
       }\n  </url>`,
   )

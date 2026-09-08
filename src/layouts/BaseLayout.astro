@@ -44,9 +44,13 @@ const DEFAULT_OG = {
 
 const { title, description, preloadImage, ogImage = DEFAULT_OG } = Astro.props;
 
-// Trailing slashes are stripped so a page has exactly one canonical form.
-const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const canonical = new URL(path, Astro.site).href;
+/* One canonical form per page, and it has to be the one the host actually
+   serves. Astro builds directory routes, so Netlify serves /menu/ and 301s
+   /menu to it. Emitting the unslashed form pointed every canonical tag, og:url
+   and sitemap entry at a redirect — telling Google the canonical page is a URL
+   that is not the page. */
+const path = Astro.url.pathname.replace(/\/+$/, '');
+const canonical = new URL(`${path}/`, Astro.site).href;
 const ogImageUrl = new URL(ogImage.src, Astro.site).href;
 ---
 
