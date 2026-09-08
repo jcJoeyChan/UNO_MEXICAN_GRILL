@@ -22,15 +22,14 @@ const { reviews: items } = reviews;
     <p class="sub">What people say on Google — in their own words.</p>
   </div>
 
-  <!--
-    tabindex="0" is required, not decorative: a scrollable region must be
-    reachable by keyboard (WCAG 2.1.1) or arrow-key users cannot pan it.
-  -->
+  {/* tabindex="0" is required, not decorative: a scrollable region must be
+    reachable by keyboard (WCAG 2.1.1) or arrow-key users cannot pan it. */}
   <ul
     class="strip"
     role="list"
     tabindex="0"
     aria-labelledby="reviews-heading"
+    id="reviews-strip"
     data-review-strip
   >
     {
@@ -51,12 +50,15 @@ const { reviews: items } = reviews;
     }
   </ul>
 
-  <div class="controls">
-    <button type="button" class="nav" data-review-prev aria-controls="reviews-heading">
+  {/* Hidden until the script runs: without JavaScript these buttons would be
+       visible and inert. The strip itself still scrolls natively and is
+       keyboard-reachable, so nothing is lost. */}
+  <div class="controls" data-review-controls hidden>
+    <button type="button" class="nav" data-review-prev aria-controls="reviews-strip">
       <span aria-hidden="true">←</span>
       <span class="visually-hidden">Scroll reviews left</span>
     </button>
-    <button type="button" class="nav" data-review-next>
+    <button type="button" class="nav" data-review-next aria-controls="reviews-strip">
       <span aria-hidden="true">→</span>
       <span class="visually-hidden">Scroll reviews right</span>
     </button>
@@ -69,6 +71,7 @@ const { reviews: items } = reviews;
   const next = document.querySelector<HTMLButtonElement>('[data-review-next]');
 
   if (strip && prev && next) {
+    document.querySelector<HTMLElement>('[data-review-controls]')?.removeAttribute('hidden');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const page = () => strip.clientWidth * 0.8;
     const go = (dir: number) =>

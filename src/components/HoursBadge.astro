@@ -22,7 +22,11 @@ const { summary } = restaurant.hours;
 
 <span class:list={['pill', className]} data-hours-pill data-state="static">
   <span class="dot" aria-hidden="true"></span>
-  <span data-hours-text aria-live="polite">{summary}</span>
+  {/* No aria-live here. This renders three or four times per page, and every
+       instance announcing the same sentence means a screen-reader user hears
+       the 9:30pm flip up to four times. The script marks exactly one instance
+       as live. Nothing updates before the script runs, so nothing is lost. */}
+  <span data-hours-text>{summary}</span>
 </span>
 
 <script>
@@ -33,6 +37,12 @@ const { summary } = restaurant.hours;
 
   function render() {
     const pills = document.querySelectorAll<HTMLElement>('[data-hours-pill]');
+
+    // Exactly one live region for the whole page.
+    pills.forEach((pill, index) => {
+      const text = pill.querySelector<HTMLElement>('[data-hours-text]');
+      if (text && index === 0) text.setAttribute('aria-live', 'polite');
+    });
     if (pills.length === 0) return;
 
     const status = isOpenNow(week);

@@ -96,8 +96,27 @@ const { contact, hours } = restaurant;
           <textarea id="message" name="message" rows="5" required></textarea>
         </div>
 
-        <button class="btn btn-primary" type="submit">Send</button>
+        <button class="btn btn-primary" type="submit" data-submit>Send</button>
       </form>
+
+      <script>
+        // A slow connection invites a second click, and a second click sends a
+        // second enquiry. Progressive enhancement: without JavaScript this is
+        // an ordinary submit, which is still correct, just not guarded.
+        const form = document.querySelector<HTMLFormElement>('form.form');
+        const submit = document.querySelector<HTMLButtonElement>('[data-submit]');
+
+        if (form && submit) {
+          form.addEventListener('submit', () => {
+            // Let the browser run its own validation first: a form that fails
+            // constraint checks never submits, and disabling here would strand
+            // the visitor with a dead button.
+            if (!form.checkValidity()) return;
+            submit.disabled = true;
+            submit.textContent = 'Sending…';
+          });
+        }
+      </script>
     </section>
   </div>
 </BaseLayout>

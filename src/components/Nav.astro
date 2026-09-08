@@ -148,10 +148,33 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
   const nav = document.getElementById('rail-nav');
 
   if (navToggle && nav) {
-    navToggle.addEventListener('click', () => {
-      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!expanded));
-      nav.classList.toggle('is-open', !expanded);
+    const setNav = (open: boolean) => {
+      navToggle.setAttribute('aria-expanded', String(open));
+      nav.classList.toggle('is-open', open);
+    };
+
+    const navIsOpen = () => navToggle.getAttribute('aria-expanded') === 'true';
+
+    navToggle.addEventListener('click', () => setNav(!navIsOpen()));
+
+    // The order panel next to this closes on Escape, on click-away and on
+    // focus-out. This did none of them: a keyboard user who opened it had to
+    // find the hamburger again, and a tap outside left it hanging open.
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navIsOpen()) {
+        setNav(false);
+        navToggle.focus();
+      }
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      const target = event.target as Node;
+      if (navIsOpen() && !nav.contains(target) && !navToggle.contains(target)) setNav(false);
+    });
+
+    // Following a link inside the panel should not leave it open behind you.
+    nav.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setNav(false);
     });
   }
 </script>

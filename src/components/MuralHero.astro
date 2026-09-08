@@ -26,16 +26,16 @@ const { headline, positioning, landmark, phone, phoneHref } = Astro.props;
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
-  <!-- WebP first, JPEG fallback. The mural is the LCP element, and at ~49%
+  {/* WebP first, JPEG fallback. The mural is the LCP element, and at ~49%
        fewer bytes WebP is the difference between meeting the performance floor
-       and missing it. -->
+       and missing it. */}
   <picture>
-    <!-- Phones get a different photograph, not a squeezed one. The landscape
+    {/* Phones get a different photograph, not a squeezed one. The landscape
          mural is 2.24:1; cover-cropping it into a portrait box threw away the
          painted UNO MEXICAN GRILL sign, which is the whole reason this image
          is the hero. This crop is taken from the 5712x4284 master and framed
          on the sign itself. Media sources come first — the browser takes the
-         first <source> whose media matches. -->
+         first <source> whose media matches. */}
     <source
       type="image/webp"
       media="(max-width: 48rem)"
@@ -77,8 +77,8 @@ const { headline, positioning, landmark, phone, phoneHref } = Astro.props;
       <p class="positioning">{positioning}</p>
 
       <div class="actions">
-        <!-- Opens the rail’s ordering panel. The href is the no-JS fallback:
-             #order lists the same channels further down the page. -->
+        {/* Opens the rail’s ordering panel. The href is the no-JS fallback:
+             #order lists the same channels further down the page. */}
         <a
           class="btn btn-primary"
           href="#order"
