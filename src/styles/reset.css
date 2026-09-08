@@ -92,8 +92,11 @@ a {
    this without an equally visible replacement — it is the only affordance a
    keyboard-only visitor has. */
 :focus-visible {
-  outline: 3px solid var(--brand-green-ink);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
+  /* The halo sits outside the outline so one of the two always contrasts,
+     whatever the control is sitting on. See the note in tokens.css. */
+  box-shadow: 0 0 0 7px var(--focus-ring-halo);
   border-radius: var(--radius-sm);
 }
 

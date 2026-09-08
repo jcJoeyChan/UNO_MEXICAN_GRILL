@@ -37,6 +37,25 @@
   --brand-red-ink: #96131a; /* on --surface: 8.17:1  AA pass  — accent text */
 
   /* ---------------------------------------------------------------------
+     Focus ring — two tones, because one cannot work.
+
+     A single ring colour has to clear 3:1 (WCAG 1.4.11) against every ground
+     a control can sit on. Those grounds run from #ffffff to #241611, and the
+     mid-light ones (--mural-sand, --mural-sky-wash) sit inside 3:1 of any
+     mid-tone, so no single value exists. Measured, not assumed.
+
+     So the ring is dark ink with a light halo just outside it. On light
+     grounds the ink carries it (11.96–17.53:1); on dark and brand-filled
+     grounds the halo does (4.22–16.41:1). Every ground has at least one.
+
+     The old ring was --brand-green-ink alone: 1.38:1 on the primary green
+     button and 2.35:1 on the dark hero — invisible exactly where the primary
+     call to action lives.
+     --------------------------------------------------------------------- */
+  --focus-ring: var(--warm-950);
+  --focus-ring-halo: var(--warm-50);
+
+  /* ---------------------------------------------------------------------
      Ordering partners.
 
      Cards rest on a neutral ground and take the partner’s colours only on

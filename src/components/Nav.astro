@@ -57,7 +57,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
         </button>
         <div class="order-panel" id="order-panel" data-order-panel hidden>
           <p class="order-heading">Order From</p>
-          <OrderingLinks variant="menu" />
+          <OrderingLinks />
         </div>
       </div>
 
@@ -218,6 +218,14 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
   .nav a[aria-current='page'] {
     color: var(--brand-green-ink);
     box-shadow: inset 0 -2px 0 var(--brand-green-deep);
+  }
+
+  /* The global focus rule owns box-shadow for its halo, so the current-page
+     underline is re-stated here rather than being dropped while focused. */
+  .nav a[aria-current='page']:focus-visible {
+    box-shadow:
+      inset 0 -2px 0 var(--brand-green-deep),
+      0 0 0 7px var(--focus-ring-halo);
   }
 
   /* Visibility is controlled on a Nav-owned wrapper, not by passing a class

@@ -21,12 +21,12 @@
  */
 import restaurant from '../content/restaurant.json';
 
-interface Props {
-  /** 'menu' inside the rail dropdown, 'block' for in-page use (footer, pages). */
-  variant?: 'menu' | 'block';
-}
-
-const { variant = 'menu' } = Astro.props;
+/*
+ * No variant prop. The layout used to branch on where it was rendered; it now
+ * wraps on its own width instead, so the same markup is correct in a 318px
+ * rail panel, a 560px footer column and a 1152px section. A prop that selects
+ * nothing is worse than no prop.
+ */
 const { channels, direct } = restaurant.ordering;
 const { phone, phoneHref } = restaurant.contact;
 
@@ -50,7 +50,7 @@ const themeFor = (id: string) =>
     : undefined;
 ---
 
-<div class:list={['ordering', `is-${variant}`]}>
+<div class="ordering">
   <div class="direct">
     {
       lead && (
