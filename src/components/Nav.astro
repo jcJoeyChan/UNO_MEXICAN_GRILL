@@ -84,21 +84,44 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
   const panel = document.querySelector<HTMLElement>('[data-order-panel]');
 
   if (root && button && panel) {
-    const open = () => {
+    // Anything on the page that offers to start an order opens THIS panel.
+    // The hero used to carry a second "Order Now" that scrolled ~1500px down
+    // instead: same words, same colour, a completely different outcome.
+    // One controller, several triggers, one behaviour.
+    const extraTriggers = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-order-open]'),
+    );
+    const triggers = [button, ...extraTriggers];
+
+    // The trigger that opened the panel is the one focus returns to.
+    let opener: HTMLElement = button;
+
+    const open = (from: HTMLElement = button) => {
+      opener = from;
       panel.hidden = false;
-      button.setAttribute('aria-expanded', 'true');
+      triggers.forEach((t) => t.setAttribute('aria-expanded', 'true'));
       panel.querySelector<HTMLAnchorElement>('a')?.focus();
     };
 
     const close = (returnFocus = false) => {
       panel.hidden = true;
-      button.setAttribute('aria-expanded', 'false');
-      if (returnFocus) button.focus();
+      triggers.forEach((t) => t.setAttribute('aria-expanded', 'false'));
+      if (returnFocus) opener.focus();
     };
 
     button.addEventListener('click', () => {
-      if (panel.hidden) open();
+      if (panel.hidden) open(button);
       else close(true);
+    });
+
+    // These are real links to #order, which lists the same channels, so the
+    // page still works with no JavaScript. With JS they do the faster thing.
+    extraTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (panel.hidden) open(trigger);
+        else close(true);
+      });
     });
 
     // Escape closes and hands focus back to the button that opened it.
