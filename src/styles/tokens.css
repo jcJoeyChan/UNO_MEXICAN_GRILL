@@ -188,7 +188,10 @@
      no CDN. Chosen 2026-09-02 over Rye, Chicle and Bungee Shade — see DECISIONS.md. */
   --font-display: 'Alfa Slab One', var(--font-sans);
 
-  /* Rounded face, used only for the four ordering-partner names. Loaded with
+  /* Rounded face. Used on exactly one control: the ChowBus lead button, where
+     a friendlier voice sits on the action the restaurant would rather you took.
+     It is deliberately absent from the marketplace chips and from the phone
+     number, which belongs to the page rather than to a partner. Loaded with
      font-display: swap and never in the first viewport, so it cannot delay LCP. */
   --font-bubbly: 'Fredoka', var(--font-sans);
 
