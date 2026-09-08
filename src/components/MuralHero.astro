@@ -227,7 +227,21 @@ const { headline, positioning, landmark, phone, phoneHref } = Astro.props;
   }
 
   .meta a {
+    position: relative;
     color: var(--mural-sand);
+  }
+
+  /* The phone number is the one control here a hungry local taps in traffic.
+     It renders 22px tall; this gives it a 44px hit area without moving the
+     line it sits on. */
+  .meta a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: var(--tap-target);
+    transform: translateY(-50%);
   }
 
   @media (max-width: 48rem) {

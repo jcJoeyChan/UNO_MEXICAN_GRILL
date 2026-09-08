@@ -202,6 +202,9 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
   .brand {
     display: inline-flex;
     align-items: center;
+    min-height: var(--tap-target);
+    /* The label is hidden on phones, leaving a 36px logo as the home link. */
+    min-width: var(--tap-target);
     gap: var(--space-2);
     text-decoration: none;
     color: var(--text);
@@ -276,6 +279,7 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
   .order-button {
     display: inline-flex;
     align-items: center;
+    min-height: var(--tap-target);
     gap: var(--space-2);
     padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-full);
@@ -329,8 +333,8 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
     flex-direction: column;
     justify-content: center;
     gap: 4px;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: var(--tap-target);
+    height: var(--tap-target);
     padding: var(--space-2);
     border-radius: var(--radius-md);
     border: 1px solid var(--border);

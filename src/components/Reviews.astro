@@ -183,8 +183,21 @@ const { reviews: items } = reviews;
   }
 
   .source {
+    position: relative;
     color: var(--brand-green-ink);
     font-weight: var(--font-weight-bold);
+  }
+
+  /* The visible link is 22px tall in a card footer. Padding it out to 44
+     would grow every review card; this grows only what a thumb can hit. */
+  .source::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: var(--tap-target);
+    transform: translateY(-50%);
   }
 
   .controls {
@@ -196,8 +209,8 @@ const { reviews: items } = reviews;
   }
 
   .nav {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: var(--tap-target);
+    height: var(--tap-target);
     border-radius: var(--radius-full);
     border: 1px solid var(--border-strong);
     background: var(--surface);
