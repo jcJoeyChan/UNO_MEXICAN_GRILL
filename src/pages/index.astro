@@ -30,12 +30,21 @@ const { contact, hours } = restaurant;
 <BaseLayout
   title="UNO Mexican Grill — Tex-Mex takeout & dine-in in Glen Oaks, Queens"
   description="Casual Tex-Mex takeout and dine-in on Union Turnpike in Glen Oaks, Queens. Tacos, burritos, quesadillas and rice platters. Open 7 days, 11 am to 9:30 pm."
-  preloadImage={{
-    srcset:
-      '/images/mural-1200.webp 1200w, /images/mural-1800.webp 1800w, /images/mural-2400.webp 2400w',
-    sizes: '100vw',
-    type: 'image/webp',
-  }}
+  preloadImage={[
+    {
+      media: '(max-width: 48rem)',
+      srcset: '/images/mural-portrait-800.webp 800w, /images/mural-portrait-1200.webp 1200w',
+      sizes: '100vw',
+      type: 'image/webp',
+    },
+    {
+      media: '(min-width: 48.0625rem)',
+      srcset:
+        '/images/mural-1200.webp 1200w, /images/mural-1800.webp 1800w, /images/mural-2400.webp 2400w',
+      sizes: '100vw',
+      type: 'image/webp',
+    },
+  ]}
 >
   <MuralHero
     headline="Tex-Mex, made when you order it."

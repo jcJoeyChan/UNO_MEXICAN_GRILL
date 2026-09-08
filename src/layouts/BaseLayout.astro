@@ -13,11 +13,17 @@ interface Props {
   title: string;
   description: string;
   /**
-   * LCP image to preload, as [srcset, sizes, type]. The browser cannot discover
-   * an image inside a <picture> until CSS and layout resolve; preloading it
-   * starts the fetch immediately, which is what a full-bleed hero needs.
+   * LCP images to preload. The browser cannot discover an image inside a
+   * <picture> until CSS and layout resolve; preloading starts the fetch
+   * immediately, which is what a full-bleed hero needs.
+   *
+   * This is a list because the hero is art-directed: phones and desktop load
+   * different crops. Each entry carries the same `media` as its <source>, so
+   * exactly one is fetched. A single media-less preload would download the
+   * wrong crop on phones and then discover the right one late — paying twice
+   * and still missing the LCP.
    */
-  preloadImage?: { srcset: string; sizes: string; type: string };
+  preloadImage?: { srcset: string; sizes: string; type: string; media?: string }[];
 
   /**
    * Social preview image. Absolute URLs are required by Open Graph, so this
@@ -57,16 +63,17 @@ const ogImageUrl = new URL(ogImage.src, Astro.site).href;
       crossorigin
     />
     {
-      preloadImage && (
+      preloadImage?.map((image) => (
         <link
           rel="preload"
           as="image"
-          imagesrcset={preloadImage.srcset}
-          imagesizes={preloadImage.sizes}
-          type={preloadImage.type}
+          imagesrcset={image.srcset}
+          imagesizes={image.sizes}
+          type={image.type}
+          media={image.media}
           fetchpriority="high"
         />
-      )
+      ))
     }
     <title>{title}</title>
     <meta name="description" content={description} />

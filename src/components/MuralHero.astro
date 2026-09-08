@@ -30,6 +30,24 @@ const { headline, positioning, landmark, phone, phoneHref } = Astro.props;
        fewer bytes WebP is the difference between meeting the performance floor
        and missing it. -->
   <picture>
+    <!-- Phones get a different photograph, not a squeezed one. The landscape
+         mural is 2.24:1; cover-cropping it into a portrait box threw away the
+         painted UNO MEXICAN GRILL sign, which is the whole reason this image
+         is the hero. This crop is taken from the 5712x4284 master and framed
+         on the sign itself. Media sources come first — the browser takes the
+         first <source> whose media matches. -->
+    <source
+      type="image/webp"
+      media="(max-width: 48rem)"
+      srcset="/images/mural-portrait-800.webp 800w, /images/mural-portrait-1200.webp 1200w"
+      sizes="100vw"
+    />
+    <source
+      type="image/jpeg"
+      media="(max-width: 48rem)"
+      srcset="/images/mural-portrait-800.jpg 800w, /images/mural-portrait-1200.jpg 1200w"
+      sizes="100vw"
+    />
     <source
       type="image/webp"
       srcset="
@@ -203,17 +221,50 @@ const { headline, positioning, landmark, phone, phoneHref } = Astro.props;
   }
 
   @media (max-width: 48rem) {
-    /* Vertical scrim on narrow screens: there is no room for a left-weighted
-       one, and the copy needs the full width. */
+    /* The portrait crop is 0.8:1, so the hero is sized near that ratio and the
+       image arrives almost uncropped. Shorter than it was, so the serape and
+       the top of the food strip clear the fold instead of a full screen of
+       dark rectangle. */
     .scrim {
       align-items: flex-end;
-      min-height: min(80vh, 34rem);
+      min-height: min(64vh, 30rem);
+      padding: var(--space-6) var(--space-4);
+      /* An even veil, not a plateau with a clear window.
+
+         A gradient that cleared at the top was tried and measured: text in the
+         bottom 45% passed at 6.39:1, but the copy block is ~77% of the hero,
+         and anything reaching 55% fell to 2.01:1. There is no clear zone to be
+         had at this copy length — so the whole frame carries one veil instead.
+
+         Alpha never drops below 0.75, measured by compositing these stops over
+         the real crop: warm-50 7.28:1, mural-sand 5.30:1 at the worst pixel in
+         the frame. The old 94% plateau measured 11.46:1 and showed 6% of the
+         painting; this shows 25% of it everywhere, sign included. */
       background: linear-gradient(
         to top,
-        color-mix(in srgb, var(--surface-inverse) 94%, transparent) 0%,
-        color-mix(in srgb, var(--surface-inverse) 86%, transparent) 55%,
-        color-mix(in srgb, var(--surface-inverse) 45%, transparent) 100%
+        color-mix(in srgb, var(--surface-inverse) 82%, transparent) 0%,
+        color-mix(in srgb, var(--surface-inverse) 78%, transparent) 60%,
+        color-mix(in srgb, var(--surface-inverse) 75%, transparent) 100%
       );
+    }
+
+    /* Framed on the sign, which sits right of centre in the crop. */
+    .backdrop {
+      object-position: 65% 25%;
+    }
+
+    /* One step down so the copy block stays inside the scrim’s dark band and
+       out of the part of the frame showing the painting. */
+    h1 {
+      font-size: var(--font-size-3xl);
+    }
+
+    .actions {
+      margin-top: var(--space-5);
+    }
+
+    .meta {
+      margin-top: var(--space-4);
     }
   }
 </style>
