@@ -88,6 +88,27 @@ a {
   text-underline-offset: 0.15em;
 }
 
+/* The parts we did not draw still carry the design. These ship with browser
+   defaults that belong to no design system: an OS-blue selection, a black
+   caret, and a grey tap flash. */
+
+::selection {
+  /* Amber from the printed menu’s serape, not the green that means "act" here.
+     Ink on it measures 9.47:1, so selected text stays readable on any ground. */
+  background: var(--serape-amber);
+  color: var(--warm-950);
+}
+
+input,
+textarea {
+  caret-color: var(--brand-green-ink);
+}
+
+html {
+  /* Touch has no hover. Without this every tap flashes the platform grey. */
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--brand-green-deep) 22%, transparent);
+}
+
 /* Visible focus for keyboard users on every interactive element. Never remove
    this without an equally visible replacement — it is the only affordance a
    keyboard-only visitor has. */

@@ -132,6 +132,10 @@ const { reviews: items } = reviews;
     padding: var(--space-2) var(--space-5) var(--space-5);
     list-style: none;
     overflow-x: auto;
+    /* This scrollbar is part of the design, not chrome around it: it is the
+       affordance telling you there are more reviews. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
     scroll-snap-type: x mandatory;
     scroll-padding-left: var(--space-5);
     overscroll-behavior-x: contain;

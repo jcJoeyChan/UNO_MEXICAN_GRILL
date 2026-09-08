@@ -257,6 +257,15 @@ const { contact, hours } = restaurant;
     color: var(--brand-white);
   }
 
+  /* The submit button disables itself on send. Without this it stayed fully
+     green while reading "Sending…" — a live-looking control that ignores you.
+     Ink on warm-400 measures 6.41:1, so the label is still legible. */
+  .btn-primary:disabled {
+    background: var(--warm-400);
+    color: var(--warm-950);
+    cursor: default;
+  }
+
   .btn-primary:hover {
     background: var(--brand-green-ink);
   }
