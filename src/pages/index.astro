@@ -137,6 +137,12 @@ const { contact, hours } = restaurant;
     color: var(--warm-600);
   }
 
+  /* The intro sentence butted straight into the first channel: the measured
+     gap was 0px, because .note carries margin-top only. */
+  .order :global(.ordering) {
+    margin-top: var(--space-6);
+  }
+
   /* --- menu preview: sky wash, straight off the mural's painted sky. --- */
   .preview-section {
     background: var(--mural-sky-wash);

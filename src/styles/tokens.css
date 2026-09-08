@@ -53,8 +53,6 @@
 
      Trademarks belong to their owners.
      --------------------------------------------------------------------- */
-  --partner-rest-bg: var(--warm-100); /* the shared neutral resting ground */
-
   --partner-chowbus-bg: #cc2543;
   --partner-chowbus-fg: #fefefe; /* 5.32:1  AA pass */
   --partner-ubereats-bg: #06c167;
@@ -63,6 +61,15 @@
   --partner-doordash-fg: #ffffff; /* 4.51:1  AA pass */
   --partner-grubhub-bg: #ffffff;
   --partner-grubhub-fg: #b75c00; /* 4.62:1  AA pass; #ff8000 measures 2.52:1 */
+
+  /* The mark colour: the hue that identifies a partner when it sits as a small
+     dot on a light ground. Usually that is the brand ground itself — except
+     Grubhub, whose ground is white and would render as nothing, so its mark is
+     the orange instead. */
+  --partner-chowbus-mark: var(--partner-chowbus-bg);
+  --partner-ubereats-mark: var(--partner-ubereats-bg);
+  --partner-doordash-mark: var(--partner-doordash-bg);
+  --partner-grubhub-mark: var(--partner-grubhub-fg);
 
   /* ---------------------------------------------------------------------
      Warm neutrals — sampled from the food photography.

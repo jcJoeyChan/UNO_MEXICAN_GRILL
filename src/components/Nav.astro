@@ -271,6 +271,12 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
     right: 0;
     top: calc(100% + var(--space-2));
     width: min(22rem, calc(100vw - var(--space-6)));
+    /* Six routes in a panel hanging off a sticky rail ran past the bottom of
+       a short screen — a landscape phone — with no way to reach the phone
+       number or the walk-in line. It scrolls itself now. */
+    max-height: calc(100dvh - var(--rail-height) - var(--space-6));
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: var(--space-4);
     background: var(--surface);
     border: 1px solid var(--border);
@@ -304,6 +310,22 @@ const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
     height: 2px;
     background: var(--text);
     border-radius: var(--radius-full);
+  }
+
+  /* `right: 0` is measured from the order root, not the viewport edge — the
+     hamburger and its gap sit to the right of it. At 375 that put the panel’s
+     left edge at -36px, and because the page never scrolls horizontally the
+     overflow was clipped rather than reachable: the label, the channel names
+     and the phone number each lost their first 36px. Anchor to the viewport. */
+  @media (max-width: 47.99rem) {
+    .order-panel {
+      position: fixed;
+      top: calc(var(--rail-height) + var(--space-2));
+      right: var(--space-3);
+      left: var(--space-3);
+      width: auto;
+      max-height: calc(100dvh - var(--rail-height) - var(--space-5));
+    }
   }
 
   @media (max-width: 47.99rem) {

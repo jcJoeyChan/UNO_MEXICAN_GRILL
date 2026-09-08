@@ -1,10 +1,23 @@
 ---
 /**
- * Every way to order, in one place.
+ * Every way to order, grouped by who takes the money.
  *
- * PRODUCT.md is explicit that ordering happens off-site — this component's only
- * job is to route clearly. ChowBus is marked primary because it is the
- * restaurant's own channel; the delivery apps take a cut.
+ * PRODUCT.md is explicit that ordering happens off-site - this component's
+ * only job is to route clearly.
+ *
+ * It used to render four equal cards plus two orphans. That shape was wrong
+ * about the content: there is ONE channel the restaurant runs, ONE phone line,
+ * ONE door, and THREE interchangeable marketplaces it lists because customers
+ * look for them. Equal cards claimed all four were equivalent, and the
+ * asymmetry leaked out anyway - ChowBus carries a real sentence while the other
+ * three all said "Delivery", which made its card 100px tall beside 76px
+ * siblings and orphaned a row at tablet width and in the footer.
+ *
+ * So: direct channels lead, marketplaces support, walk-in is a footnote.
+ *
+ * The partner colours now show at REST, as a dot per marketplace. They were
+ * :hover-only, which meant the one place this component spends colour was
+ * invisible to every touch user - that is, to most customers.
  */
 import restaurant from '../content/restaurant.json';
 
@@ -14,156 +27,232 @@ interface Props {
 }
 
 const { variant = 'menu' } = Astro.props;
+const { channels, direct } = restaurant.ordering;
+const { phone, phoneHref } = restaurant.contact;
+
 /**
- * Each partner card rests on a neutral ground and takes that partner’s own
- * colours on hover and keyboard focus.
- *
- * Both colours ride on custom properties set inline, so the mapping stays in
- * one typed object and an id with no entry simply keeps the neutral card.
- * The measured contrast for each pair is recorded in tokens.css — Grubhub’s
- * published orange could not be used as given.
+ * The restaurant's own channel leads. Derived from the data rather than named
+ * here, so flipping `primary` in restaurant.json is the only edit needed.
  */
+const lead = channels.find((channel) => channel.primary);
+const marketplaces = channels.filter((channel) => !channel.primary);
+
+/** Measured brand pairs live in tokens.css; the dot uses one, hover uses both. */
 const PARTNER_THEME: Record<string, string> = {
   chowbus: '--partner-chowbus',
   ubereats: '--partner-ubereats',
   doordash: '--partner-doordash',
   grubhub: '--partner-grubhub',
 };
-
-const { channels, direct } = restaurant.ordering;
-const { phone, phoneHref } = restaurant.contact;
+const themeFor = (id: string) =>
+  PARTNER_THEME[id]
+    ? `--partner-bg: var(${PARTNER_THEME[id]}-bg); --partner-fg: var(${PARTNER_THEME[id]}-fg); --partner-mark: var(${PARTNER_THEME[id]}-mark)`
+    : undefined;
 ---
 
 <div class:list={['ordering', `is-${variant}`]}>
-  <ul class="channels" role="list">
+  <div class="direct">
     {
-      channels.map((channel) => (
-        <li>
-          <a
-            class:list={['channel', channel.primary && 'is-primary']}
-            style={PARTNER_THEME[channel.id] &&
-              `--partner-bg: var(${PARTNER_THEME[channel.id]}-bg); --partner-fg: var(${PARTNER_THEME[channel.id]}-fg)`}
-            href={channel.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="channel-name">
+      lead && (
+        <a class="lead" href={lead.url} target="_blank" rel="noopener noreferrer">
+          {lead.name}
+          <span class="external" aria-hidden="true">
+            ↗
+          </span>
+          <span class="visually-hidden">opens in a new tab</span>
+        </a>
+      )
+    }
+    {lead?.detail && <p class="lead-note">{lead.detail}</p>}
+
+    <a class="phone" href={phoneHref}>
+      <span class="phone-number">{phone}</span>
+      <span class="phone-label">{direct.phoneLabel}</span>
+    </a>
+  </div>
+
+  <div class="apps">
+    <p class="apps-label">Also on</p>
+    <ul class="app-list" role="list" aria-label="Also available on">
+      {
+        marketplaces.map((channel) => (
+          <li>
+            <a
+              class="app"
+              style={themeFor(channel.id)}
+              href={channel.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="dot" aria-hidden="true" />
               {channel.name}
               <span class="external" aria-hidden="true">
                 ↗
               </span>
               <span class="visually-hidden">opens in a new tab</span>
-            </span>
-            <span class="channel-detail">{channel.detail}</span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-
-  <div class="direct">
-    <a class="channel is-phone" href={phoneHref}>
-      <span class="channel-name">{phone}</span>
-      <span class="channel-detail">{direct.phoneLabel}</span>
-    </a>
-    <p class="walk-in">{direct.walkInLabel}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
+
+  <p class="walk-in">{direct.walkInLabel}</p>
 </div>
 
 <style>
+  /* A real interval ladder. The old block put six of its eight gaps inside a
+     0-13px band and then jumped to 64, so nothing grouped and nothing led. */
+  /* Wraps on its own width rather than the viewport’s. The same component
+     renders in a 318px rail panel, a 560px footer column and a 1152px section;
+     a viewport media query gave the footer a cramped two-column grid at 560
+     because the WINDOW was 1280. Intrinsic wrapping asks the only question
+     that matters: is there room here? */
   .ordering {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-5) var(--space-7);
   }
 
-  .channels {
-    display: grid;
+  .direct {
+    flex: 1 1 18rem;
+  }
+
+  .apps {
+    flex: 1 1 15rem;
+  }
+
+  .walk-in {
+    flex: 1 1 100%;
+  }
+
+  /* --- direct: the restaurant's own channels ----------------------------- */
+
+  .direct {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  /* The action the restaurant would rather you took, in the same primary
+     treatment the hero uses. White on --brand-green-deep is 5.41:1. */
+  .lead {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    background: var(--brand-green-deep);
+    color: var(--brand-white);
+    font-family: var(--font-bubbly);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .lead:hover,
+  .lead:focus-visible {
+    background: var(--brand-green);
+    color: var(--surface-inverse);
+  }
+
+  .lead-note {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  /* The restaurant's own number is not a partner, so it is set in the page's
+     own voice rather than the partner face, and reads as a number instead of
+     sitting in a 1152px empty plate. */
+  .phone {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-3);
+    text-decoration: none;
+  }
+
+  .phone-number {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--brand-green-ink);
+  }
+
+  .phone-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  .phone:hover .phone-number,
+  .phone:focus-visible .phone-number {
+    text-decoration: underline;
+  }
+
+  /* --- marketplaces: three interchangeable options ----------------------- */
+
+  .apps-label {
+    margin: 0 0 var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .app-list {
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--space-2);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .is-block .channels {
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  }
-
-  .channel {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: var(--space-3);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    background: var(--partner-rest-bg, var(--surface));
+  /* No fill and no border at rest. On --mural-sand the old --border hairline
+     measured 1.01:1, and in the footer the card fill measured 1.00:1 against
+     its own ground - both were decoration that rendered as nothing. Text at
+     11.96:1 plus a brand dot carries it; the measured partner pair arrives on
+     hover and focus. */
+  .app {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-full);
     color: var(--text);
     text-decoration: none;
     transition:
-      border-color var(--duration-fast) var(--ease-out),
-      transform var(--duration-fast) var(--ease-out);
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
   }
 
-  /* Hover AND focus-visible: a state reachable only by mouse would leave
-     keyboard users without it. */
-  .channel:hover,
-  .channel:focus-visible {
-    border-color: var(--border-strong);
-    transform: translateY(-1px);
+  .dot {
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: var(--radius-full);
+    background: var(--partner-mark, var(--text-muted));
   }
 
-  .channel[style]:hover,
-  .channel[style]:focus-visible {
-    background: var(--partner-bg);
-    color: var(--partner-fg);
-    /* Grubhub’s ground is white, nearly the card’s resting colour, so the
-       border carries the state change that the background cannot. */
-    border-color: var(--partner-fg);
+  .app:hover,
+  .app:focus-visible {
+    background: var(--partner-bg, var(--surface-raised));
+    color: var(--partner-fg, var(--text));
   }
 
-  .channel[style]:hover .channel-detail,
-  .channel[style]:focus-visible .channel-detail,
-  .channel[style]:hover .external,
-  .channel[style]:focus-visible .external {
-    color: var(--partner-fg);
+  .app:hover .dot,
+  .app:focus-visible .dot {
+    background: var(--partner-fg, var(--text));
   }
-
-  .channel.is-primary {
-    border-color: var(--brand-green-deep);
-    border-width: 2px;
-  }
-
-  .channel-name {
-    font-family: var(--font-bubbly);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.01em;
-  }
-
-  .channel-detail {
-    font-size: var(--font-size-sm);
-    color: var(--text-muted);
-  }
-
-
 
   .external {
     font-size: 0.8em;
-    color: var(--text-muted);
-    margin-left: 0.15em;
   }
 
-  .direct {
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--border);
-  }
-
-  .is-phone .channel-name {
-    color: var(--brand-green-ink);
-  }
+  /* --- walk-in: not an action ------------------------------------------- */
 
   .walk-in {
-    margin-top: var(--space-2);
+    margin: 0;
     font-size: var(--font-size-sm);
     color: var(--text-muted);
   }
+
 </style>
